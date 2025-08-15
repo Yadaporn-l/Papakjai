@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TravelHub – Explore & Stay</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/J6MdGxj6GkVZ0MZf8yU4e2nE2q1Dbt8b0UqVjZ9qz3nqz9wzq0Cgu7Z2z5g0C5n3x2Kk8z+Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <link rel="stylesheet" href="home.css" />
+  <script src="home.js"></script>
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#">
+        <img src="https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/brand-github.svg" alt="" />
+        <span>TRAVEL<span class="accent">HUB</span></span>
+      </a>
+
+      <nav class="menu">
+        <a href="#" class="active">Home</a>
+        <a href="#">Visa</a>
+        <a href="#">Accommodations &amp; Restaurant</a>
+        <a href="#">Guides</a>
+      </nav>
+
+      <div class="actions">
+        <button class="icon-btn" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="icon-btn" title="Notifications"><i class="fa-regular fa-bell"></i></button>
+        <button class="avatar" title="Profile"><i class="fa-regular fa-user"></i></button>
+      </div>
+
+      <button class="hamburger" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="hero-content container">
+      <p class="eyebrow">Got <span class="accent">plans</span> for the upcoming holiday?</p>
+      <p class="sub">
+        Whether you’re a solo traveler or seasoned explorer, our smart travel engine helps you
+        compare prices, stay up to date on local tips &amp; visa rules, and match best-suited
+        destinations. Pack, travel, connect—travel confidently with us by your side.
+      </p>
+      <div class="hero-search">
+        <input type="text" placeholder="Search destination, hotel, food…" />
+        <button class="primary">Search</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommend For You -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Recommend For You</h2>
+
+      <div class="carousel" data-cards="4">
+        <button class="nav prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="track">
+          <!-- City cards -->
+          <a class="city-card" href="#">
+            <img src="https://images.unsplash.com/photo-1526481280698-8fcc13fd5f1d?q=80&w=1200&auto=format&fit=crop" alt="Tokyo" />
+            <div class="city-info">
+              <h3>Tokyo</h3>
+              <span class="pill">Japan</span>
+            </div>
+          </a>
+          <a class="city-card" href="#">
+            <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?q=80&w=1200&auto=format&fit=crop" alt="Dubai" />
+            <div class="city-info">
+              <h3>Dubai</h3>
+              <span class="pill">UAE</span>
+            </div>
+          </a>
+          <a class="city-card" href="#">
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1200&auto=format&fit=crop" alt="Singapore" />
+            <div class="city-info">
+              <h3>Singapore</h3>
+              <span class="pill">Singapore</span>
+            </div>
+          </a>
+          <a class="city-card" href="#">
+            <img src="https://images.unsplash.com/photo-1549893079-842e6d1112a9?q=80&w=1200&auto=format&fit=crop" alt="China" />
+            <div class="city-info">
+              <h3>China</h3>
+              <span class="pill">Asia</span>
+            </div>
+          </a>
+          <a class="city-card" href="#">
+            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1200&auto=format&fit=crop" alt="Seoul" />
+            <div class="city-info">
+              <h3>Seoul</h3>
+              <span class="pill">Korea</span>
+            </div>
+          </a>
+        </div>
+        <button class="nav next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Properties -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Popular Properties Worldwide</h2>
+
+      <div class="carousel" data-cards="3">
+        <button class="nav prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="track">
+          <!-- Property cards -->
+          <article class="property-card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?q=80&w=1600&auto=format&fit=crop" alt="Harbor Hotel" />
+              <span class="badge"><i class="fa-solid fa-location-dot"></i> Qingdao</span>
+            </div>
+            <div class="body">
+              <h3>Ocean Plaza Seaview Hotel</h3>
+              <p class="meta">Shandong, China</p>
+              <div class="stars" aria-label="rating 4.5">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star-half-stroke"></i>
+                <span>4.5</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="property-card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1600&auto=format&fit=crop" alt="City Hotel" />
+              <span class="badge"><i class="fa-solid fa-location-dot"></i> Shanghai</span>
+            </div>
+            <div class="body">
+              <h3>Riverside Bund Boutique</h3>
+              <p class="meta">Huangpu, China</p>
+              <div class="stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <span>4.0</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="property-card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1488747279002-c8523379faaa?q=80&w=1600&auto=format&fit=crop" alt="City Night" />
+              <span class="badge"><i class="fa-solid fa-location-dot"></i> Shenzhen</span>
+            </div>
+            <div class="body">
+              <h3>Skyline Night View Hotel</h3>
+              <p class="meta">Guangdong, China</p>
+              <div class="stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <span>4.1</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="property-card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?q=80&w=1600&auto=format&fit=crop" alt="Extra" />
+              <span class="badge"><i class="fa-solid fa-location-dot"></i> Dalian</span>
+            </div>
+            <div class="body">
+              <h3>Bay Resort Hotel</h3>
+              <p class="meta">Liaoning, China</p>
+              <div class="stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <span>3.2</span>
+              </div>
+            </div>
+          </article>
+        </div>
+        <button class="nav next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Budget-Friendly -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Budget-Friendly Properties Worldwide</h2>
+
+      <div class="grid grid-3">
+        <!-- Repeatable card -->
+        <article class="property-row">
+          <img src="https://images.unsplash.com/photo-1496412705862-e0088f16f791?q=80&w=1600&auto=format&fit=crop" alt="" />
+          <div class="info">
+            <h3>Green Downtown Hostel</h3>
+            <p class="meta">Seoul, South Korea</p>
+            <div class="stars small">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+              <i class="fa-regular fa-star"></i><span>3.0</span>
+            </div>
+          </div>
+          <div class="price">
+            <span class="value">$28</span><span class="unit">/night</span>
+            <button class="outline">View</button>
+          </div>
+        </article>
+
+        <article class="property-row">
+          <img src="https://images.unsplash.com/photo-1496412705862-e0088f16f791?q=80&w=1600&auto=format&fit=crop" alt="" />
+          <div class="info">
+            <h3>City Capsule Rooms</h3>
+            <p class="meta">Bangkok, Thailand</p>
+            <div class="stars small">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+              <i class="fa-regular fa-star"></i><span>2.0</span>
+            </div>
+          </div>
+          <div class="price">
+            <span class="value">$19</span><span class="unit">/night</span>
+            <button class="outline">View</button>
+          </div>
+        </article>
+
+        <article class="property-row">
+          <img src="https://images.unsplash.com/photo-1496412705862-e0088f16f791?q=80&w=1600&auto=format&fit=crop" alt="" />
+          <div class="info">
+            <h3>Old Town Guesthouse</h3>
+            <p class="meta">Hanoi, Vietnam</p>
+            <div class="stars small">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i><span>4.2</span>
+            </div>
+          </div>
+          <div class="price">
+            <span class="value">$24</span><span class="unit">/night</span>
+            <button class="outline">View</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Restaurant Trending -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Restaurant Trending</h2>
+
+      <div class="carousel" data-cards="4">
+        <button class="nav prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="track">
+          <article class="food-card">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1600&auto=format&fit=crop" alt="Sushi" />
+            <div class="food-body">
+              <h3>Haruki Sushi Bar</h3>
+              <p class="meta"><i class="fa-solid fa-location-dot"></i> Shinjuku, Tokyo</p>
+              <div class="stars tiny">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i><span>4.1</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="food-card">
+            <img src="https://images.unsplash.com/photo-1543352634-8732c76a7b1b?q=80&w=1600&auto=format&fit=crop" alt="Burger" />
+            <div class="food-body">
+              <h3>Stacked Burger Co.</h3>
+              <p class="meta"><i class="fa-solid fa-location-dot"></i> Singapore</p>
+              <div class="stars tiny">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i><span>3.0</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="food-card">
+            <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=1600&auto=format&fit=crop" alt="Fried" />
+            <div class="food-body">
+              <h3>Golden Fry Shack</h3>
+              <p class="meta"><i class="fa-solid fa-location-dot"></i> Kuala Lumpur</p>
+              <div class="stars tiny">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i><span>2.0</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="food-card">
+            <img src="https://images.unsplash.com/photo-1546549039-49f4d1b6f6b9?q=80&w=1600&auto=format&fit=crop" alt="Pasta" />
+            <div class="food-body">
+              <h3>Pasta Nostra</h3>
+              <p class="meta"><i class="fa-solid fa-location-dot"></i> Milan</p>
+              <div class="stars tiny">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i><span>5.0</span>
+              </div>
+            </div>
+          </article>
+        </div>
+        <button class="nav next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="f-brand">
+        <div class="logo">
+          <img src="https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/brand-github.svg" alt="" />
+          <span>TRAVEL<span class="accent">HUB</span></span>
+        </div>
+        <p>Discover stays, tasty bites, and visa tips worldwide. Travel smarter with curated picks and local insights.</p>
+      </div>
+
+      <div class="f-col">
+        <h4>About Us</h4>
+        <a href="#">Company</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+
+      <div class="f-col">
+        <h4>Help</h4>
+        <a href="#">Support</a>
+        <a href="#">Cancellations</a>
+        <a href="#">Safety</a>
+      </div>
+
+      <div class="f-col">
+        <h4>Policies</h4>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+    <div class="container f-bottom">
+      <span>© 2025 TravelHub</span>
+      <div class="socials">
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
