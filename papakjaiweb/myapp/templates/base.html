@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+    {% block title %}
+
+    {% endblock %}
+  </title>
+  {% load static %}
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer"/>
+
+  <!-- Icons -->
+   {% block styles %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer"/>
+
+      <link rel="stylesheet" href="homepage.css" />
+   {% endblock %}
+
+  <!-- <script src="homepage.js"></script> -->
+</head>
+<body>
+  <!-- Header (same as before) -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#" class="brand">
+        <img src="pa_pak_jai-removebg.png" alt="logo" />
+        <span>PaPak<span class="accent">Jai</span></span>
+      </a>
+
+      <nav class="menu">
+        <a href="#" class="active">Home</a>
+        <a href="#">Visa</a>
+        <a href="#">Accommodations &amp; Restaurant</a>
+        <a href="#">Culture</a>
+      </nav>
+
+      <div class="auth-actions">
+        <a class="btn ghost" href="#">Sign in</a>
+        <a class="btn primary" href="#">Create account</a>
+      </div>
+
+      <button class="hamburger" aria-label="Open Navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  
+  <div class="container">
+    {% block content %}
+    
+    {% endblock %}
+  </div>
+
+  
+
+  <!-- Content blocks (alternate left/right, similar structure as before) -->
+  
+  <!-- Footer (same as before) -->
+  <footer class="footer">
+    <div class="container f-top">
+      <div class="brandline">
+        <div class="logo">
+          <img src="https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/world.svg" alt="logo" />
+          <span>PaPak<span class="accent">Jai</span></span>
+        </div>
+        <p>All-in-one travel picks, visa info, and lists for quick trips.</p>
+      </div>
+
+      <div class="links">
+        <div>
+          <h4>Explore</h4>
+          <a href="#">Destinations</a>
+          <a href="#">Stays</a>
+          <a href="#">Food</a>
+        </div>
+        <div>
+          <h4>Help</h4>
+          <a href="#">Support</a>
+          <a href="#">Safety</a>
+          <a href="#">Cancellations</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Careers</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="container f-bottom">
+      <span>© 2025 PaPakJai</span>
+      <div class="socials">
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
