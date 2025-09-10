@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PaPakJai — Home</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer"/>
+
+  <link rel="stylesheet" href="accomodation2.css" />
+  <script src=""></script>
+</head>
+<body>
+  <!-- Header (same as before) -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#" class="brand">
+        <img src="img/pa_pak_jai-removebg.png" alt="logo" />
+        <span>PaPak<span class="accent">Jai</span></span>
+      </a>
+
+      <nav class="menu">
+        <a href="#" class="active">Home</a>
+        <a href="#">Visa</a>
+        <a href="#">Accommodations &amp; Restaurant</a>
+        <a href="#">Culture</a>
+      </nav>
+
+      <div class="auth-actions">
+        <a class="btn ghost" href="#">Sign in</a>
+        <a class="btn primary" href="#">Sign Up</a>
+      </div>
+
+      <button class="hamburger" aria-label="Open Navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+    <header class="page-header">
+    <h1>Accomodation & Restaurant</h1>
+  </header>
+
+  <main class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="filter-box">
+        <h3>Country</h3>
+        <select>
+          <option>Select Country</option>
+          <option>Thailand</option>
+          <option>Japan</option>
+          <option>China</option>
+        </select>
+      </div>
+
+      <div class="filter-box">
+        <h3>Property Type</h3>
+        <label><input type="radio" name="property"> Restaurant</label><br>
+        <label><input type="radio" name="property"> Beauty & Spa</label><br>
+        <label><input type="radio" name="property"> Hotel & Home</label><br>
+        <label><input type="radio" name="property"> Traveling</label>
+      </div>
+
+      <div class="filter-box">
+        <h3>Budget</h3>
+        <input type="range" min="0" max="11550" value="5000">
+        <ul class="budget-steps">
+          <li>0 – 1550 ฿</li>
+          <li>1550 – 2500 ฿</li>
+          <li>2500 – 4000 ฿</li>
+          <li>4000 – 5500 ฿</li>
+          <li>5500 – 7000 ฿</li>
+          <li>7000+ ฿</li>
+        </ul>
+      </div>
+
+      <div class="filter-box">
+        <h3>Star Rating</h3>
+        <label><input type="radio" name="rating"> 2.5 +</label><br>
+        <label><input type="radio" name="rating"> 3.0 +</label><br>
+        <label><input type="radio" name="rating"> 3.5 +</label><br>
+        <label><input type="radio" name="rating"> 4.0 +</label>
+      </div>
+    </aside>
+
+  </main>
+
+</body>
+
+<script>
+    // app.js
+(function(){
+  // กำหนดช่วง (bins) ให้เทียบกับสไลเดอร์
+  const bins = [
+    { min: 0,    max: 1550 },
+    { min: 1550, max: 2500 },
+    { min: 2500, max: 4000 },
+    { min: 4000, max: 5500 },
+    { min: 5500, max: 7000 },
+    { min: 7000, max: 11550 } // 11550 คือเพดาน (7,000+)
+  ];
+
+  const rangeEl  = document.getElementById('budgetRange');
+  const valueEl  = document.getElementById('budgetValue');
+  const chipsBox = document.getElementById('budgetChips');
+  const chips    = Array.from(chipsBox.querySelectorAll('.chip'));
+
+  // ฟังก์ชันฟอร์แมตตัวเลขเป็น 1,234
+  const fmt = n => Number(n).toLocaleString();
+
+  // หาว่า value ของสไลเดอร์อยู่ใน bin ไหน
+  function findBin(val){
+    val = Number(val);
+    return bins.findIndex(b => val >= b.min && val <= b.max);
+  }
+
+  // อัปเดตตัวเลข + ไฮไลต์ชิปตามค่า range
+  function syncFromRange(){
+    const v = Number(rangeEl.value);
+    const i = findBin(v);
+    chips.forEach((c, idx) => c.classList.toggle('active', idx === i));
+
+    // แสดงผล: ถ้าเป็น bin สุดท้ายให้ขึ้นเป็น "7,000+"
+    if (i === bins.length - 1){
+      valueEl.textContent = `(≥ ${fmt(bins[i].min)} ฿)`;
+    } else {
+      valueEl.textContent = `(${fmt(bins[i].min)} – ${fmt(bins[i].max)} ฿)`;
+    }
+  }
+
+  // เมื่อเลื่อนสไลเดอร์ -> อัปเดตทุกอย่าง
+  rangeEl.addEventListener('input', syncFromRange);
+
+  // คลิกชิป -> ขยับสไลเดอร์ไปยังค่ากลางช่วงนั้น แล้วอัปเดต
+  chips.forEach((chip, idx) => {
+    chip.addEventListener('click', () => {
+      const min = Number(chip.dataset.min);
+      const max = Number(chip.dataset.max);
+
+      // ค่าตรงช่วง: ใช้กึ่งกลางช่วง (หรือถ้าเป็นช่วงสุดท้าย ใช้ min)
+      const mid = (idx === bins.length - 1) ? min : Math.round((min + max) / 2);
+      rangeEl.value = mid;
+
+      // ไฮไลต์ที่คลิก + อัปเดตตัวเลข
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      if (idx === bins.length - 1){
+        valueEl.textContent = `(≥ ${fmt(min)} ฿)`;
+      } else {
+        valueEl.textContent = `(${fmt(min)} – ${fmt(max)} ฿)`;
+      }
+    });
+  });
+
+  // เรียกครั้งแรกตอนโหลดหน้า
+  syncFromRange();
+})();
+
+</script>
+</html>
+  
