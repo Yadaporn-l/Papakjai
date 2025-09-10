@@ -194,6 +194,39 @@ body{
 }
 @media (max-width: 760px){
   .menu{display:none}
+  header{
+    display: flex;
+    justify-content: space-between; /* pushes logo left, menu/account right */
+    align-items: center;            
+  }
+  .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between avatar & hamburger */
+  margin-left: auto; /* push to the far right */
+}
+
+.avatar, .hamburger {
+  background: transparent;
+  border: 1px solid var(--stroke);
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d6deea;
+  cursor: pointer;
+}
+
+.avatar:hover, .hamburger:hover {
+  border-color: #2a394c;
+}
+
+   .icon-btn,.avatar{
+  background:transparent; color:#d6deea; border:1px solid var(--stroke);
+  width:36px; height:36px; border-radius:12px; display: inline;  cursor:pointer;
+}
   .hamburger{display:block; margin-left:auto}
   .hero{height:300px}
   .grid-3{grid-template-columns:1fr}
