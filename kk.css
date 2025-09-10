@@ -45,7 +45,7 @@ body{
   display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
   font-weight:800; letter-spacing:.5px;
 }
-.brand img{width:26px;height:26px;filter: none; fill: #15E7ED;   /* works if SVG */}
+.brand img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
 .brand .accent{color:var(--accent)}
 .menu{margin-left:auto; display:flex; gap:18px}
 .menu a{
