@@ -1,14 +1,15 @@
 :root{
-  --bg:#0f1216;
+  --bg:#0b1118;
   --surface:#0f141b;
-  --muted:#96a0ad;
-  --text:#f6f7f9;
-  --card:#141a22;
-  --accent:#87CEEB;;
-  --accent-2:#ffd166;
-  --stroke:#1f2834;
+  --text:#f5f8ff;
+  --muted:#a7b3c6;
+  --stroke:#1f2a37;
+  --card:#0f151d;
+  --accent:#00d4b4;
+  --accent-2:#90e0ef;
   --shadow:0 10px 25px rgba(0,0,0,.35);
 }
+
 
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -45,7 +46,8 @@ body{
   display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
   font-weight:800; letter-spacing:.5px;
 }
-.brand img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
+.brand img {filter: brightness(0) saturate(100%) invert(62%) sepia(34%) saturate(2522%) hue-rotate(169deg) brightness(95%) contrast(95%);}
+
 .brand .accent{color:var(--accent)}
 .menu{margin-left:auto; display:flex; gap:18px}
 .menu a{
@@ -67,7 +69,6 @@ body{
 }
 .hero .overlay{
   position:absolute; inset:0; 
-  /* width: 900px; */
   background:linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.55));
 }
 .hero-content{
@@ -181,7 +182,7 @@ body{
 .footer .logo{
   display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.5px
 }
-.footer .logo img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
+.footer .logo img{}
 .footer .f-col h4{margin:0 0 8px}
 .footer .f-col a{display:block; color:#b7c3d4; text-decoration:none; margin:6px 0}
 .footer .f-bottom{
