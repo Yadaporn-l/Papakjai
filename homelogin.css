@@ -180,7 +180,7 @@ body{
 .footer .logo{
   display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.5px
 }
-.footer .logo img{width:26px;height:26px;filter:invert(1)}
+.footer .logo img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
 .footer .f-col h4{margin:0 0 8px}
 .footer .f-col a{display:block; color:#b7c3d4; text-decoration:none; margin:6px 0}
 .footer .f-bottom{
