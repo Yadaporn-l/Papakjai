@@ -4,7 +4,7 @@
   --muted:#96a0ad;
   --text:#f6f7f9;
   --card:#141a22;
-  --accent:#00d4b4;
+  --accent:#87CEEB;;
   --accent-2:#ffd166;
   --stroke:#1f2834;
   --shadow:0 10px 25px rgba(0,0,0,.35);
@@ -45,7 +45,7 @@ body{
   display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
   font-weight:800; letter-spacing:.5px;
 }
-.brand img{width:26px;height:26px;filter:invert(1)}
+.brand img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
 .brand .accent{color:var(--accent)}
 .menu{margin-left:auto; display:flex; gap:18px}
 .menu a{
