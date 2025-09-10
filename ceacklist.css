@@ -4,7 +4,7 @@
   --muted:#96a0ad;
   --text:#f6f7f9;
   --card:#141a22;
-  --accent:#87CEEB;;
+  --accent:#15E7ED;;
   --accent-2:#ffd166;
   --stroke:#1f2834;
   --shadow:0 10px 25px rgba(0,0,0,.35);
@@ -187,7 +187,7 @@ body{
   margin-bottom: 20px;
 }
 .add-button {
-  background-color: #87CEEB;
+  background-color: #15E7ED;
   color: rgb(0, 0, 0);
   border: none;
   padding: 10px 20px;
