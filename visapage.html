@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visa Information</title>
+
+  <link rel="stylesheet" href="visapage.css" />
+  <script src="visapage.js"></script>
+ 
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#" class="brand">
+        <img src="img/pa_pak_jai-removebg.png" alt="logo" />
+        <span>PaPak<span class="accent">Jai</span></span>
+      </a>
+
+    <ul>
+      <li><a href="#">HOME</a></li>
+      <li><a href="#" class="active">VISA</a></li>
+      <li><a href="#">ACCOMMODATION & RESTAURANT</a></li>
+      <li><a href="#">CULTURE</a></li>
+    </ul>
+    <a href="#" class="signin">Sign in</a>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <h1>VISA INFORMATION</h1>
+    <div class="visa-box">
+      <p><b>Only Tourist Visa ✈</b></p>
+      <label for="country">Select country</label>
+      <select id="country">
+        <option value="">Country</option>
+        <option value="japan">Japan</option>
+        <option value="thailand">Thailand</option>
+        <option value="southkorea">South Korea</option>
+        <option value="usa">USA</option>
+        <option value="india">India</option>
+        <option value="china">China</option>
+        <option value="russia">Russia</option>
+      </select>
+
+      <label for="days">Length of stay</label>
+      <input type="number" id="days" placeholder="Day">
+
+      <button onclick="checkVisa()">Check</button>
+    </div>
+    <p id="result" style="margin-top:20px; font-weight:bold;"></p>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="section">
+      <h4>About Us</h4>
+      <a href="#">Company History</a>
+      <a href="#">Contact</a>
+      <a href="#">Problem report</a>
+    </div>
+    <div class="section">
+      <h4>Help</h4>
+      <a href="#">Help center</a>
+      <a href="#">Cookie & Privacy policy</a>
+      <a href="#">Terms of use</a>
+    </div>
+    <div class="section social">
+      <h4>Follow Us</h4>
+      <a href="#">📘</a>
+      <a href="#">📸</a>
+      <a href="#">▶️</a>
+    </div>
+  </footer>
+
+
+
+</body>
+</html>
+
