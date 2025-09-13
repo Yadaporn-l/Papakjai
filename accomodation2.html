@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PaPakJai — Home</title>
+  <title>PaPakJai — Accomodation</title>
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <link rel="stylesheet" href="accomodation2.css" />
-  <script src=""></script>
 </head>
 <body>
-  <!-- Header (same as before) -->
+  <!-- Header (nav bar เดิม) -->
   <header class="site-header">
     <div class="container nav">
       <a href="#" class="brand">
@@ -24,9 +23,9 @@
       </a>
 
       <nav class="menu">
-        <a href="#" class="active">Home</a>
+        <a href="#">Home</a>
         <a href="#">Visa</a>
-        <a href="#">Accommodations &amp; Restaurant</a>
+        <a href="#" class="active">Accommodations &amp; Restaurant</a>
         <a href="#">Culture</a>
       </nav>
 
@@ -40,14 +39,19 @@
       </button>
     </div>
   </header>
-    <header class="page-header">
-    <h1>Accomodation & Restaurant</h1>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <h1>Accomodation &amp; Restaurant</h1>
+    </div>
   </header>
 
-  <main class="container">
-    <!-- Sidebar -->
+  <!-- Content Section -->
+  <main class="container layout">
+    <!-- Sidebar Filter -->
     <aside class="sidebar">
-      <div class="filter-box">
+      <div class="filter-block">
         <h3>Country</h3>
         <select>
           <option>Select Country</option>
@@ -57,109 +61,69 @@
         </select>
       </div>
 
-      <div class="filter-box">
+      <div class="filter-block">
         <h3>Property Type</h3>
-        <label><input type="radio" name="property"> Restaurant</label><br>
-        <label><input type="radio" name="property"> Beauty & Spa</label><br>
-        <label><input type="radio" name="property"> Hotel & Home</label><br>
-        <label><input type="radio" name="property"> Traveling</label>
+        <label><input type="radio" name="type"> Restaurant</label><br>
+        <label><input type="radio" name="type"> Beauty & Spa</label><br>
+        <label><input type="radio" name="type"> Hotel & Home</label><br>
+        <label><input type="radio" name="type"> Traveling</label>
       </div>
 
-      <div class="filter-box">
+      <div class="filter-block">
         <h3>Budget</h3>
-        <input type="range" min="0" max="11550" value="5000">
-        <ul class="budget-steps">
-          <li>0 – 1550 ฿</li>
-          <li>1550 – 2500 ฿</li>
-          <li>2500 – 4000 ฿</li>
-          <li>4000 – 5500 ฿</li>
-          <li>5500 – 7000 ฿</li>
-          <li>7000+ ฿</li>
-        </ul>
+        <input type="range" min="0" max="11550" value="5000" />
+        <div class="budget-tags">
+          <span>0 ฿ - 1,550 ฿</span>
+          <span>1,550 ฿ - 2,500 ฿</span>
+          <span>2,500 ฿ - 4,000 ฿</span>
+          <span>4,000 ฿ - 5,500 ฿</span>
+          <span>5,500 ฿ - 7,000 ฿</span>
+          <span>> 7,000 ฿</span>
+        </div>
       </div>
 
-      <div class="filter-box">
+      <div class="filter-block">
         <h3>Star Rating</h3>
-        <label><input type="radio" name="rating"> 2.5 +</label><br>
-        <label><input type="radio" name="rating"> 3.0 +</label><br>
-        <label><input type="radio" name="rating"> 3.5 +</label><br>
-        <label><input type="radio" name="rating"> 4.0 +</label>
+        <label><input type="radio" name="star"> 2.5 +</label><br>
+        <label><input type="radio" name="star"> 3.0 +</label><br>
+        <label><input type="radio" name="star"> 3.5 +</label><br>
+        <label><input type="radio" name="star"> 4.0 +</label>
       </div>
     </aside>
 
+    <!-- Hotel Results -->
+    <section class="results">
+      <div class="search-bar">
+        <input type="text" placeholder="Search for hotel, restaurant, all properties">
+        <button><i class="fa fa-search"></i></button>
+      </div>
+
+      <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+    </section>
   </main>
-
 </body>
-
-<script>
-    // app.js
-(function(){
-  // กำหนดช่วง (bins) ให้เทียบกับสไลเดอร์
-  const bins = [
-    { min: 0,    max: 1550 },
-    { min: 1550, max: 2500 },
-    { min: 2500, max: 4000 },
-    { min: 4000, max: 5500 },
-    { min: 5500, max: 7000 },
-    { min: 7000, max: 11550 } // 11550 คือเพดาน (7,000+)
-  ];
-
-  const rangeEl  = document.getElementById('budgetRange');
-  const valueEl  = document.getElementById('budgetValue');
-  const chipsBox = document.getElementById('budgetChips');
-  const chips    = Array.from(chipsBox.querySelectorAll('.chip'));
-
-  // ฟังก์ชันฟอร์แมตตัวเลขเป็น 1,234
-  const fmt = n => Number(n).toLocaleString();
-
-  // หาว่า value ของสไลเดอร์อยู่ใน bin ไหน
-  function findBin(val){
-    val = Number(val);
-    return bins.findIndex(b => val >= b.min && val <= b.max);
-  }
-
-  // อัปเดตตัวเลข + ไฮไลต์ชิปตามค่า range
-  function syncFromRange(){
-    const v = Number(rangeEl.value);
-    const i = findBin(v);
-    chips.forEach((c, idx) => c.classList.toggle('active', idx === i));
-
-    // แสดงผล: ถ้าเป็น bin สุดท้ายให้ขึ้นเป็น "7,000+"
-    if (i === bins.length - 1){
-      valueEl.textContent = `(≥ ${fmt(bins[i].min)} ฿)`;
-    } else {
-      valueEl.textContent = `(${fmt(bins[i].min)} – ${fmt(bins[i].max)} ฿)`;
-    }
-  }
-
-  // เมื่อเลื่อนสไลเดอร์ -> อัปเดตทุกอย่าง
-  rangeEl.addEventListener('input', syncFromRange);
-
-  // คลิกชิป -> ขยับสไลเดอร์ไปยังค่ากลางช่วงนั้น แล้วอัปเดต
-  chips.forEach((chip, idx) => {
-    chip.addEventListener('click', () => {
-      const min = Number(chip.dataset.min);
-      const max = Number(chip.dataset.max);
-
-      // ค่าตรงช่วง: ใช้กึ่งกลางช่วง (หรือถ้าเป็นช่วงสุดท้าย ใช้ min)
-      const mid = (idx === bins.length - 1) ? min : Math.round((min + max) / 2);
-      rangeEl.value = mid;
-
-      // ไฮไลต์ที่คลิก + อัปเดตตัวเลข
-      chips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      if (idx === bins.length - 1){
-        valueEl.textContent = `(≥ ${fmt(min)} ฿)`;
-      } else {
-        valueEl.textContent = `(${fmt(min)} – ${fmt(max)} ฿)`;
-      }
-    });
-  });
-
-  // เรียกครั้งแรกตอนโหลดหน้า
-  syncFromRange();
-})();
-
-</script>
 </html>
-  
