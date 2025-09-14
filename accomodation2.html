@@ -71,16 +71,31 @@
 
       <div class="filter-block">
         <h3>Budget</h3>
-        <input type="range" min="0" max="11550" value="5000" />
-        <div class="budget-tags">
-          <span>0 ฿ - 1,550 ฿</span>
-          <span>1,550 ฿ - 2,500 ฿</span>
-          <span>2,500 ฿ - 4,000 ฿</span>
-          <span>4,000 ฿ - 5,500 ฿</span>
-          <span>5,500 ฿ - 7,000 ฿</span>
-          <span>> 7,000 ฿</span>
-        </div>
+        
+        <div class="budget-head">
+    <span>Budget Range</span>
+    <span>(฿ 0 – 11,550+)</span>
+  </div>
+
+  <div class="range">
+    <input id="budget" type="range" min="0" max="11550" value="5000" step="50">
+    <output id="budgetBubble" for="budget"></output>
+    <div class="range-scale">
+        <span>฿ 0</span>
+        <span>฿ 11,550+</span>
       </div>
+    </div>
+
+  <div class="budget-tags" id="budgetTags">
+    <button type="button" class="chip" data-min="0"    data-max="1550">0 ฿ – 1,550 ฿</button>
+    <button type="button" class="chip" data-min="1550" data-max="2500">1,550 ฿ – 2,500 ฿</button>
+    <button type="button" class="chip" data-min="2500" data-max="4000">2,500 ฿ – 4,000 ฿</button>
+    <button type="button" class="chip" data-min="4000" data-max="5500">4,000 ฿ – 5,500 ฿</button>
+    <button type="button" class="chip" data-min="5500" data-max="7000">5,500 ฿ – 7,000 ฿</button>
+    <button type="button" class="chip" data-min="7000" data-max="11550">&gt; 7,000 ฿</button>
+  </div>
+</div>
+
 
       <div class="filter-block">
         <h3>Star Rating</h3>
@@ -126,4 +141,22 @@
     </section>
   </main>
 </body>
+  <script>
+  const slider = document.getElementById('budget');
+  const bubble = document.getElementById('budgetBubble');
+
+  const fmt = v => Number(v).toLocaleString('th-TH');
+
+  function setBubble(){
+    const min = +slider.min, max = +slider.max, val = +slider.value;
+    const percent = (val - min) / (max - min) * 100;  // 0–100
+    bubble.textContent = `฿ ${fmt(val)}`;
+    bubble.style.left = `calc(${percent}% - 24px)`;   // ชดเชยครึ่งความกว้าง bubble
+  }
+  slider.addEventListener('input', setBubble);
+  setBubble(); // initial
+
+
+
+</script>
 </html>
