@@ -1,20 +1,23 @@
-    function checkVisa() {
-      const country = document.getElementById("country").value;
-      const days = document.getElementById("days").value;
-      let result = "";
+async function loadCountries() {
+  try {
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    const data = await response.json();
+    const select = document.getElementById("country");
 
-      if (!country || !days) {
-        result = "⚠️ Please select a country and length of stay.";
-      } else {
-        // กำหนดประเทศที่ไม่ต้องขอวีซ่า
-        const noVisaCountries = ["japan", "thailand", "southkorea", "usa"];
+    select.innerHTML = '<option value="">-- Select a country --</option>';
 
-        if (noVisaCountries.includes(country)) {
-          result = Travelers from ${country.toUpperCase()} do NOT need a visa for ${days} days stay.;
-        } else {
-          result = Travelers from ${country.toUpperCase()} MUST apply for a visa.;
-        }
-      }
+    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
 
-      document.getElementById("result").innerText = result;
-    }
+    data.forEach(country => {
+      const option = document.createElement("option");
+      option.value = country.name.common.toLowerCase();
+      option.textContent = country.name.common;
+      select.appendChild(option);
+    });
+
+  } catch (error) {
+    console.error("Error loading countries:", error);
+  }
+}
+
+window.onload = loadCountries;
