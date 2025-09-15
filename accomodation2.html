@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PaPakJai — Accomodation</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="accomodation2.css" />
+</head>
+<body>
+  <!-- Header (nav bar เดิม) -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#" class="brand">
+        <img src="img/pa_pak_jai-removebg.png" alt="logo" />
+        <span>PaPak<span class="accent">Jai</span></span>
+      </a>
+
+      <nav class="menu">
+        <a href="#">Home</a>
+        <a href="#">Visa</a>
+        <a href="#" class="active">Accommodations &amp; Restaurant</a>
+        <a href="#">Culture</a>
+      </nav>
+
+      <div class="auth-actions">
+        <a class="btn ghost" href="#">Sign in</a>
+        <a class="btn primary" href="#">Sign Up</a>
+      </div>
+
+      <button class="hamburger" aria-label="Open Navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <h1>Accomodation &amp; Restaurant</h1>
+    </div>
+  </header>
+
+  <!-- Content Section -->
+  <main class="container layout">
+    <!-- Sidebar Filter -->
+    <aside class="sidebar">
+      <div class="filter-block">
+        <h3>Country</h3>
+        <select>
+          <option>Select Country</option>
+          <option>Thailand</option>
+          <option>Japan</option>
+          <option>China</option>
+        </select>
+      </div>
+
+      <div class="filter-block">
+        <h3>Property Type</h3>
+        <label><input type="radio" name="type"> Restaurant</label><br>
+        <label><input type="radio" name="type"> Beauty & Spa</label><br>
+        <label><input type="radio" name="type"> Hotel & Home</label><br>
+        <label><input type="radio" name="type"> Traveling</label>
+      </div>
+
+      <div class="filter-block">
+        <h3>Budget</h3>
+        
+        <div class="budget-head">
+    <span>Budget Range</span>
+    <span>(฿ 0 – 11,550+)</span>
+  </div>
+
+  <div class="range">
+    <input id="budget" type="range" min="0" max="11550" value="5000" step="50">
+    <output id="budgetBubble" for="budget"></output>
+    <div class="range-scale">
+        <span>฿ 0</span>
+        <span>฿ 11,550+</span>
+      </div>
+    </div>
+
+  <div class="budget-tags" id="budgetTags">
+    <button type="button" class="chip" data-min="0"    data-max="1550">0 ฿ – 1,550 ฿</button>
+    <button type="button" class="chip" data-min="1550" data-max="2500">1,550 ฿ – 2,500 ฿</button>
+    <button type="button" class="chip" data-min="2500" data-max="4000">2,500 ฿ – 4,000 ฿</button>
+    <button type="button" class="chip" data-min="4000" data-max="5500">4,000 ฿ – 5,500 ฿</button>
+    <button type="button" class="chip" data-min="5500" data-max="7000">5,500 ฿ – 7,000 ฿</button>
+    <button type="button" class="chip" data-min="7000" data-max="11550">&gt; 7,000 ฿</button>
+  </div>
+</div>
+
+
+      <div class="filter-block">
+        <h3>Star Rating</h3>
+        <label><input type="radio" name="star"> 2.5 +</label><br>
+        <label><input type="radio" name="star"> 3.0 +</label><br>
+        <label><input type="radio" name="star"> 3.5 +</label><br>
+        <label><input type="radio" name="star"> 4.0 +</label>
+      </div>
+    </aside>
+
+    <!-- Hotel Results -->
+    <section class="results">
+      <div class="search-bar">
+        <input type="text" placeholder="Search for hotel, restaurant, all properties">
+        <button><i class="fa fa-search"></i></button>
+      </div>
+
+      <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+  <script>
+  const slider = document.getElementById('budget');
+  const bubble = document.getElementById('budgetBubble');
+
+  const fmt = v => Number(v).toLocaleString('th-TH');
+
+  function setBubble(){
+    const min = +slider.min, max = +slider.max, val = +slider.value;
+    const percent = (val - min) / (max - min) * 100;  // 0–100
+    bubble.textContent = `฿ ${fmt(val)}`;
+    bubble.style.left = `calc(${percent}% - 24px)`;   // ชดเชยครึ่งความกว้าง bubble
+  }
+  slider.addEventListener('input', setBubble);
+  setBubble(); // initial
+
+
+
+</script>
+</html>
