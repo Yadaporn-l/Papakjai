@@ -175,25 +175,25 @@ body {
 
 
 .sidebar .filter-block h3{
-  margin:0 0 var(--s-3);
   font-size:1.25rem;
   font-weight:700;
   color:var(--heading-green);
-  letter-spacing:.2px;
+  
 }
 
 /* Country select */
 .sidebar select{
-  width:100%; height:40px;
+  width:100%; height:35px;
   border:1px solid #9aa4b1; border-radius:8px;
-  background:#fff; color:var(--side-text); padding:0 12px;
+  background:#fff; color:var(--side-text); 
+  padding:0 12px; /* select contry ขนาดช่อง */
 }
 
 /* Radio lists */
 .sidebar .filter-block label{
-  display: flex;
+  display: inline-block;
   align-items: center;
-  gap: 8px;              /* space between radio and text */
+  gap: 2px;              /* space between radio and text */
   width: 100%;
   margin: 0;             /* no extra gaps */
   line-height: 1.25;     /* readable but compact */
@@ -201,8 +201,8 @@ body {
   cursor: pointer;
 }
 
-.sidebar .filter-block + .filter-block{
-  margin-top: 16px;      /* adjust to taste (was larger before) */
+.sidebar .filter-block + .filter-block{ /* ระยะห่างของแต่ละช่องหลักๆ */
+  margin-top: 20px;      /* adjust to taste (was larger before) */
 }
 
 
