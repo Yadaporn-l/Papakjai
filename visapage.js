@@ -1,9 +1,15 @@
 async function loadCountries() {
   try {
-    const response = await fetch("https://restcountries.com/v3.1/all");
+    // เพิ่ม fields เพื่อให้ API return เฉพาะข้อมูลที่เราต้องการ
+    const response = await fetch("https://restcountries.com/v3.1/all?fields=name,capital,flags,region");
     const data = await response.json();
-    const select = document.getElementById("country");
 
+    if (!Array.isArray(data)) {
+      console.error("Data is not an array:", data);
+      return;
+    }
+
+    const select = document.getElementById("country");
     select.innerHTML = '<option value="">-- Select a country --</option>';
 
     data.sort((a, b) => a.name.common.localeCompare(b.name.common));
@@ -19,5 +25,3 @@ async function loadCountries() {
     console.error("Error loading countries:", error);
   }
 }
-
-window.onload = loadCountries;
