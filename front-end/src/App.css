@@ -9,6 +9,7 @@
   --accent:#00d4b4;
   --accent-2:#90e0ef;
   --shadow:0 10px 25px rgba(0,0,0,.35);
+  font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 }
 
 *{box-sizing:border-box}

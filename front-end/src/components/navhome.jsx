@@ -1,79 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function NavHome() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
-  // Handle scroll effect for header
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Close menu when resizing to larger screens
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMenuOpen(false);
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
+  const handleToggle = () => {
+    setIsNavCollapsed(!isNavCollapsed);
   };
 
   return (
-    <>
-      <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
-        <div className="container nav">
-          <Link to="/" className="brand" onClick={closeMenu}>
-            <img src="./img/pa_pak_jai-removebg.png" alt="logo" />
-            <span>PaPak<span className="accent">Jai</span></span>
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <nav className={`menu ${isMenuOpen ? 'open' : ''}`}>
-            <Link to="/" className="active" onClick={closeMenu}>HOME</Link>
-            <a href="#" onClick={closeMenu}>VISA</a>
-            <a href="#" onClick={closeMenu}>ACCOMMODATION &amp; RESTAURANT</a>
-            <a href="#" onClick={closeMenu}>CULTURE</a>
-          </nav>
-          
-          <div className="auth-actions">
-            <Link to="/login" className="btn ghost" onClick={closeMenu}>Sign in</Link>
-            <Link to="/register" className="btn primary" onClick={closeMenu}>Sign Up</Link>
-          </div>
-          
-          {/* Hamburger Menu Button */}
-          <button 
-            className={`hamburger ${isMenuOpen ? 'open' : ''}`} 
-            aria-label={isMenuOpen ? "Close Navigation" : "Open Navigation"}
-            onClick={toggleMenu}
-          >
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
-          </button>
-        </div>
-      </header>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div className="container">
+        {/* Brand / Logo */}
+        <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavCollapsed(true)}>
+          <img src="./img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" />
+          <span>
+            PaPak<span className="text-info">Jai</span>
+          </span>
+        </Link>
 
-      {/* Mobile Menu Overlay */}
-      {isMenuOpen && (
-        <div className="mobile-menu-overlay" onClick={closeMenu}></div>
-      )}
-    </>
+        {/* Toggler for mobile */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={handleToggle}
+          aria-controls="navbarNav"
+          aria-expanded={!isNavCollapsed}
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Navigation links */}
+        <div
+          className={
+            "collapse navbar-collapse" + (isNavCollapsed ? '' : ' show')
+          }
+          id="navbarNav"
+        >
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link active" to="/" onClick={() => setIsNavCollapsed(true)}>
+                HOME
+              </Link>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#" onClick={() => setIsNavCollapsed(true)}>
+                VISA
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#" onClick={() => setIsNavCollapsed(true)}>
+                ACCOMMODATION &amp; RESTAURANT
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#" onClick={() => setIsNavCollapsed(true)}>
+                CULTURE
+              </a>
+            </li>
+          </ul>
+
+          {/* Auth buttons */}
+          <div className="d-flex gap-2">
+            <Link to="/login" className="btn btn-outline-info" onClick={() => setIsNavCollapsed(true)}>
+              Sign in
+            </Link>
+            <Link to="/register" className="btn btn-info " onClick={() => setIsNavCollapsed(true)}>
+              Sign Up
+            </Link>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 }
