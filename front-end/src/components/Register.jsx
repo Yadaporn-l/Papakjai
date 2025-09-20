@@ -1,57 +1,53 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // นำ useNavigation ออก เพราะไม่ได้ใช้
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Alert, Button } from 'react-bootstrap';
-import { useUserAuth } from "../context/UserAuthContext"; // ตรวจสอบว่า path ถูกต้อง
+import { useUserAuth } from "../context/UserAuthContext";
 
-export default function Register() {
+export default function Register() { // ต้องมี "default" ตรงนี้
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const { signUp } = useUserAuth(); // เข้าถึงฟังก์ชัน signUp จาก context
+    const { signUp } = useUserAuth();
 
-    let navigate = useNavigate(); // Hook สำหรับการนำทาง (navigation)
+    let navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // ป้องกันการ refresh หน้า
-        setError(""); // ล้าง error เดิมก่อนเริ่ม process ใหม่
-
+        e.preventDefault();
+        setError("");
         try {
-            // เรียกใช้ฟังก์ชัน signUp จาก context
             await signUp(email, password);
-            // ถ้าสมัครสำเร็จ ให้ redirect ไปที่หน้า login
             navigate("/login");
         } catch (error) {
-            // ถ้าเกิด error ระหว่างสมัคร ให้แสดงข้อความ error
             setError(error.message);
         }
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light"> {/* เพิ่ม Style เพื่อให้ฟอร์มอยู่กลางหน้าจอ */}
-            <div className="p-4 rounded bg-white shadow-sm" style={{ width: '350px' }}> {/* กำหนดขนาดและความสวยงามให้กล่องฟอร์ม */}
+        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+            <div className="p-4 rounded bg-white shadow-sm" style={{ width: '350px' }}>
                 <h2 className='mb-3 text-center'>Register</h2>
-                {error && <Alert variant='danger'>{error}</Alert>} {/* แสดง Alert หากมี error */}
+                {error && <Alert variant='danger'>{error}</Alert>}
 
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label> {/* เพิ่ม Label เพื่อดีกับ Accessibility */}
+                        <Form.Label>Email address</Form.Label>
                         <Form.Control
                             type='email'
-                            placeholder="Enter email" // เปลี่ยน placeholder ให้ชัดเจนขึ้น
-                            value={email} // ควบคุมค่าจาก state
+                            placeholder="Enter email"
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required // ทำให้ช่องนี้ต้องกรอก
+                            required
                         />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label> {/* เพิ่ม Label */}
+                        <Form.Label>Password</Form.Label>
                         <Form.Control
                             type='password'
                             placeholder="Password"
-                            value={password} // ควบคุมค่าจาก state
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required // ทำให้ช่องนี้ต้องกรอก
+                            required
                         />
                     </Form.Group>
 
@@ -61,7 +57,7 @@ export default function Register() {
                         </Button>
                     </div>
                     <div className="p-4 box mt-3 text-center">
-                        Already have an account? <Link to="/login">Login</Link> {/* ลิงค์ไปหน้า Login */}
+                        Already have an account? <Link to="/login">Login</Link>
                     </div>
                 </Form>
             </div>

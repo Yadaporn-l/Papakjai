@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
-import { UserAuthProvider } from './context/UserAuthContext.jsx'
+import { UserAuthContextProvider } from './context/UserAuthContext.jsx' // ชื่อให้ตรง
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {
@@ -14,25 +14,29 @@ import {
 
 const router = createBrowserRouter([
   {
-    path:"/",
+    path: "/",
     element: <App/>
-
   },
   {
-    path:"/login",
-    element:<Login/>
+    path: "/login",
+    element: <Login/>
   },
   {
-    path:"/register",
-    element:<Register/>
+    path: "/register",
+    element: <Register/>
   }
 ]);
 
-createRoot(document.getElementById('root')).render(
+// ตรวจสอบ root element
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Failed to find the root element');
+}
+
+createRoot(rootElement).render(
   <StrictMode>
-    <UserAuthProvider>
+    <UserAuthContextProvider> {/* ชื่อให้ตรงกับที่ export ใน UserAuthContext.jsx */}
       <RouterProvider router={router} />
-    </UserAuthProvider>
-    
+    </UserAuthContextProvider>
   </StrictMode>,
 )
