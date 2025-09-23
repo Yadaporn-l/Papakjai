@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import "./navhome.css";  // Ensure the file name matches exactly, including case
 
 export default function NavHome() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
@@ -13,7 +14,7 @@ export default function NavHome() {
       <div className="container">
         {/* Brand / Logo */}
         <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavCollapsed(true)}>
-          <img src="./img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" />
+          <img src="/img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" />
           <span>
             PaPak<span className="text-info">Jai</span>
           </span>
@@ -45,9 +46,9 @@ export default function NavHome() {
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" onClick={() => setIsNavCollapsed(true)}>
+              <Link className="nav-link" to="/visainfo" onClick={() => setIsNavCollapsed(true)}>
                 VISA
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#" onClick={() => setIsNavCollapsed(true)}>
