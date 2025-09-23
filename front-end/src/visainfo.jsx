@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select'; // Import React-Select
+// import Select from 'react-select'; // Import React-Select
 import NavHome from './components/navhome.jsx';
 import Footer from './components/footer.jsx';
 import "./visapage.css";
