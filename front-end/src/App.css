@@ -384,7 +384,7 @@ a {
   /* If you need to color an SVG: fill: var(--accent); */
 }
 .logo .accent { /* For the specific 'jai' part in the footer brand */
-  color: var(--accent);
+  color: #0dcaf0 ;
 }
 .brandline p {
   color: var(--muted); /* Muted for branding text */
