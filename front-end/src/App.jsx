@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState ,useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -6,8 +6,20 @@ import './App.css'
 // import { Link } from 'react-router-dom'
 import Footer from './components/footer.jsx'
 import Navhome from './components/navhome.jsx'
-
+import HomeLogin from './homelogin.jsx'
+import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 function App() {
+  // Add this temporary code to your App.js or main component to clear storage
+  useEffect(() => {
+    // Clear auth state for debugging (remove after testing)
+    localStorage.clear();
+    sessionStorage.clear();
+  }, []);
+
+  if (user) {
+    return <HomeLogin />;
+  }
+
   return (
     <>
       <Navhome/>
@@ -26,6 +38,35 @@ function App() {
           </div>
         </div>
       </section>
+
+      <section class="section features">
+        <div class="container">
+          <h2 class="section-title">We have Features</h2>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <div class="icon"><i class="fa-regular fa-file-lines"></i></div>
+              <h3>All-in-One<br/>Visa Information</h3>
+              <p>Get sample letters, up-to-date requirements, and country-by-country rules in one connected place.</p>
+              <span class="card-edge"></span>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon"><i class="fa-solid fa-bullseye"></i></div>
+              <h3>Budget-Based<br/>Recommendations</h3>
+              <p>Filter by your budget tier and discover matching destinations and stays—no guesswork.</p>
+              <span class="card-edge"></span>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon"><i class="fa-solid fa-list-check"></i></div>
+              <h3>Ready-to-Go<br/>List</h3>
+              <p>Quick start checklists and mini itineraries so you can leave in hours, not weeks.</p>
+              <span class="card-edge"></span>
+            </article>
+          </div>
+        </div>
+      </section>
+
 
       {/* Content blocks (alternate left/right, similar structure as before) */}
       <section className="section alt">

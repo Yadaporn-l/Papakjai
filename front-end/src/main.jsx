@@ -1,12 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './App.css'
+// import './App.css'
 import App from './App.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx' // ชื่อให้ตรง
 import Visainfo from './visainfo.jsx'
-
+import Homelogin from './homelogin.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {
   createBrowserRouter,
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/visainfo",
     element: <Visainfo/>
+  },
+  {
+    path: "/homelogin",
+    element: <Homelogin/>
   }
 ]);
 
