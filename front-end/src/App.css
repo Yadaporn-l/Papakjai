@@ -1,3 +1,16 @@
+/* ===== Base ===== */
+:root{
+  --bg:#0b1118;
+  --surface:#0f141b;
+  --text:#f5f8ff;
+  --muted:#a7b3c6;
+  --stroke:#1f2a37;
+  --card:#0f151d;
+  --accent:#00d4b4;
+  --accent-2:#90e0ef;
+  --shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
 /* ===== Base Variables ===== */
 :root {
   --bg: #0b1118; /* Main dark background */
@@ -46,6 +59,15 @@ a {
   margin-inline: auto;
   /* Bootstrap's default padding is fine, but if you need to remove use: */
   /* padding-left: 0; padding-right: 0; */
+}
+
+
+
+/* ===== Header (public) ===== */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  background:#060a0fdd; backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--stroke);
 }
 
 
@@ -98,6 +120,14 @@ a {
   /* If your logo needs a subtle glow, use: filter: drop-shadow(0 0 5px rgba(0, 212, 180, 0.5)); */
   vertical-align: middle; /* Align middle with text */
 }
+
+.feature-card h3{margin:0 0 8px; font-size:1rem}
+.feature-card p{margin:0; color:#b7c3d8}
+.feature-card .card-edge{
+  position:absolute; inset:auto 0 0 0; height:10px; border-bottom-left-radius:16px; border-bottom-right-radius:16px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+}
+
 .navbar-brand .accent-color { /* Custom class for accent text */
   color: var(--accent) !important; /* Vibrant green from your variables */
 }
@@ -282,6 +312,17 @@ a {
 
 
 /* ===== Split sections ===== */
+
+
+.alt{background:#0a0f15}
+.split{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center}
+.split.reverse{grid-template-columns:1fr 1fr}
+.text h3{margin:0 0 8px; font-size:1.15rem}
+.link-accent{color:var(--accent); text-decoration:none}
+.nowrap{white-space:nowrap}
+.text p{margin:0; color:#b9c7da}
+
+
 .section.alt { /* Targeting .section.alt specifically */
   background: white; /* Slightly lighter background for alternate sections */
 }
@@ -331,6 +372,7 @@ a {
   color: var(--muted); /* Muted color for paragraph text */
 }
 
+
 .images {
   position: relative;
 }
@@ -357,6 +399,26 @@ a {
   width: 55%;
   z-index: 1;
 }
+
+
+.images{position:relative}
+.images.single img{border-radius:14px; border:1px solid var(--stroke)}
+.images .stack{border-radius:14px; border:1px solid var(--stroke); box-shadow:var(--shadow)}
+.images .top{position:relative; z-index:2; transform:translate(8px, -8px)}
+.images .bottom{position:absolute; right:0; bottom:-10px; width:55%; z-index:1}
+
+
+/* ===== Footer (same as before) ===== */
+.footer{border-top:1px solid var(--stroke); background:#060a0f; margin-top:24px}
+.f-top{display:grid; grid-template-columns:2fr 3fr; gap:20px; padding:28px 0}
+.logo{display:flex; align-items:center; gap:10px; font-weight:900}
+.logo img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
+.brandline p{color:#b9c7da}
+.links{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.links h4{margin:0 0 8px}
+.links a{display:block; margin:6px 0; color:#c7d6ea; text-decoration:none}
+.f-bottom{display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-top:1px solid var(--stroke); color:#9eb0c7}
+.socials a{color:#c7d6ea; margin-left:10px}
 
 /* ===== Footer ===== */
 .footer {
@@ -456,6 +518,17 @@ a {
     border-left: 3px solid var(--accent); /* Highlight active link */
     padding-left: 0.75rem !important;
   }
+
+/* ===== Responsive Ipad ===== */
+@media (max-width: 900px){
+  .menu{display:none}
+  .hamburger{display:block; margin-left:auto}
+  .features .feature-grid{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr}
+  .images .bottom{position:relative; width:70%; bottom:auto; right:auto; margin-top:10px}
+  .f-top{grid-template-columns:1fr}
+  .links{grid-template-columns:repeat(2,1fr)}
+
   
   /* Auth buttons in mobile menu */
   .d-flex.gap-2.ms-auto {
@@ -466,6 +539,7 @@ a {
   .d-flex.gap-2.ms-auto .btn {
       width: 100%; /* Full width buttons */
   }
+
 
   /* Other layout adjustments */
   .features .feature-grid {
@@ -548,5 +622,8 @@ a {
     padding: 6px 12px !important; /* Smaller button padding */
     font-size: 0.9rem !important;
   }
+}
+
+  .menu{ display:none; }
 }
 

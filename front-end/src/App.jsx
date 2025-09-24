@@ -1,21 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-// import { Link } from 'react-router-dom'
-import Footer from './components/footer.jsx'
-import Navhome from './components/navhome.jsx'
+import './App.css';
+import { Link } from 'react-router-dom';
+import { useUserAuth } from './context/UserAuthContext';
+import Footer from './components/footer.jsx';
+import Navhome from './components/navhome.jsx';
 
 function App() {
   return (
     <>
-      <Navhome/>
+      <Navhome />
 
-         {/* Feature icons row */}
+      {/* Optional: email verification banner */}
+      {user && user.email && !user.emailVerified && (
+        <div className="alert alert-warning text-center m-0">
+          Please verify your email ({user.email}) to unlock all features.
+        </div>
+      )}
 
-
-      
       <section className="hero">
         <div className="overlay"></div>
         <div className="container hero-inner">
