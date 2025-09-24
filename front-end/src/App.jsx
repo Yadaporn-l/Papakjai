@@ -1,11 +1,3 @@
-
-import './App.css';
-import { Link } from 'react-router-dom';
-import { useUserAuth } from './context/UserAuthContext';
-import Footer from './components/footer.jsx';
-import Navhome from './components/navhome.jsx';
-
-
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
