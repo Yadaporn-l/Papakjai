@@ -56,7 +56,7 @@ export default function NavHome() {
               <Link className="nav-link" to="/visainfo" onClick={closeNav}>VISA</Link>
             </li>
              <li className="nav-item">
-              <Link className="nav-link" to="/" onClick={closeNav}>Accomodation</Link>
+              <Link className="nav-link" to="/accomodation" onClick={closeNav}>Accomodation</Link>
             </li>
 
           </ul>
