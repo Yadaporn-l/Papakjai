@@ -1,39 +1,41 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUserAuth } from '../context/UserAuthContext'; // 1. Import useUserAuth
-import "./navhome.css";
+import { useUserAuth } from '../context/UserAuthContext';
+// import "./navhome.css";
 
 export default function NavHome() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-  const { user, logOut } = useUserAuth(); // 2. ดึง user และ logOut ออกมาจาก Context
+  const { user, logOut } = useUserAuth();
   const navigate = useNavigate();
 
   const handleToggle = () => setIsNavCollapsed(!isNavCollapsed);
   const closeNav = () => setIsNavCollapsed(true);
 
-  // 3. สร้างฟังก์ชันสำหรับ Logout
   const handleLogout = async () => {
     try {
       await logOut();
-      closeNav(); // ปิดเมนูหลังจาก Logout
-      navigate('/'); // กลับไปหน้าแรก
+      closeNav();
+      navigate('/'); // กลับไปหน้าแรก (homepage ปกติ)
       console.log("You are logged out");
     } catch (error) {
       console.error("Failed to log out:", error);
     }
   };
 
+  // กำหนด home path ตามสถานะ login
+  const homePath = user ? '/homelogin' : '/';
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div className="container">
-        {/* Brand / Logo */}
-        <Link className="navbar-brand d-flex align-items-center" to="/" onClick={closeNav}>
+        {/* Brand / Logo - เปลี่ยน path ตามสถานะ login */}
+        <Link className="navbar-brand d-flex align-items-center" to={homePath} onClick={closeNav}>
           <img src="/img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" />
           <span>
             PaPak<span className="text-info">Jai</span>
           </span>
         </Link>
-        
+                
         {/* Toggler */}
         <button
           className="navbar-toggler"
@@ -50,24 +52,29 @@ export default function NavHome() {
         <div className={`collapse navbar-collapse ${isNavCollapsed ? '' : 'show'}`} id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" to="/" onClick={closeNav}>HOME</Link>
+              {/* HOME link - เปลี่ยน path ตามสถานะ login */}
+              <Link className="nav-link active" to={homePath} onClick={closeNav}>
+                HOME
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/visainfo" onClick={closeNav}>VISA</Link>
+              <Link className="nav-link" to="/visainfo" onClick={closeNav}>
+                VISA
+              </Link>
             </li>
-             <li className="nav-item">
-              <Link className="nav-link" to="/accomodation" onClick={closeNav}>Accomodation</Link>
+            <li className="nav-item">
+              <Link className="nav-link" to="/accomodation" onClick={closeNav}>
+                ACCOMODATION
+              </Link>
             </li>
-
           </ul>
 
-          {/* 4. ส่วนที่เปลี่ยนแปลงตามสถานะ Login */}
+          {/* ส่วนที่เปลี่ยนแปลงตามสถานะ Login */}
           <div className="d-flex align-items-center gap-2">
             {user ? (
               // ---- เมื่อผู้ใช้ Login แล้ว ----
               <>
                 <span className="navbar-text text-white me-2">
-                  {/* แสดง displayName ถ้ามี, ถ้าไม่มีก็แสดง email แทน */}
                   สวัสดี, {user.displayName || user.email}
                 </span>
                 <button

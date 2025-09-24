@@ -7,7 +7,7 @@ import { UserAuthContextProvider } from './context/UserAuthContext.jsx';
 import Visainfo from './visainfo.jsx';
 import Homelogin from './homelogin.jsx';
 import VisaResult from "./visaresult.jsx";
-import Accomodation from './accomodation.jsx';
+import Accomodation from './Accomodation.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
