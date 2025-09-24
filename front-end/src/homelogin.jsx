@@ -42,7 +42,7 @@ export default function HomeLogin() {
             </button>
             <div className="track">
               <a className="city-card" href="#">
-                <img src="img/tokyo.jpg" alt="Tokyo" />
+                <img src="img/soul.jpg" alt="Tokyo" />
                 <div className="city-info">
                   <h3>Tokyo</h3>
                   <span className="pill">Japan</span>
@@ -70,7 +70,7 @@ export default function HomeLogin() {
                 </div>
               </a>
               <a className="city-card" href="#">
-                <img src="img/soul.jpg" alt="Seoul" />
+                <img src="img/tokyo.jpg" alt="Seoul" />
                 <div className="city-info">
                   <h3>Seoul</h3>
                   <span className="pill">Korea</span>
@@ -277,11 +277,10 @@ export default function HomeLogin() {
             </button>
             <div className="track">
               <article className="food-card">
-                <img
-                  src="https://images.unsplash.com/photo-1544025162-de76699514045-2fa4ac7a08ba?q=80&w=1600&auto=format&fit=crop"
-                  alt="Sushi"
-                />
+                <img src="img/pasta.jpg" alt="Burger" />
+              
                 <div className="food-body">
+    
                   <h3>Haruki Sushi Bar</h3>
                   <p className="meta">
                     <i className="fa-solid fa-location-dot"></i> Shinjuku, Tokyo

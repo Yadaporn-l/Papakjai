@@ -1,16 +1,3 @@
-
-/* ===== Base ===== */
-:root{
-  --bg:#0b1118;
-  --surface:#0f141b;
-  --text:#f5f8ff;
-  --muted:#a7b3c6;
-  --stroke:#1f2a37;
-  --card:#0f151d;
-  --accent:#00d4b4;
-  --accent-2:#90e0ef;
-  --shadow:0 10px 25px rgba(0,0,0,.35);
-}
 /* ===== Base Variables ===== */
 :root {
   --bg: #0b1118; /* Main dark background */
@@ -22,90 +9,94 @@
   --accent: #90e0ef; /* Primary vibrant green accent */
   --accent-2: #90e0ef; /* Secondary accent (light blue) */
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.35); /* Soft shadow */
-
 }
 
-*{box-sizing:border-box}
-html,body{margin:0}
-body{
-  font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  background:#081019;
-  color:var(--text);
-  line-height:1.55;
+/* ===== Global Resets and Base Styles ===== */
+* {
+  box-sizing: border-box;
 }
 
-img{display:block; max-width:100%}
+html,
+body,
+#root { /* Ensure all parent elements allow content to fill height if needed */
+  height: 100%;
+}
+
+body {
+  font-family: 'Poppins', system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg); /* Set using variable */
+  color: var(--text); /* Set using variable */
+  line-height: 1.55;
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none; /* Default for all links */
+}
 
 /* ===== Layout ===== */
-.container{width:min(1100px,92%); margin-inline:auto}
-.section{padding:44px 0}
-.section-title{margin:0 0 16px; font-size:1.2rem; font-weight:700}
-
-
-/* ===== Header (public) ===== */
-.site-header{
-  position:sticky; top:0; z-index:50;
-  background:#060a0fdd; backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--stroke);
+/* Using Bootstrap's .container, but overriding width if needed */
+.container {
+  width: min(1100px, 92%);
+  margin-inline: auto;
+  /* Bootstrap's default padding is fine, but if you need to remove use: */
+  /* padding-left: 0; padding-right: 0; */
 }
+
 
 /* แก้ */
 .section {  
   padding: 44px 0;
   background: white;
-
-}
-.nav{display:flex; align-items:center; gap:16px; padding:12px 0}
-.brand{display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; font-weight:800}
-.brand img{width:26px;height:26px; filter: none; fill: #87CEEB;   /* works if SVG */}
-.brand .accent{color:var(--accent)}
-
-.menu{margin: 0 auto; display:flex; gap:18px}
-.menu a i{ margin-right: 6px; }
-
-.menu a{color:#c2d0e3; text-decoration:none; font-weight:500; font-size:.95rem}
-.menu a.active, .menu a:hover{color:#fff}
-.auth-actions{display:flex; gap:10px}
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  border-radius:12px; padding:10px 14px; text-decoration:none; cursor:pointer; font-weight:700;
-  border:1px solid var(--stroke); color:#e7f1ff; background:transparent;
-}
-.btn.ghost:hover{border-color:#2a394c}
-.btn.primary{background:var(--accent); color:#06231c; border:0}
-.btn.large{padding:10px 18px}
-.hamburger{display:none; background:transparent; color:#fff; border:0; font-size:20px}
-
-/* ===== Hero ===== */
-.hero{
-  height:280px; position:relative; overflow:hidden; border-bottom:1px solid var(--stroke);
-  background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
-}
-.hero .overlay{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.6))}
-.hero-inner{position:relative; z-index:2; padding-top:34px; color:#eaf2ff}
-.hero h1{margin:0 0 8px; font-size:1.7rem}
-.hero .lead{max-width:700px; color:#c6d4e6; margin:0 0 14px}
-.cta-row{display:flex; gap:10px; flex-wrap:wrap}
-
-/* ===== Features ===== */
-.features .feature-grid{
-  display:grid; gap:16px; grid-template-columns:repeat(3, 1fr);
-}
-.feature-card{
-  position:relative;
-  background:#0e141c; border:1px solid var(--stroke); border-radius:16px; padding:16px;
-}
-.feature-card .icon{
-  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
-  border:1px solid var(--stroke);
-  background:#0b1118; color:#e7f1ff; margin-bottom:10px;
 }
 
-.feature-card h3{margin:0 0 8px; font-size:1rem}
-.feature-card p{margin:0; color:#b7c3d8}
-.feature-card .card-edge{
-  position:absolute; inset:auto 0 0 0; height:10px; border-bottom-left-radius:16px; border-bottom-right-radius:16px;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+.section-title {
+  margin: 0 0 16px;
+  font-size: 1.75rem; /* Increased font size for section titles */
+  font-weight: 700;
+  color: var(--text); /* Generally white/text for titles */
+}
+
+/* ===== Header (NavHome Component - Bootstrap Overrides) ===== */
+
+/* Base Navbar Styling */
+.navbar {
+  /* Override Bootstrap's default background and padding */
+  background-color: transparent !important;
+  padding: 1.25rem 0 !important; /* Original generous padding */
+  border-bottom: 1px solid transparent !important; /* Start with no visible border */
+  z-index: 1000; /* Ensure it's always on top */
+  position: fixed; /* Use fixed for full-width sticky behavior */
+  top: 0;
+  left: 0;
+  width: 100%;
+  backdrop-filter: blur(5px); /* Subtle blur even when not scrolled */
+}
+
+/* Scrolled state for the header */
+.navbar.scrolled {
+  background-color: rgba(6, 10, 15, 0.8) !important; /* Darker, semi-transparent when scrolled */
+  border-bottom: 1px solid var(--stroke) !important; /* Border appears when scrolled */
+  padding: 0.75rem 0 !important; /* Less padding when scrolled */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow when scrolled */
+}
+
+/* Brand/Logo Styling */
+.navbar-brand {
+  font-weight: 800 !important;
+  color: var(--text) !important; /* Ensure brand text is white */
+  font-size: 1.5rem; /* Larger brand text */
+}
+.navbar-brand img {
+  height: 40px !important; /* Adjust logo size */
+  /* If your logo background is white, use: filter: invert(1); */
+  /* If your logo needs a subtle glow, use: filter: drop-shadow(0 0 5px rgba(0, 212, 180, 0.5)); */
+  vertical-align: middle; /* Align middle with text */
 }
 .navbar-brand .accent-color { /* Custom class for accent text */
   color: var(--accent) !important; /* Vibrant green from your variables */
@@ -171,9 +162,11 @@ img{display:block; max-width:100%}
 
 /* Large buttons (used in Hero section) */
 .btn.large {
-  padding: 12px 24px !important; /* Larger padding */
+  padding: 7px 14px !important; /* Larger padding */
   font-size: 1.1rem !important;
+  position: inline-block;
 }
+
 
 
 /* Hamburger Icon (Bootstrap Toggler) */
@@ -195,13 +188,17 @@ img{display:block; max-width:100%}
 .hero {
   /* Using padding-top to account for fixed navbar height */
   padding-top: 100px; /* Adjust based on your header's total height */
-  height: 280px; /* This will be from the top of the viewport after the navbar */
+  height: 580px; /* This will be from the top of the viewport after the navbar */
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--stroke);
   background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
   color: var(--text); /* Set text to white initially */
 }
+
+.hero .overlay { z-index: 0; }
+.hero-inner { z-index: 1;}
+
 .hero .overlay {
   position: absolute;
   inset: 0;
@@ -217,13 +214,14 @@ img{display:block; max-width:100%}
 .hero h1 {
   margin: 0 0 8px;
   font-size: 1.7rem;
+  font-style: italic;
 }
 .hero .lead {
   max-width: 700px;
   color: white; 
   margin: 0 0 14px;
-  font-size: 14px;
-  font-weight: 30px;
+  font-size: 13px;
+  font-weight: 50px;
 }
 .cta-row {
   display: flex;
@@ -286,21 +284,11 @@ img{display:block; max-width:100%}
 
 .feature-card .card-edge {
   display: none;
-
 }
 
 
 
 /* ===== Split sections ===== */
-
-.alt{background:#0a0f15}
-.split{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center}
-.split.reverse{grid-template-columns:1fr 1fr}
-.text h3{margin:0 0 8px; font-size:1.15rem}
-.link-accent{color:var(--accent); text-decoration:none}
-.nowrap{white-space:nowrap}
-.text p{margin:0; color:#b9c7da}
-
 .section.alt { /* Targeting .section.alt specifically */
   background: white; /* Slightly lighter background for alternate sections */
 }
@@ -350,25 +338,32 @@ img{display:block; max-width:100%}
   color: var(--muted); /* Muted color for paragraph text */
 }
 
-
-.images{position:relative}
-.images.single img{border-radius:14px; border:1px solid var(--stroke)}
-.images .stack{border-radius:14px; border:1px solid var(--stroke); box-shadow:var(--shadow)}
-.images .top{position:relative; z-index:2; transform:translate(8px, -8px)}
-.images .bottom{position:absolute; right:0; bottom:-10px; width:55%; z-index:1}
-
-
-/* ===== Footer (same as before) ===== */
-.footer{border-top:1px solid var(--stroke); background:#060a0f; margin-top:24px}
-.f-top{display:grid; grid-template-columns:2fr 3fr; gap:20px; padding:28px 0}
-.logo{display:flex; align-items:center; gap:10px; font-weight:900}
-.logo img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
-.brandline p{color:#b9c7da}
-.links{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-.links h4{margin:0 0 8px}
-.links a{display:block; margin:6px 0; color:#c7d6ea; text-decoration:none}
-.f-bottom{display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-top:1px solid var(--stroke); color:#9eb0c7}
-.socials a{color:#c7d6ea; margin-left:10px}
+.images {
+  position: relative;
+}
+.images.single img {
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+}
+.images .stack {
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+}
+.images .top {
+  position: relative;
+  z-index: 2;
+  transform: translate(8px, -8px);
+}
+/* .images .bottom is for a second image in your original design, 
+   currently not in the JSX, but kept for future use */
+.images .bottom {
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  width: 55%;
+  z-index: 1;
+}
 
 /* ===== Footer ===== */
 .footer {
@@ -396,7 +391,7 @@ img{display:block; max-width:100%}
   /* If you need to color an SVG: fill: var(--accent); */
 }
 .logo .accent { /* For the specific 'jai' part in the footer brand */
-  color: #0dcaf0 ;
+  color: var(--accent);
 }
 .brandline p {
   color: var(--muted); /* Muted for branding text */
@@ -438,59 +433,127 @@ img{display:block; max-width:100%}
   color: var(--accent); /* Accent on hover */
 }
 
-/* ===== Responsive Ipad ===== */
-@media (max-width: 900px){
-  .menu{display:none}
-  .hamburger{display:block; margin-left:auto}
-  .features .feature-grid{grid-template-columns:1fr}
-  .split{grid-template-columns:1fr}
-  .images .bottom{position:relative; width:70%; bottom:auto; right:auto; margin-top:10px}
-  .f-top{grid-template-columns:1fr}
-  .links{grid-template-columns:repeat(2,1fr)}
+
+/* ===== Responsive Mobile / Tablet Overrides ===== */
+
+/* Tablet/iPad - roughly 992px is Bootstrap's 'lg' breakpoint for navbar collapse */
+@media (max-width: 991.98px) {
+  /* For the Navbar when collapsed */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%; /* Position right below the navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--bg) !important; /* Solid background for expanded menu */
+    border-top: 1px solid var(--stroke);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+  }
+  .navbar-nav {
+    flex-direction: column !important; /* Stack nav items vertically */
+    margin-bottom: 1rem;
+  }
+  .navbar-nav .nav-item {
+    margin-bottom: 0.5rem;
+  }
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem !important; /* More generous touch area */
+  }
+  .navbar-nav .nav-link.active {
+    border-left: 3px solid var(--accent); /* Highlight active link */
+    padding-left: 0.75rem !important;
+  }
   
-}
-
-
-/* ===== Responsive Mobile ===== */
-@media (max-width: 415px){
-  .section{ padding:28px 0; }
-  .container{ width:min(100%, 94%); }
-
-  .hero{ height:46vh; min-height:260px; }
-  .hero-inner{ padding-top:20px; }
-  .hero h1{ font-size:1.35rem; }
-  .hero .lead{ font-size:.95rem; }
-
-  .cta-row{ flex-direction:column; gap:8px; }
-
-.site-header .auth-actions{ gap:6px;
- } /* ลดช่องว่างปุ่ม */
-
-
-   
-}
-
-/* iPhone SE รุ่นปัจจุบัน*/
-@media (max-width: 376px){
-  .nav{ padding:5px 0; gap:8px; }
-
- 
-  .site-header .auth-actions{ 
-    gap:6px; 
+  /* Auth buttons in mobile menu */
+  .d-flex.gap-2.ms-auto {
+      flex-direction: column !important; /* Stack buttons vertically */
+      width: 100%;
+      gap: 10px !important;
   }
-  .site-header .auth-actions .btn{
-    padding:4px 8px;    
-    font-size: 0.8rem;    
-    border-radius:10px;  
-    min-height:34px;    
-    line-height:1.1;
- 
-  }
-  .site-header .auth-actions .btn.primary{
-    display:flex; 
-    gap:6px; 
-    margin-left:auto;
+  .d-flex.gap-2.ms-auto .btn {
+      width: 100%; /* Full width buttons */
   }
 
-  .menu{ display:none; }
+  /* Other layout adjustments */
+  .features .feature-grid {
+    grid-template-columns: 1fr; /* Single column for feature cards */
+  }
+  .split {
+    grid-template-columns: 1fr; /* Single column for split sections */
+  }
+  .split.reverse { /* When screen is smaller, reverse on larger screens won't apply */
+    flex-direction: column; /* Ensure a consistent flow */
+  }
+  .images .bottom {
+    position: relative; /* Relative position on smaller screens */
+    width: 70%;
+    bottom: auto;
+    right: auto;
+    margin-top: 10px;
+  }
+  .f-top {
+    grid-template-columns: 1fr; /* Single column for footer top */
+  }
+  .links {
+    grid-template-columns: repeat(2, 1fr); /* Two columns for footer links */
+  }
 }
+
+/* Mobile Devices - under 415px (e.g., iPhone SE/smaller phones) */
+@media (max-width: 415px) {
+  .section {
+    padding: 28px 0; /* Smaller padding for sections */
+  }
+  .container {
+    width: min(100%, 94%); /* Wider container on very small screens */
+  }
+
+  .hero {
+    /* Adjusted height for smaller screens, considering actual layout */
+    height: auto; 
+    min-height: 260px; /* Minimum height */
+    padding-top: 80px; /* Smaller padding-top for fixed navbar */
+  }
+  .hero-inner {
+    padding-top: 20px; /* Adjust inner padding */
+  }
+  .hero h1 {
+    font-size: 1.5rem; /* Smaller hero title */
+  }
+  .hero .lead {
+    font-size: .95rem; /* Smaller lead text */
+  }
+
+  .cta-row {
+    flex-direction: column; /* Stack CTA buttons */
+    gap: 8px;
+  }
+
+  /* Footer adjustments */
+  .f-bottom {
+      flex-direction: column; /* Stack copyright and socials */
+      gap: 10px;
+  }
+  .socials {
+      margin-top: 10px;
+  }
+}
+
+/* iPhone SE specific adjustment (if needed after general 415px) */
+@media (max-width: 376px) {
+  /* Fine-tune for very small devices, if necessary */
+  .navbar-brand {
+    font-size: 1.3rem !important; /* Smaller brand text */
+  }
+  .navbar-brand img {
+    height: 32px !important; /* Smaller logo */
+  }
+  .navbar-nav .nav-link {
+    font-size: 0.9rem !important; /* Smaller nav links */
+  }
+  .btn {
+    padding: 6px 12px !important; /* Smaller button padding */
+    font-size: 0.9rem !important;
+  }
+}
+

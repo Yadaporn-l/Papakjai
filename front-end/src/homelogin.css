@@ -5,8 +5,8 @@
   --text:#f5f8ff;
   --muted:#a7b3c6;
   --stroke:#1f2a37;
-  --card:#0f151d;
-  --accent:#00d4b4;
+  --card:#ffffff;
+  --accent:#90e0ef;
   --accent-2:#90e0ef;
   --shadow:0 10px 25px rgba(0,0,0,.35);
 }
@@ -158,12 +158,12 @@ body{
 .price .value{font-size:1.1rem; font-weight:800}
 .price .unit{display:block; color:#aab7c9; font-size:.8rem}
 .outline{
-  margin-top:8px; background:transparent; color:#e8f1ff; border:1px solid var(--stroke);
-  padding:8px 10px; border-radius:10px; cursor:pointer;
+  margin-top:8px; background:#000000; color:#ffffff; border:1px solid var(--stroke);
+  padding:8px 10px; border-radius:20px; cursor:pointer; font-family:Arial, sans-serif; font-size: 12px;
 }
 .outline:hover{border-color:#2a394c}
 
-/* Food cards */
+
 .food-card{
   min-width:240px; background:var(--card); border:1px solid var(--stroke);
   border-radius:16px; overflow:hidden; scroll-snap-align:start;
