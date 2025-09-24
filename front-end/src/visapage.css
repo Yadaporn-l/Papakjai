@@ -15,8 +15,10 @@ body{margin:0;font-family:Arial,sans-serif;
 .content{text-align:center;margin:50px auto;max-width:500px;}
 .content h1{font-size:24px;font-weight:bold;}
 .visa-box{background:#ffecec;padding:30px;border-radius:8px;margin-top:20px;}
+
 .visa-box label{display:block;margin:10px 0 5px;font-weight:bold;text-align:left;}
-.visa-box select,.visa-box input{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
+.visa-box select{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
+.visa-box input{width:95%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
 .visa-box button{background:black;color:white;padding:10px 20px;border:none;cursor:pointer;border-radius:5px;}
 .visa-box button:hover{background:#333;}
 

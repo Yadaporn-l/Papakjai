@@ -21,6 +21,9 @@ body{
 
 img{display:block; max-width:100%}
 
+nav {
+  font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
 /* ===== Layout ===== */
 .container{width:min(1100px,92%); margin-inline:auto}
 .section{padding:44px 0}
@@ -47,6 +50,9 @@ img{display:block; max-width:100%}
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
   border-radius:12px; padding:10px 14px; text-decoration:none; cursor:pointer; font-weight:700;
   border:1px solid var(--stroke); color:#e7f1ff; background:transparent;
+}
+.btn.ghost {
+  color: var(--text);
 }
 .btn.ghost:hover{border-color:#2a394c}
 .btn.primary{background:var(--accent); color:#06231c; border:0}
