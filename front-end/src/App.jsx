@@ -5,7 +5,9 @@ import Footer from './components/footer.jsx';
 import Navhome from './components/navhome.jsx';
 import VisaResult from "./visaresult.jsx";
 import "./App.css"
+
 function App() {
+  // ✅ Actually use the hook to get the user
   const { user } = useUserAuth();
 
   return (
@@ -13,29 +15,26 @@ function App() {
       <Navhome />
 
       {/* Optional: email verification banner */}
-      {/* {user && user.email && !user.emailVerified && (
+      {user && user.email && !user.emailVerified && (
         <div className="alert alert-warning text-center m-0">
           Please verify your email ({user.email}) to unlock all features.
         </div>
-      )} */}
+      )}
 
       <section className="hero">
         <div className="overlay"></div>
         <div className="container hero-inner">
-          <h1>
-            Got <span className="accent">plans</span> for the upcoming holiday?
-          </h1>
+          <h1>Got <span className="accent">plans</span> for the upcoming holiday?</h1>
           <p className="lead">
             We help you compare, stay up-to-date on visa rules, and match best-suited destination picks.
             Travel smarter, travel confidently with us by your side.
           </p>
           <div className="cta-row">
-            {/* If logged in, send to Visa info (or your dashboard). If not, send to register. */}
             <Link
-              to={user ? '/visainfo' : '/register'}
+              to="/register"
               className="btn primary large"
             >
-              {user ? 'Start Planning' : 'Get Started'}
+              Get Started
             </Link>
             <Link to="/visainfo" className="btn ghost large">
               Explore features
@@ -44,6 +43,7 @@ function App() {
         </div>
       </section>
 
+      {/* Feature icons row */}
       <section className="section features">
         <div className="container">
           <h2 className="section-title">We have Features</h2>
@@ -72,6 +72,7 @@ function App() {
         </div>
       </section>
 
+      {/* Content blocks (alternate left/right, similar structure as before) */}
       <section className="section alt">
         <div className="container split">
           <div className="text">
@@ -116,7 +117,7 @@ function App() {
           <div className="text">
             <h3><span className="link-accent">Ready-to-Go</span> List</h3>
             <p>
-              Fast launch. Travel staples, short plans, &amp; quick saves that minimize prep time for
+              Fast launch. Travel staples, short plans, & quick saves that minimize prep time for
               solo or family trips.
             </p>
           </div>
