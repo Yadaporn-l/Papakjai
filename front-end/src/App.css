@@ -10,7 +10,7 @@
   --accent:#00d4b4;
   --accent-2:#90e0ef;
   --shadow:0 10px 25px rgba(0,0,0,.35);
-
+}
 /* ===== Base Variables ===== */
 :root {
   --bg: #0b1118; /* Main dark background */
@@ -41,19 +41,19 @@ img{display:block; max-width:100%}
 .section{padding:44px 0}
 .section-title{margin:0 0 16px; font-size:1.2rem; font-weight:700}
 
-<<<<<<< HEAD
+
 /* ===== Header (public) ===== */
 .site-header{
   position:sticky; top:0; z-index:50;
   background:#060a0fdd; backdrop-filter:blur(8px);
   border-bottom:1px solid var(--stroke);
-=======
+}
 
 /* แก้ */
 .section {  
   padding: 44px 0;
   background: white;
->>>>>>> d728a2c6f794a0b4e5bad5896f25e4157d770c4e
+
 }
 .nav{display:flex; align-items:center; gap:16px; padding:12px 0}
 .brand{display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; font-weight:800}
@@ -100,13 +100,13 @@ img{display:block; max-width:100%}
   border:1px solid var(--stroke);
   background:#0b1118; color:#e7f1ff; margin-bottom:10px;
 }
-<<<<<<< HEAD
+
 .feature-card h3{margin:0 0 8px; font-size:1rem}
 .feature-card p{margin:0; color:#b7c3d8}
 .feature-card .card-edge{
   position:absolute; inset:auto 0 0 0; height:10px; border-bottom-left-radius:16px; border-bottom-right-radius:16px;
   background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
-=======
+}
 .navbar-brand .accent-color { /* Custom class for accent text */
   color: var(--accent) !important; /* Vibrant green from your variables */
 }
@@ -299,6 +299,7 @@ img{display:block; max-width:100%}
 .text h3{margin:0 0 8px; font-size:1.15rem}
 .link-accent{color:var(--accent); text-decoration:none}
 .nowrap{white-space:nowrap}
+.text p{margin:0; color:#b9c7da}
 
 .section.alt { /* Targeting .section.alt specifically */
   background: white; /* Slightly lighter background for alternate sections */
@@ -349,11 +350,13 @@ img{display:block; max-width:100%}
   color: var(--muted); /* Muted color for paragraph text */
 }
 
+
 .images{position:relative}
 .images.single img{border-radius:14px; border:1px solid var(--stroke)}
 .images .stack{border-radius:14px; border:1px solid var(--stroke); box-shadow:var(--shadow)}
 .images .top{position:relative; z-index:2; transform:translate(8px, -8px)}
 .images .bottom{position:absolute; right:0; bottom:-10px; width:55%; z-index:1}
+
 
 /* ===== Footer (same as before) ===== */
 .footer{border-top:1px solid var(--stroke); background:#060a0f; margin-top:24px}
@@ -434,7 +437,6 @@ img{display:block; max-width:100%}
 .socials a:hover {
   color: var(--accent); /* Accent on hover */
 }
-
 
 /* ===== Responsive Ipad ===== */
 @media (max-width: 900px){
