@@ -7,6 +7,7 @@ import Register from './components/Register.jsx'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx' // ชื่อให้ตรง
 import Visainfo from './visainfo.jsx'
 import Homelogin from './homelogin.jsx'
+import Accomodation from './components/Accomodation.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {
   createBrowserRouter,
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/homelogin",
     element: <Homelogin/>
+  },
+  {
+    path: "/accomodation",
+    element: <Accomodation/>
   }
 ]);
 

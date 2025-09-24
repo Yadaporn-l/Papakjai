@@ -11,7 +11,7 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <link rel="stylesheet" href="accomodation.css" />
+  <link rel="stylesheet" href="accomodation2.css" />
 </head>
 <body>
   <!-- Header (nav bar เดิม) -->
@@ -50,161 +50,240 @@
   <!-- Content Section -->
   <main class="container layout">
     <!-- Sidebar Filter -->
-    <aside class="sidebar">
-      <div class="filter-block">
-        <h3>Country</h3>
-        <select>
-          <option>Select Country</option>
-          <option>Thailand</option>
-          <option>Japan</option>
-          <option>China</option>
-        </select>
-      </div>
-
-      <div class="filter-block">
-        <h3>Property Type</h3>
-        <label><input type="radio" name="type"> Restaurant</label><br>
-        <label><input type="radio" name="type"> Beauty & Spa</label><br>
-        <label><input type="radio" name="type"> Hotel & Home</label><br>
-        <label><input type="radio" name="type"> Traveling</label>
-      </div>
-
-      <div class="filter-block">
-        <h3>Budget</h3>
-        
-        <div class="budget-head">
-    <span>Budget Range</span>
-    <span>(฿ 0 – 11,550+)</span>
+<aside class="sidebar compact">
+  <!-- Location -->
+  <div class="filter-block">
+    <h3>Location</h3>
+    <select id="fCountry">
+      <option value="">Select Country</option>
+      <option>Thailand</option>
+      <option>Japan</option>
+      <option>China</option>
+    </select>
+    <input type="text" id="fCity" placeholder="City / Area"
+           style="width:100%;height:35px;border:1px solid #9aa4b1;border-radius:8px;padding:0 12px;background:#fff;margin-top:8px">
   </div>
 
-  <div class="range">
-    <input id="budget" type="range" min="0" max="11550" value="5000" step="50">
-    <output id="budgetBubble" for="budget"></output>
-    <div class="range-scale">
-        <span>฿ 0</span>
-        <span>฿ 11,550+</span>
+  <!-- Type (เป็นชิปประหยัดเนื้อที่) -->
+  <div class="filter-block">
+    <h3>Type</h3>
+    <div class="chip-row">
+      <button type="button" class="chip" data-type="Hotel & Home">Hotel & Home</button>
+      <button type="button" class="chip" data-type="Restaurant">Restaurant</button>
+      <button type="button" class="chip" data-type="Beauty & Spa">Beauty & Spa</button>
+      <button type="button" class="chip" data-type="Traveling">Traveling</button>
+    </div>
+  </div>
+
+  <!-- Budget (ของเดิม) -->
+  <div class="filter-block">
+    <h3>Budget</h3>
+    <div class="budget-head">
+      <span>Budget Range</span>
+      <span>(฿ 0 – 11,550+)</span>
+    </div>
+    <div class="range">
+      <input id="budget" type="range" min="0" max="11550" value="5000" step="50">
+      <output id="budgetBubble" for="budget"></output>
+      <div class="range-scale">
+        <span>฿ 0</span><span>฿ 11,550+</span>
       </div>
     </div>
-
-  <div class="budget-tags" id="budgetTags">
-    <button type="button" class="chip" data-min="0"    data-max="1550">0 ฿ – 1,550 ฿</button>
-    <button type="button" class="chip" data-min="1550" data-max="2500">1,550 ฿ – 2,500 ฿</button>
-    <button type="button" class="chip" data-min="2500" data-max="4000">2,500 ฿ – 4,000 ฿</button>
-    <button type="button" class="chip" data-min="4000" data-max="5500">4,000 ฿ – 5,500 ฿</button>
-    <button type="button" class="chip" data-min="5500" data-max="7000">5,500 ฿ – 7,000 ฿</button>
-    <button type="button" class="chip" data-min="7000" data-max="11550">&gt; 7,000 ฿</button>
+    <div class="budget-tags" id="budgetTags">
+      <button type="button" class="chip" data-min="0"    data-max="1550">0–1,550฿</button>
+      <button type="button" class="chip" data-min="1550" data-max="4000">1,550–4,000฿</button>
+      <button type="button" class="chip" data-min="4000" data-max="7000">4,000–7,000฿</button>
+      <button type="button" class="chip" data-min="7000" data-max="11550">>7,000฿</button>
+    </div>
   </div>
-</div>
 
+  <!-- Min Rating -->
+  <div class="filter-block">
+    <h3>Min Rating</h3>
+    <div class="chip-row">
+      <button type="button" class="chip" data-minscore="4.5">4.5+</button>
+      <button type="button" class="chip" data-minscore="4.0">4.0+</button>
+      <button type="button" class="chip" data-minscore="3.5">3.5+</button>
+      <button type="button" class="chip" data-minscore="3.0">3.0+</button>
+    </div>
+  </div>
 
-      <div class="filter-block">
-        <h3>Star Rating</h3>
-        <label><input type="radio" name="star"> 2.5 +</label><br>
-        <label><input type="radio" name="star"> 3.0 +</label><br>
-        <label><input type="radio" name="star"> 3.5 +</label><br>
-        <label><input type="radio" name="star"> 4.0 +</label>
-      </div>
-    </aside>
+  <!-- Must-have (สั้นๆที่คนใช้บ่อย) -->
+  <div class="filter-block">
+    <h3>Must-have</h3>
+    <div class="chip-row">
+      <button type="button" class="chip" data-amenity="wifi">Wi-Fi</button>
+      <button type="button" class="chip" data-amenity="breakfast">Breakfast</button>
+      <button type="button" class="chip" data-amenity="parking">Parking</button>
+      <button type="button" class="chip" data-amenity="poolspa">Pool/Spa</button>
+    </div>
+    <label style="display:block;margin-top:8px">
+      <input type="checkbox" id="fOpenNow"> Open now (restaurants & spa)
+    </label>
+  </div>
+
+  <!-- Actions -->
+  <div class="filter-actions">
+    <button id="applyFilters" type="button" class="btn primary" style="padding:8px 12px">Apply</button>
+    <button id="resetFilters" type="button" class="btn ghost" style="padding:8px 12px">Reset</button>
+  </div>
+</aside>
+
 
     <!-- Hotel Results -->
     <section class="results">
       
-      <div class="search-bar">
-        <input type="text" placeholder="Search for hotel, restaurant, all properties">
-        <button><i class="fa fa-search"></i></button>
-      </div>
+<div class="search-bar">
+  <input id="searchInput" type="text" placeholder="Search for hotel, restaurant, all properties">
+  <button id="searchBtn" type="button"><i class="fa fa-search"></i></button>
+</div>
 
-      <div class="hotel-card">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
-        <div class="hotel-info">
-          <h2>Fairmont Peace Hotel</h2>
-          <p class="type">Hotel / Resort</p>
-          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
-          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
-          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
-          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
-          <p class="price">Price: 10,445฿</p>
-        </div>
-      </div>
+<!-- ===== Results: Cards (free photos via Unsplash) ===== -->
+<!-- ===== Results: Cards (แต่ละใบมี data-images ของตัวเอง) ===== -->
+<div class="hotel-card" data-id="siam-heritage"
+  data-images='[
+    "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="The Siam Heritage — Bangkok hotel room">
+  <div class="hotel-info">
+    <h2>The Siam Heritage</h2>
+    <p class="type">Hotel / Resort</p>
+    <p class="desc">Riverside stay with modern Thai rooms and an intimate pool courtyard—quiet but close to the action.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Bangkok Riverside</p>
+    <p class="tags">⭐ Riverside · Cozy Pool · Night markets</p>
+    <p class="rating">Rating: <span>4.5</span> (173 Reviews)</p>
+    <p class="price">Price: 3,200฿</p>
+  </div>
+</div>
 
-      <div class="hotel-card">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
-        <div class="hotel-info">
-          <h2>Coke</h2>
-          <p class="type">Hotel / Resort</p>
-          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
-          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
-          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
-          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
-          <p class="price">Price: 10,445฿</p>
-        </div>
-      </div>
+<div class="hotel-card" data-id="nara-tea-house"
+  data-images='[
+    "https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/296309/pexels-photo-296309.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/34085/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="Nara Tea House — Japanese tea & kaiseki">
+  <div class="hotel-info">
+    <h2>Nara Tea House</h2>
+    <p class="type">Restaurant</p>
+    <p class="desc">Seasonal kaiseki and ceremonial-grade matcha in a calm garden setting.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Nara Old Town</p>
+    <p class="tags">⭐ Matcha · Kaiseki · Garden Patio</p>
+    <p class="rating">Rating: <span>4.7</span> (89 Reviews)</p>
+    <p class="price">Price: 650฿ / person</p>
+  </div>
+</div>
 
-            <div class="hotel-card">
-              
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
-        <div class="hotel-info">
-          <h2>Fairmont Peace Hotel</h2>
-          <p class="type">Hotel / Resort</p>
-          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
-          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
-          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
-          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
-          <p class="price">Price: 10,445฿</p>
-        </div>
-      </div>
+<div class="hotel-card" data-id="koyo-onsen-ryokan"
+  data-images='[
+    "https://images.pexels.com/photos/5461604/pexels-photo-5461604.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/3586966/pexels-photo-3586966.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/1612351/pexels-photo-1612351.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/5461604/pexels-photo-5461604.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="Onsen Ryokan Koyo — Hakone hot spring inn">
+  <div class="hotel-info">
+    <h2>Onsen Ryokan Koyo</h2>
+    <p class="type">Hotel / Ryokan</p>
+    <p class="desc">Tatami rooms, private open-air bath, and kaiseki dinner with local fish.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Hakone, Kanagawa</p>
+    <p class="tags">⭐ Private Onsen · Mountain View · Kaiseki</p>
+    <p class="rating">Rating: <span>4.8</span> (421 Reviews)</p>
+    <p class="price">Price: 7,800฿</p>
+  </div>
+</div>
 
-            <div class="hotel-card">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
-        <div class="hotel-info">
-          <h2>Fairmont Peace Hotel</h2>
-          <p class="type">Hotel / Resort</p>
-          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
-          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
-          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
-          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
-          <p class="price">Price: 10,445฿</p>
-        </div>
-      </div>
-                  <div class="hotel-card">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
-        <div class="hotel-info">
-          <h2>Fairmont Peace Hotel</h2>
-          <p class="type">Hotel / Resort</p>
-          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
-          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
-          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
-          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
-          <p class="price">Price: 10,445฿</p>
-        </div>
-      </div>
-                  <div class="hotel-card">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
-        <div class="hotel-info">
-          <h2>Fairmont Peace Hotel</h2>
-          <p class="type">Hotel / Resort</p>
-          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
-          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
-          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
-          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
-          <p class="price">Price: 10,445฿</p>
-        </div>
-      </div>
-                  <div class="hotel-card">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
-        <div class="hotel-info">
-          <h2>Fairmont Peace Hotel</h2>
-          <p class="type">Hotel / Resort</p>
-          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
-          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
-          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
-          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
-          <p class="price">Price: 10,445฿</p>
-        </div>
+<div class="hotel-card" data-id="shanghai-lotus-spa"
+  data-images='[
+    "https://images.pexels.com/photos/3225531/pexels-photo-3225531.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/3865932/pexels-photo-3865932.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/5240641/pexels-photo-5240641.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/3225531/pexels-photo-3225531.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="Shanghai Lotus Spa — Wellness & massage">
+  <div class="hotel-info">
+    <h2>Shanghai Lotus Spa</h2>
+    <p class="type">Beauty &amp; Spa</p>
+    <p class="desc">Urban retreat offering aromatherapy, hot-stone massage, and tea lounge.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Jing’an, Shanghai</p>
+    <p class="tags">⭐ Aromatherapy · Tea Lounge · Late Hours</p>
+    <p class="rating">Rating: <span>4.3</span> (64 Reviews)</p>
+    <p class="price">Price: 1,250฿</p>
+  </div>
+</div>
 
-      </div>
-      
-      </div>
+<div class="hotel-card" data-id="lijiang-courtyard-inn"
+  data-images='[
+    "https://images.pexels.com/photos/28939970/pexels-photo-28939970.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/28939970/pexels-photo-28939970.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="Lijiang Courtyard Inn — Traditional guesthouse">
+  <div class="hotel-info">
+    <h2>Lijiang Courtyard Inn</h2>
+    <p class="type">Hotel &amp; Home</p>
+    <p class="desc">Timber courtyard rooms in a UNESCO old town lane; bikes available.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Lijiang Old Town</p>
+    <p class="tags">⭐ Heritage · Bike Rental · Alley Views</p>
+    <p class="rating">Rating: <span>4.5</span> (112 Reviews)</p>
+    <p class="price">Price: 2,150฿</p>
+  </div>
+</div>
+
+<div class="hotel-card" data-id="chiangmai-bazaar-eats"
+  data-images='[
+    "https://images.pexels.com/photos/29589435/pexels-photo-29589435.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/760982/pexels-photo-760982.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/1307698/pexels-photo-1307698.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/29589435/pexels-photo-29589435.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="Chiang Mai Night Bazaar Eats — Local food">
+  <div class="hotel-info">
+    <h2>Chiang Mai Night Bazaar Eats</h2>
+    <p class="type">Restaurant</p>
+    <p class="desc">Casual open-air stalls for khao soi, grilled meats, and mango sticky rice.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Night Bazaar, Chiang Mai</p>
+    <p class="tags">⭐ Khao Soi · Live Music · Open Late</p>
+    <p class="rating">Rating: <span>4.2</span> (310 Reviews)</p>
+    <p class="price">Price: 450฿ / person</p>
+  </div>
+</div>
+
+<div class="hotel-card" data-id="kyoto-riverside-hostel"
+  data-images='[
+    "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/733745/pexels-photo-733745.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/271743/pexels-photo-271743.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="Kyoto Riverside Hostel — Budget stay by the river">
+  <div class="hotel-info">
+    <h2>Kyoto Riverside Hostel</h2>
+    <p class="type">Hotel &amp; Home</p>
+    <p class="desc">Clean bunks, social lounge, and easy access to Gion & Kiyomizu.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Kamogawa, Kyoto</p>
+    <p class="tags">⭐ Budget · Social Lounge · Bike Path</p>
+    <p class="rating">Rating: <span>4.1</span> (205 Reviews)</p>
+    <p class="price">Price: 980฿</p>
+  </div>
+</div>
+
+<div class="hotel-card" data-id="guilin-karst-tours"
+  data-images='[
+    "https://images.pexels.com/photos/1001965/pexels-photo-1001965.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/2468773/pexels-photo-2468773.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800",
+    "https://images.pexels.com/photos/356286/pexels-photo-356286.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800"
+  ]'>
+  <img src="https://images.pexels.com/photos/1001965/pexels-photo-1001965.jpeg?auto=compress&cs=tinysrgb&w=800&h=600" alt="Guilin Karst Tours — Li River cruising">
+  <div class="hotel-info">
+    <h2>Guilin Karst Tours</h2>
+    <p class="type">Traveling</p>
+    <p class="desc">Half-day bamboo raft rides and sunrise hikes among karst peaks.</p>
+    <p class="location"><i class="fa fa-map-marker-alt"></i> Li River, Guilin</p>
+    <p class="tags">⭐ Bamboo Raft · Sunrise Hike · Photo Spots</p>
+    <p class="rating">Rating: <span>4.6</span> (158 Reviews)</p>
+    <p class="price">Price: 2,900฿</p>
+  </div>
+</div>
+
       <nav class="pagination" aria-label="Card pages">
   <button class="page-nav prev" aria-label="Previous page">&laquo;</button>
   <div id="pageList" class="page-list"></div>
@@ -302,23 +381,87 @@
 
 
 </script>
+
+
 <script>
-  // ===== Card pagination (4 cards per page) =====
-  (function(){
-    const cards = Array.from(document.querySelectorAll('.hotel-card'));
-    const PAGE_SIZE = 4;              // << กำหนด 4 การ์ด/หน้า
-    const MAX_PAGES = 10;             // ถ้าต้องการจำกัดแค่ 1–10 หน้า
-    const resultsEl = document.querySelector('.results');
-    const pageList = document.getElementById('pageList');
-    const prevBtn = document.querySelector('.pagination .prev');
-    const nextBtn = document.querySelector('.pagination .next');
+// ===== Search + Ranking + Pagination (works together) =====
+(function(){
+  // ---- settings ----
+  const PAGE_SIZE = 4;        // การ์ดต่อหน้า
+  const MAX_PAGES = 10;
 
-    const totalPagesRaw = Math.ceil(cards.length / PAGE_SIZE) || 1;
-    const totalPages = Math.min(MAX_PAGES, totalPagesRaw);
+  // ---- elements ----
+  const cards = Array.from(document.querySelectorAll('.hotel-card'));
+  const resultsEl = document.querySelector('.results');
+  const pageList = document.getElementById('pageList');
+  const prevBtn = document.querySelector('.pagination .prev');
+  const nextBtn = document.querySelector('.pagination .next');
+  const qInput = document.getElementById('searchInput');
+  const qBtn   = document.getElementById('searchBtn');
 
-    // สร้างปุ่มเลขหน้า
+  // ---- helpers ----
+  const norm = (s='') => s
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')                 // ตัดวรรณยุกต์ภาษายุโรป
+    .replace(/[\u0300-\u036f]/g,'')   // remove combining marks
+    .replace(/\s+/g,' ')              // บีบช่องว่าง
+    .trim();
+
+  // ดึงข้อความจากการ์ดเพื่อค้นหา
+  function indexCard(card){
+    const title = card.querySelector('h2')?.textContent || '';
+    const type  = card.querySelector('.type')?.textContent || '';
+    const desc  = card.querySelector('.desc')?.textContent || '';
+    const loc   = card.querySelector('.location')?.textContent || '';
+    const tags  = card.querySelector('.tags')?.textContent || '';
+    const all   = [title, type, desc, loc, tags].join(' | ');
+    return {
+      card,
+      title,
+      hay: norm(all),           // ข้อความรวมไว้ค้นหา
+      titleNorm: norm(title),   // เก็บชื่อไว้จัดอันดับพิเศษ
+    };
+  }
+
+  const INDEX = cards.map(indexCard);
+
+  // ให้คะแนนผลลัพธ์ (exact/startsWith/includes)
+  function scoreFor(item, terms, rawQuery){
+    let score = 0;
+    const hay = item.hay;
+
+    // exact phrase bonus
+    if (rawQuery && hay.includes(rawQuery)) score += 8;
+
+    for (const t of terms){
+      if (!t) continue;
+      // ต้องมีคำนี้ก่อน (ถ้าไม่มีเลย ให้ตัดทิ้ง)
+      if (!hay.includes(t)) return -1;
+
+      // จัดน้ำหนัก: ชื่อ = คะแนนสูงสุด
+      if (item.titleNorm === t) score += 6;                    // ตรงชื่อแบบเป๊ะ
+      else if (item.titleNorm.startsWith(t)) score += 4;       // ชื่อขึ้นต้นด้วยคำ
+      else if (item.titleNorm.includes(t)) score += 3;         // ชื่อมีคำนี้
+
+      // เนื้อหาอื่น ๆ
+      if (hay.startsWith(t)) score += 2;                       // ขึ้นต้นข้อความรวม
+      else score += 1;                                         // มีอยู่ที่ไหนก็ได้
+    }
+    return score;
+  }
+
+  // state
+  let current = 1;
+  let filtered = [...INDEX];   // เริ่มจากทั้งหมด
+  let totalPages = 1;
+
+  function rebuildPagination(){
+    const totalPagesRaw = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+    totalPages = Math.min(MAX_PAGES, totalPagesRaw);
+
     pageList.innerHTML = '';
-    for(let i=1; i<=totalPages; i++){
+    for (let i=1;i<=totalPages;i++){
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'page-btn';
@@ -327,48 +470,69 @@
       b.addEventListener('click', ()=> showPage(i));
       pageList.appendChild(b);
     }
+  }
 
-    let current = 1;
+  function hideAll(){
+    cards.forEach(el => el.style.display = 'none');
+  }
 
-    // ซ่อนทั้งหมด
-    function hideAll(){
-      cards.forEach(el => el.style.display = 'none');
+  function showPage(n){
+    current = Math.max(1, Math.min(n, totalPages));
+    hideAll();
+
+    const start = (current - 1) * PAGE_SIZE;
+    const end   = Math.min(start + PAGE_SIZE, filtered.length);
+
+    for (let i=start; i<end; i++){
+      filtered[i].card.style.display = 'flex';
     }
 
-    // แสดงการ์ดช่วง index ตามหน้า
-    function showPage(n){
-      current = n;
-      hideAll();
+    document.querySelectorAll('.page-btn').forEach(btn=>{
+      btn.classList.toggle('active', Number(btn.dataset.page) === current);
+    });
+    prevBtn.disabled = (current <= 1);
+    nextBtn.disabled = (current >= totalPages);
 
-      const start = (n - 1) * PAGE_SIZE;
-      const end = Math.min(start + PAGE_SIZE, cards.length);
-      for(let i = start; i < end; i++){
-        cards[i].style.display = 'flex';
-      }
+    resultsEl?.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 
-      // อัปเดต active ของปุ่มเลขหน้า
-      document.querySelectorAll('.page-btn').forEach(btn=>{
-        btn.classList.toggle('active', Number(btn.dataset.page) === current);
-      });
+  prevBtn.addEventListener('click', ()=> showPage(current - 1));
+  nextBtn.addEventListener('click', ()=> showPage(current + 1));
 
-      // อัปเดตปุ่มก่อนหน้า/ถัดไป
-      prevBtn.disabled = (current <= 1);
-      nextBtn.disabled = (current >= totalPages);
-
-      // เลื่อนกลับขึ้นบนของลิสต์เมื่อเปลี่ยนหน้า (ใช้งานดีขึ้นบนมือถือ)
-      if(resultsEl) resultsEl.scrollIntoView({behavior:'smooth', block:'start'});
+  // ค้นหา + จัดอันดับ + รีเพจิเนชัน
+  function runSearch(){
+    const raw = norm(qInput.value || '');
+    if (!raw){
+      // ไม่มีคำค้น = แสดงทั้งหมด (ตามลำดับเดิม)
+      filtered = [...INDEX];
+    }else{
+      const terms = raw.split(' ').filter(Boolean);
+      filtered = INDEX
+        .map(item => ({ item, score: scoreFor(item, terms, raw) }))
+        .filter(x => x.score >= 0) // ต้องมีครบทุก term (AND)
+        .sort((a,b)=>{
+          // เรียงจากคะแนนมากไปน้อย แล้วตามชื่อ
+          if (b.score !== a.score) return b.score - a.score;
+          return a.item.title.localeCompare(b.item.title);
+        })
+        .map(x => x.item);
     }
 
-    prevBtn.addEventListener('click', ()=>{
-      showPage(Math.max(1, current - 1));
-    });
-    nextBtn.addEventListener('click', ()=>{
-      showPage(Math.min(totalPages, current + 1));
-    });
-
-    // เริ่มต้นหน้า 1
+    rebuildPagination();
     showPage(1);
-  })();
+  }
+
+  // Trigger ค้นหา: พิมพ์ก็กรองทันที + คลิกปุ่ม
+  qInput.addEventListener('input', runSearch);
+  qBtn?.addEventListener('click', runSearch);
+
+  // first render
+  rebuildPagination();
+  showPage(1);
+})();
+</script>
+
+
 </script>
 
 <script>
@@ -441,6 +605,44 @@
     });
   })();
 </script>
+
+<script>
+// ทำให้ชิปกดแล้วสลับ active
+document.querySelectorAll('.sidebar .chip').forEach(ch=>{
+  ch.addEventListener('click', ()=> ch.classList.toggle('active'));
+});
+
+// ปรับ bubble ของ budget (คุณมีอยู่แล้ว ถ้ามีให้ข้ามส่วนนี้)
+(function(){
+  const slider = document.getElementById('budget');
+  const bubble = document.getElementById('budgetBubble');
+  const fmt = v => Number(v).toLocaleString('th-TH');
+  function setBubble(){
+    if(!slider || !bubble) return;
+    const min = +slider.min, max = +slider.max, val = +slider.value;
+    const percent = (val - min) / (max - min) * 100;
+    bubble.textContent = `฿ ${fmt(val)}`;
+    bubble.style.left = `calc(${percent}% - 24px)`;
+  }
+  slider?.addEventListener('input', setBubble);
+  setBubble();
+})();
+
+// รีเซ็ตแบบย่อ
+document.getElementById('resetFilters')?.addEventListener('click', ()=>{
+  document.querySelectorAll('.sidebar .chip.active').forEach(el=>el.classList.remove('active'));
+  document.getElementById('fCountry').value='';
+  document.getElementById('fCity').value='';
+  document.getElementById('fOpenNow').checked=false;
+  const s = document.getElementById('budget'); s.value = 5000; s.dispatchEvent(new Event('input'));
+});
+
+// ปุ่ม Apply ไว้ผูกลอจิกกรองจริงภายหลัง
+document.getElementById('applyFilters')?.addEventListener('click', ()=>{
+  // TODO: อ่านค่าจากชิป/อินพุต แล้วซ่อนการ์ดที่ไม่ตรงเงื่อนไข
+});
+</script>
+
 
 
 

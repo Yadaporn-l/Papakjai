@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <Navhome/>
+      <Navhome />
 
       {/* Optional: email verification banner */}
       {user && user.email && !user.emailVerified && (
@@ -81,10 +81,10 @@ function App() {
             </p>
           </div>
           <div className="images">
-            <img 
-              className="stack top" 
-              src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1600&auto=format&fit=crop" 
-              alt="visa docs" 
+            <img
+              className="stack top"
+              src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1600&auto=format&fit=crop"
+              alt="visa docs"
               loading="lazy"
             />
           </div>
@@ -94,9 +94,9 @@ function App() {
       <section className="section">
         <div className="container split reverse">
           <div className="images single">
-            <img 
-              src="https://images.unsplash.com/photo-1485988412941-77a35537dae4?q=80&w=1600&auto=format&fit=crop" 
-              alt="wing" 
+            <img
+              src="https://images.unsplash.com/photo-1485988412941-77a35537dae4?q=80&w=1600&auto=format&fit=crop"
+              alt="wing"
               loading="lazy"
             />
           </div>
@@ -115,24 +115,24 @@ function App() {
           <div className="text">
             <h3><span className="link-accent">Ready-to-Go</span> List</h3>
             <p>
-              Fast launch. Travel staples, short plans, &amp; quick saves that minimize prep time for
+              Fast launch. Travel staples, short plans, & quick saves that minimize prep time for
               solo or family trips.
             </p>
           </div>
           <div className="images">
-            <img 
-              className="stack top" 
-              src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1600&auto=format&fit=crop" 
-              alt="coastline" 
+            <img
+              className="stack top"
+              src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1600&auto=format&fit=crop"
+              alt="coastline"
               loading="lazy"
             />
           </div>
         </div>
       </section>
 
-      <Footer/>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

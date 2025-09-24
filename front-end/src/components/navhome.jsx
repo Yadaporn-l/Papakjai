@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../context/UserAuthContext';
-import "./navhome.css";
+// import "./navhome.css";
 
 export default function NavHome() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
@@ -63,8 +63,8 @@ export default function NavHome() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/visainfo" onClick={closeNav}>
-                Accomodation
+              <Link className="nav-link" to="/accomodation" onClick={closeNav}>
+                ACCOMODATION
               </Link>
             </li>
           </ul>
