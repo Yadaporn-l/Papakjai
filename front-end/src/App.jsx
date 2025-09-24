@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useUserAuth } from './context/UserAuthContext';
 import Footer from './components/footer.jsx';
 import Navhome from './components/navhome.jsx';
+import VisaResult from "./visaresult.jsx";
 import "./App.css"
 function App() {
   const { user } = useUserAuth();
