@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PaPakJai — Accomodation</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="accomodation.css" />
+</head>
+<body>
+  <!-- Header (nav bar เดิม) -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#" class="brand">
+        <img src="img/pa_pak_jai-removebg.png" alt="logo" />
+        <span>PaPak<span class="accent">Jai</span></span>
+      </a>
+
+      <nav class="menu">
+        <a href="#">Home</a>
+        <a href="#">Visa</a>
+        <a href="#" class="active">Accommodations &amp; Restaurant</a>
+        <a href="#">Culture</a>
+      </nav>
+
+      <div class="auth-actions">
+        <a class="btn ghost" href="#">Sign in</a>
+        <a class="btn primary" href="#">Sign Up</a>
+      </div>
+
+      <button class="hamburger" aria-label="Open Navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <h1>Accomodation &amp; Restaurant</h1>
+    </div>
+  </header>
+
+  <!-- Content Section -->
+  <main class="container layout">
+    <!-- Sidebar Filter -->
+    <aside class="sidebar">
+      <div class="filter-block">
+        <h3>Country</h3>
+        <select>
+          <option>Select Country</option>
+          <option>Thailand</option>
+          <option>Japan</option>
+          <option>China</option>
+        </select>
+      </div>
+
+      <div class="filter-block">
+        <h3>Property Type</h3>
+        <label><input type="radio" name="type"> Restaurant</label><br>
+        <label><input type="radio" name="type"> Beauty & Spa</label><br>
+        <label><input type="radio" name="type"> Hotel & Home</label><br>
+        <label><input type="radio" name="type"> Traveling</label>
+      </div>
+
+      <div class="filter-block">
+        <h3>Budget</h3>
+        
+        <div class="budget-head">
+    <span>Budget Range</span>
+    <span>(฿ 0 – 11,550+)</span>
+  </div>
+
+  <div class="range">
+    <input id="budget" type="range" min="0" max="11550" value="5000" step="50">
+    <output id="budgetBubble" for="budget"></output>
+    <div class="range-scale">
+        <span>฿ 0</span>
+        <span>฿ 11,550+</span>
+      </div>
+    </div>
+
+  <div class="budget-tags" id="budgetTags">
+    <button type="button" class="chip" data-min="0"    data-max="1550">0 ฿ – 1,550 ฿</button>
+    <button type="button" class="chip" data-min="1550" data-max="2500">1,550 ฿ – 2,500 ฿</button>
+    <button type="button" class="chip" data-min="2500" data-max="4000">2,500 ฿ – 4,000 ฿</button>
+    <button type="button" class="chip" data-min="4000" data-max="5500">4,000 ฿ – 5,500 ฿</button>
+    <button type="button" class="chip" data-min="5500" data-max="7000">5,500 ฿ – 7,000 ฿</button>
+    <button type="button" class="chip" data-min="7000" data-max="11550">&gt; 7,000 ฿</button>
+  </div>
+</div>
+
+
+      <div class="filter-block">
+        <h3>Star Rating</h3>
+        <label><input type="radio" name="star"> 2.5 +</label><br>
+        <label><input type="radio" name="star"> 3.0 +</label><br>
+        <label><input type="radio" name="star"> 3.5 +</label><br>
+        <label><input type="radio" name="star"> 4.0 +</label>
+      </div>
+    </aside>
+
+    <!-- Hotel Results -->
+    <section class="results">
+      
+      <div class="search-bar">
+        <input type="text" placeholder="Search for hotel, restaurant, all properties">
+        <button><i class="fa fa-search"></i></button>
+      </div>
+
+      <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Coke</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+
+            <div class="hotel-card">
+              
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+
+            <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+                  <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+                  <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+      </div>
+                  <div class="hotel-card">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" alt="Fairmont Peace Hotel">
+        <div class="hotel-info">
+          <h2>Fairmont Peace Hotel</h2>
+          <p class="type">Hotel / Resort</p>
+          <p class="desc">One of Shanghai's most iconic and legendary historical landmarks, the Fairmont Peace Hotel boasts a history that overshadows most of any other hotel in the Far East...</p>
+          <p class="location"><i class="fa fa-map-marker-alt"></i> Near The Bund - The Bund Area</p>
+          <p class="tags">⭐ Ideal Location · Superb Views · Delicious breakfast</p>
+          <p class="rating">Rating: <span>4.6</span> (214 Reviews)</p>
+          <p class="price">Price: 10,445฿</p>
+        </div>
+
+      </div>
+      
+      </div>
+      <nav class="pagination" aria-label="Card pages">
+  <button class="page-nav prev" aria-label="Previous page">&laquo;</button>
+  <div id="pageList" class="page-list"></div>
+  <button class="page-nav next" aria-label="Next page">&raquo;</button>
+</nav>
+    </section>
+  </main>
+
+<!-- ===== Hotel Detail Modal ===== -->
+<div id="hotelModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-panel" role="document">
+    <!-- Header row -->
+    <div class="modal-head">
+      <button class="modal-back" aria-label="Back">
+        <i class="fa-solid fa-angle-left"></i> Back
+      </button>
+
+      <div class="hotel-title">
+        <h2 id="mTitle">Fairmont Peace Hotel</h2>
+        <div class="meta">
+          <span class="rating">
+            <span id="mScore">4.6</span>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+          </span>
+          <span class="travel-tip">
+            <i class="fa-solid fa-cloud-sun"></i> Perfect to travel
+          </span>
+        </div>
+        <div class="m-sub">
+          <span class="type" id="mType">Hotel / Resort</span>
+          <span class="dot">•</span>
+          <span class="m-location"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Near The Bund - The Bund Area</span></span>
+        </div>
+      </div>
+
+      <button class="modal-close" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Body: 2 columns -->
+    <div class="modal-body">
+      <!-- Left: gallery -->
+      <div class="gallery">
+        <div class="hero-img">
+          <img id="mHero" src="" alt="Hotel photo" />
+        </div>
+        <div class="thumbs" id="mThumbs" aria-label="More photos"></div>
+      </div>
+
+      <!-- Right: amenities -->
+      <aside class="amenities">
+        <h3>Hotel Amenities</h3>
+        <ul class="amenity-list">
+          <li><i class="fa-solid fa-person-swimming"></i> Indoor Swimming Pool</li>
+          <li><i class="fa-solid fa-spa"></i> Spa</li>
+          <li><i class="fa-solid fa-hand-holding-heart"></i> Massage Room</li>
+          <li><i class="fa-solid fa-crown"></i> Executive lounge</li>
+          <li><i class="fa-solid fa-dumbbell"></i> Gym</li>
+          <li><i class="fa-solid fa-square-parking"></i> Private Parking</li>
+          <li><i class="fa-solid fa-plane-arrival"></i> Priority airport pick-up</li>
+          <li><i class="fa-solid fa-martini-glass-citrus"></i> Bar</li>
+          <li><i class="fa-solid fa-mug-hot"></i> Tea room</li>
+        </ul>
+
+        <a href="#" class="more-info">Read more information</a>
+      </aside>
+    </div>
+  </div>
+</div>
+
+
+</body>
+  <script>
+  const slider = document.getElementById('budget');
+  const bubble = document.getElementById('budgetBubble');
+
+  const fmt = v => Number(v).toLocaleString('th-TH');
+
+  function setBubble(){
+    const min = +slider.min, max = +slider.max, val = +slider.value;
+    const percent = (val - min) / (max - min) * 100;  // 0–100
+    bubble.textContent = `฿ ${fmt(val)}`;
+    bubble.style.left = `calc(${percent}% - 24px)`;   // ชดเชยครึ่งความกว้าง bubble
+  }
+  slider.addEventListener('input', setBubble);
+  setBubble(); // initial
+
+
+
+</script>
+<script>
+  // ===== Card pagination (4 cards per page) =====
+  (function(){
+    const cards = Array.from(document.querySelectorAll('.hotel-card'));
+    const PAGE_SIZE = 4;              // << กำหนด 4 การ์ด/หน้า
+    const MAX_PAGES = 10;             // ถ้าต้องการจำกัดแค่ 1–10 หน้า
+    const resultsEl = document.querySelector('.results');
+    const pageList = document.getElementById('pageList');
+    const prevBtn = document.querySelector('.pagination .prev');
+    const nextBtn = document.querySelector('.pagination .next');
+
+    const totalPagesRaw = Math.ceil(cards.length / PAGE_SIZE) || 1;
+    const totalPages = Math.min(MAX_PAGES, totalPagesRaw);
+
+    // สร้างปุ่มเลขหน้า
+    pageList.innerHTML = '';
+    for(let i=1; i<=totalPages; i++){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'page-btn';
+      b.textContent = i;
+      b.dataset.page = i;
+      b.addEventListener('click', ()=> showPage(i));
+      pageList.appendChild(b);
+    }
+
+    let current = 1;
+
+    // ซ่อนทั้งหมด
+    function hideAll(){
+      cards.forEach(el => el.style.display = 'none');
+    }
+
+    // แสดงการ์ดช่วง index ตามหน้า
+    function showPage(n){
+      current = n;
+      hideAll();
+
+      const start = (n - 1) * PAGE_SIZE;
+      const end = Math.min(start + PAGE_SIZE, cards.length);
+      for(let i = start; i < end; i++){
+        cards[i].style.display = 'flex';
+      }
+
+      // อัปเดต active ของปุ่มเลขหน้า
+      document.querySelectorAll('.page-btn').forEach(btn=>{
+        btn.classList.toggle('active', Number(btn.dataset.page) === current);
+      });
+
+      // อัปเดตปุ่มก่อนหน้า/ถัดไป
+      prevBtn.disabled = (current <= 1);
+      nextBtn.disabled = (current >= totalPages);
+
+      // เลื่อนกลับขึ้นบนของลิสต์เมื่อเปลี่ยนหน้า (ใช้งานดีขึ้นบนมือถือ)
+      if(resultsEl) resultsEl.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    prevBtn.addEventListener('click', ()=>{
+      showPage(Math.max(1, current - 1));
+    });
+    nextBtn.addEventListener('click', ()=>{
+      showPage(Math.min(totalPages, current + 1));
+    });
+
+    // เริ่มต้นหน้า 1
+    showPage(1);
+  })();
+</script>
+
+<script>
+  // ===== Modal binding to hotel cards =====
+  (function(){
+    const modal = document.getElementById('hotelModal');
+    const hero = document.getElementById('mHero');
+    const tTitle = document.getElementById('mTitle');
+    const tType = document.getElementById('mType');
+    const tLoc = document.getElementById('mLoc');
+    const tScore = document.getElementById('mScore');
+    const thumbs = document.getElementById('mThumbs');
+
+    const open = ()=> { modal.classList.add('show'); document.body.style.overflow='hidden'; };
+    const close = ()=> { modal.classList.remove('show'); document.body.style.overflow=''; };
+
+    modal.querySelector('.modal-close').addEventListener('click', close);
+    modal.querySelector('.modal-back').addEventListener('click', close);
+    modal.querySelector('.modal-backdrop').addEventListener('click', close);
+    window.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
+
+    // Helper: สร้าง thumbnails จากลิสต์รูป
+    function renderThumbs(urls){
+      thumbs.innerHTML = '';
+      urls.forEach((u,idx)=>{
+        const d = document.createElement('button');
+        d.type = 'button';
+        d.className = 't' + (idx===0 ? ' active' : '');
+        const img = document.createElement('img');
+        img.src = u;
+        d.appendChild(img);
+        d.addEventListener('click', ()=>{
+          hero.src = u;
+          thumbs.querySelectorAll('.t').forEach(x=>x.classList.remove('active'));
+          d.classList.add('active');
+        });
+        thumbs.appendChild(d);
+      });
+    }
+
+    // เอาข้อมูลจากการ์ดที่คลิกมาใส่โมดัล
+    document.querySelectorAll('.hotel-card').forEach(card=>{
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', ()=>{
+        // ดึงข้อมูลพื้นฐานจากการ์ด
+        const img = card.querySelector('img')?.src || '';
+        const title = card.querySelector('h2')?.textContent?.trim() || 'Hotel';
+        const type = card.querySelector('.type')?.textContent?.trim() || '';
+        const loc = card.querySelector('.location')?.textContent?.replace(/^\s*📍?\s*/,'').trim() || '';
+        const score = card.querySelector('.rating span')?.textContent?.trim() || '4.6';
+
+        tTitle.textContent = title;
+        tType.textContent = type;
+        tLoc.textContent = loc;
+        tScore.textContent = score;
+        hero.src = img;
+
+        // สร้างชุดรูป (เดโม: ใช้รูปหลัก + แทนด้วยรูปเดียวกันต่าง query)
+        const urls = [
+          img,
+          img + '&fit=crop&h=260',
+          img + '&fit=crop&w=400',
+          img + '&fit=crop&sat=-20',
+          img + '&fit=crop&blur=10'
+        ];
+        renderThumbs(urls);
+
+        open();
+      });
+    });
+  })();
+</script>
+
+
+
+</html>
