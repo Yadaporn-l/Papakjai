@@ -3,10 +3,10 @@
   --bg: #0b1118; /* Main dark background */
   --surface: #0f141b; /* Slightly lighter dark for cards/surfaces */
   --text: #f5f8ff; /* Primary text color */
-  --muted: #ffffff; /* Muted text color */
+  --muted: #a7b3c6; /* Muted text color */
   --stroke: #1f2a37; /* Borders and dividers */
   --card: #0f151d; /* Card background */
-  --accent: #90e0ef; /* Primary vibrant green accent */
+  --accent: #00d4b4; /* Primary vibrant green accent */
   --accent-2: #90e0ef; /* Secondary accent (light blue) */
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.35); /* Soft shadow */
 }
@@ -48,11 +48,8 @@ a {
   /* padding-left: 0; padding-right: 0; */
 }
 
-
-/* แก้ */
-.section {  
+.section {
   padding: 44px 0;
-  background: white;
 }
 
 .section-title {
@@ -149,7 +146,7 @@ a {
 
 /* Primary Button (e.g., Sign Up) */
 .btn.primary {
-  background:#0dcaf0  !important; /* Vibrant green */
+  background: var(--accent) !important; /* Vibrant green */
   color: var(--bg) !important; /* Dark text for contrast on green */
   border: 1px solid var(--accent) !important; /* Accent border */
 }
@@ -211,10 +208,8 @@ a {
 }
 .hero .lead {
   max-width: 700px;
-  color: white; 
+  color: var(--muted); /* Muted color for lead text */
   margin: 0 0 14px;
-  font-size: 14px;
-  font-weight: 30px;
 }
 .cta-row {
   display: flex;
@@ -222,106 +217,74 @@ a {
   flex-wrap: wrap;
 }
 
-
-/* 
-แก้ */
-/* ===== Features (ปรับขนาดบาลานซ์) ===== */
+/* ===== Features Section ===== */
 .features .feature-grid {
   display: grid;
-  gap: 28px; /* เพิ่มช่องว่างเล็กน้อยให้ดูโปร่ง */
+  gap: 16px;
   grid-template-columns: repeat(3, 1fr);
 }
-
 .feature-card {
   position: relative;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 40px 24px;            /* padding มากขึ้น การ์ดดูกว้างโปร่ง */
-  text-align: center;
-  box-shadow: 0 3px 8px rgba(0,0,0,.12);
-  transition: transform .2s ease;
+  background: var(--card); /* Using variable for card background */
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 16px;
 }
-.feature-card:hover {
-  transform: translateY(-4px);
-}
-
 .feature-card .icon {
-  width: 72px;                   /* ไอคอนใหญ่ขึ้น */
-  height: 72px;
-  font-size: 2.5rem;             /* ขยายขนาดไอคอน */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-  color: #000;
-  background: transparent;
-  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--stroke);
+  background: var(--bg); /* Darker background for icon bubble */
+  color: var(--text); /* White icon */
+  margin-bottom: 10px;
 }
-
 .feature-card h3 {
-  margin: 0 0 12px;
-  font-size: 1.25rem;            /* ใหญ่ขึ้นชัด */
-  font-weight: 600;
-  color: #111;
-  line-height: 1.4;
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: var(--accent); /* Accent color for feature titles */
 }
-
 .feature-card p {
-  margin: 0 auto;
-  max-width: 260px;              /* จำกัดความกว้างให้ไม่ยาวเกิน */
-  color: #333;
-  font-size: 1rem;               /* ตัวอักษรอ่านง่ายขึ้น */
-  line-height: 1.5;
+  margin: 0;
+  color: var(--muted); /* Muted color for feature descriptions */
 }
-
 .feature-card .card-edge {
-  display: none;
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 10px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .06), transparent);
 }
-
-
 
 /* ===== Split sections ===== */
 .section.alt { /* Targeting .section.alt specifically */
-  background: white; /* Slightly lighter background for alternate sections */
+  background: var(--surface); /* Slightly lighter background for alternate sections */
 }
-
-
-
-
-
-.section.section p {
-  color: #000;
-}
-
-
 .split {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: center;
 }
-
-/* แก้ */
-.split.reverse { 
-  background: white;
+.split.reverse {
   /* Using Bootstrap's flex-row-reverse for smaller screens, if applicable,
      otherwise this remains for larger screens. */
 }
 .text h3 {
   margin: 0 0 8px;
   font-size: 1.75rem; /* Larger font size for split section titles */
-  color: black;
+  color: var(--text);
 }
-
-/*แก้*/
 .link-accent {
-  color: #0dcaf0;
+  color: var(--accent);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 .link-accent:hover {
-  color: #596061; /* Slightly brighter accent on hover */
+  filter: brightness(1.2); /* Slightly brighter accent on hover */
 }
 .nowrap {
   white-space: nowrap;
@@ -362,6 +325,7 @@ a {
 .footer {
   border-top: 1px solid var(--stroke);
   background: var(--surface); /* Using variable for footer background */
+  margin-top: 24px;
   padding: 28px 0; /* Adding top/bottom padding */
 }
 .f-top {
@@ -384,7 +348,7 @@ a {
   /* If you need to color an SVG: fill: var(--accent); */
 }
 .logo .accent { /* For the specific 'jai' part in the footer brand */
-  color: #0dcaf0 ;
+  color: var(--accent);
 }
 .brandline p {
   color: var(--muted); /* Muted for branding text */
