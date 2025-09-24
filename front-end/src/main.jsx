@@ -17,7 +17,10 @@ const router = createBrowserRouter([
   { path: "/register", element: <Register/> },
   { path: "/visainfo", element: <Visainfo/> },
   { path: "/homelogin", element: <Homelogin/> },
-  { path: "/visaresult", element: <VisaResult/> }
+  { path: "/visaresult", element: <VisaResult/> },
+  {
+    path:"/accomodation",element:<Accomodation/>
+  }
 ]);
 
 const rootElement = document.getElementById('root');
