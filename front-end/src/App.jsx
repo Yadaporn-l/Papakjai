@@ -1,11 +1,11 @@
-<<<<<<< HEAD
+
 import './App.css';
 import { Link } from 'react-router-dom';
 import { useUserAuth } from './context/UserAuthContext';
 import Footer from './components/footer.jsx';
 import Navhome from './components/navhome.jsx';
 
-=======
+
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -15,22 +15,22 @@ import './App.css'
 import Footer from './components/footer.jsx'
 import Navhome from './components/navhome.jsx'
 
->>>>>>> fb434852bfc3fd61802596994da48cfb5c8b81d2
+
 function App() {
   return (
     <>
       <Navhome/>
 
-<<<<<<< HEAD
+
       {/* Optional: email verification banner */}
       {user && user.email && !user.emailVerified && (
         <div className="alert alert-warning text-center m-0">
           Please verify your email ({user.email}) to unlock all features.
         </div>
       )}
-=======
+
          {/* Feature icons row */}
->>>>>>> fb434852bfc3fd61802596994da48cfb5c8b81d2
+
 
 
       
