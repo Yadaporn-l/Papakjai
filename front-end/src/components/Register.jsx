@@ -13,6 +13,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false); // เพิ่ม state สำหรับ modal
   const [userEmail, setUserEmail] = useState(""); // เพิ่ม state สำหรับเก็บ email ที่ส่งไป
+  const [pendingUser, setPendingUser] = useState(null); // เก็บ user ที่รอ verification
   const { signUp, sendVerificationEmail, user } = useUserAuth(); // เพิ่ม user ใน destructuring
   const navigate = useNavigate();
 
@@ -71,9 +72,27 @@ export default function Register() {
           await sendVerificationEmail(userCredential.user);
           console.log("Verification email sent successfully");
           
+          // เก็บ user ไว้สำหรับการลบหากไม่ verify ภายในเวลาที่กำหนด
+          setPendingUser(userCredential.user);
+          
           // แสดง modal แทนการแสดง success message
           setUserEmail(userCredential.user.email);
           setShowModal(true);
+          
+          // ตั้งเวลาสำหรับลบ user ที่ไม่ verify (เช่น 30 นาที)
+          setTimeout(async () => {
+            try {
+              // ตรวจสอบว่า user ยัง verify หรือไม่
+              await userCredential.user.reload();
+              if (!userCredential.user.emailVerified) {
+                console.log("User did not verify email within time limit, deleting account");
+                await userCredential.user.delete();
+                console.log("Unverified user account deleted");
+              }
+            } catch (error) {
+              console.error("Error in cleanup process:", error);
+            }
+          }, 30 * 60 * 1000); // 30 นาที
           
         } catch (emailError) {
           console.error("Failed to send verification email:", emailError);
@@ -216,30 +235,35 @@ export default function Register() {
 
         {/* Modal แจ้งเตือนการส่ง email verification */}
         <Modal show={showModal} onHide={handleCloseModal} centered>
-          <Modal.Header closeButton className="bg-success text-white">
+          <Modal.Header closeButton className="bg-warning text-dark">
             <Modal.Title>
-              <i className="bi bi-check-circle me-2"></i>
-              Email Verification Sent!
+              <i className="bi bi-exclamation-circle me-2"></i>
+              Email Verification Required
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="text-center py-4">
             <div className="mb-3">
-              <i className="bi bi-envelope-check" style={{ fontSize: '3rem', color: '#28a745' }}></i>
+              <i className="bi bi-envelope-exclamation" style={{ fontSize: '3rem', color: '#ffc107' }}></i>
             </div>
-            <h5 className="mb-3">Registration Successful!</h5>
+            <h5 className="mb-3">Verify Your Email to Complete Registration</h5>
             <p className="mb-3">
               We've sent a verification email to:
             </p>
-            <div className="alert alert-info">
+            <div className="alert alert-warning">
               <strong>{userEmail}</strong>
             </div>
+            <div className="alert alert-danger">
+              <small>
+                <strong>Important:</strong> Your account will be automatically deleted if not verified within 30 minutes for security reasons.
+              </small>
+            </div>
             <p className="text-muted small">
-              Please check your email (including spam folder) and click the verification link to activate your account.
+              Please check your email (including spam folder) and click the verification link. After verification, return to the login page.
             </p>
           </Modal.Body>
           <Modal.Footer className="justify-content-center">
-            <Button variant="success" onClick={handleCloseModal} size="lg">
-              Got it! Go to Login
+            <Button variant="primary" onClick={handleCloseModal} size="lg">
+              I'll Verify My Email
             </Button>
           </Modal.Footer>
         </Modal>

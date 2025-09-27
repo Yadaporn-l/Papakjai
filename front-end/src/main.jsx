@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 // import './App.css'
 import App from './App.jsx'
+import EmailVerificationGuard from './components/EmailVerificationGuard.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx' // ชื่อให้ตรง
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/homelogin",
-    element: <Homelogin/>
+    element: 
+    <EmailVerificationGuard>
+      <Homelogin/>
+    </EmailVerificationGuard>
+    
   },
   {
     path: "/accomodation",

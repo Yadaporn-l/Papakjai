@@ -1,163 +1,218 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Alert, Button, Row, Col } from 'react-bootstrap';
+import { Form, Alert, Button, Spinner, Modal } from 'react-bootstrap';
 import { useUserAuth } from "../context/UserAuthContext";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    
-    const { signIn, signInWithGoogle, resetPassword } = useUserAuth();
-    let navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [unverifiedUser, setUnverifiedUser] = useState(null);
+  
+  const { signIn, sendVerificationEmail, logOut } = useUserAuth();
+  const navigate = useNavigate();
 
-    // เข้าสู่ระบบแบบปกติ (อีเมล/รหัสผ่าน)
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const userCredential = await signIn(email, password);
+      const user = userCredential.user;
+      
+      console.log("User signed in:", user);
+      console.log("Email verified:", user.emailVerified);
+      
+      // ตรวจสอบว่า email ถูก verify แล้วหรือไม่
+      if (!user.emailVerified) {
+        console.log("Email not verified, signing out user");
         
-        try {
-            await signIn(email, password);
-            navigate("/homelogin");
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // เข้าสู่ระบบด้วย Google
-    const handleGoogleSignIn = async () => {
-        setError("");
-        setLoading(true);
+        // Sign out ผู้ใช้ทันที
+        await logOut();
         
-        try {
-            await signInWithGoogle();
-            navigate("/homelogin");
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+        // เก็บข้อมูลผู้ใช้ไว้สำหรับส่ง email verification ใหม่
+        setUnverifiedUser(user);
+        setShowVerificationModal(true);
+        setError(""); // ล้าง error message
+      } else {
+        // Email ถูก verify แล้ว - อนุญาตให้เข้าสู่ระบบ
+        console.log("Email verified, redirecting to dashboard");
+        navigate("/homelogin"); // หรือหน้าที่ต้องการ
+      }
+      
+    } catch (err) {
+      console.error("Login error:", err);
+      
+      switch (err.code) {
+        case "auth/user-not-found":
+          setError("No account found with this email address.");
+          break;
+        case "auth/wrong-password":
+          setError("Incorrect password.");
+          break;
+        case "auth/invalid-email":
+          setError("Invalid email address.");
+          break;
+        case "auth/user-disabled":
+          setError("This account has been disabled.");
+          break;
+        case "auth/too-many-requests":
+          setError("Too many failed login attempts. Please try again later.");
+          break;
+        default:
+          setError("Login failed. Please try again.");
+          break;
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-
-    // รีเซ็ตรหัสผ่าน
-    const handleReset = async () => {
-        if (!email) {
-            setError("กรุณาใส่อีเมลก่อนกดรีเซ็ตรหัสผ่าน");
-            return;
-        }
-        setError("");
+  const handleResendVerification = async () => {
+    if (unverifiedUser) {
+      try {
         setLoading(true);
+        await sendVerificationEmail(unverifiedUser);
+        console.log("Verification email resent successfully");
         
-        try {
-            await resetPassword(email);
-            alert("ส่งอีเมลรีเซ็ตรหัสผ่านแล้ว! กรุณาตรวจสอบใน inbox ของคุณ");
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+        // แสดงข้อความสำเร็จ
+        setError("");
+        alert("Verification email sent! Please check your email and try logging in again after verification.");
+        
+      } catch (error) {
+        console.error("Failed to resend verification email:", error);
+        setError("Failed to send verification email. Please try again later.");
+      } finally {
+        setLoading(false);
+        setShowVerificationModal(false);
+        setUnverifiedUser(null);
+      }
+    }
+  };
 
-    return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-            <div className="p-4 rounded bg-white shadow-sm" style={{ width: '400px' }}>
-                <h2 className='mb-4 text-center'>เข้าสู่ระบบ</h2>
-                
-                {error && <Alert variant='danger'>{error}</Alert>}
+  const handleCloseVerificationModal = () => {
+    setShowVerificationModal(false);
+    setUnverifiedUser(null);
+  };
 
-                {/* Social Login Buttons
-                <div className="mb-3">
-                    <Row className="g-2">
-                        <Col>
-                            <Button 
-                                variant="outline-danger" 
-                                className="w-100 d-flex align-items-center justify-content-center"
-                                onClick={handleGoogleSignIn}
-                                disabled={loading}
-                            >
-                                <i className="fab fa-google me-2"></i>
-                                Google
-                            </Button>
-                        </Col>
-                      
-                    </Row>
-                </div> */}
+  return (
+    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+      <div className="p-4 rounded bg-white shadow-sm" style={{ width: '350px' }}>
+        <h2 className="mb-3 text-center">Login</h2>
+        
+        {error && <Alert variant='danger'>{error}</Alert>}
+        
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </Form.Group>
+          
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </Form.Group>
+          
+          <div className="d-grid gap-2">
+            <Button 
+              variant="primary" 
+              type="submit" 
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  <span className="ms-2">Signing In...</span>
+                </>
+              ) : (
+                "Sign In"
+              )}
+            </Button>
+          </div>
+          
+          <div className="mt-3 text-center">
+            <Link to="/forgot-password" className="text-decoration-none">
+              Forgot Password?
+            </Link>
+          </div>
+          
+          <div className="mt-2 text-center">
+            Don't have an account? <Link to="/register">Sign up</Link>
+          </div>
+        </Form>
 
-                {/* Divider */}
-                {/* <div className="text-center mb-3 position-relative">
-                    <hr />
-                    <span className="bg-white px-3 text-muted position-absolute top-50 start-50 translate-middle">
-                        หรือ
-                    </span>
-                </div> */}
-
-                {/* Email/Password Form */}
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>อีเมล</Form.Label>
-                        <Form.Control
-                            type='email'
-                            placeholder="ใส่อีเมลของคุณ"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>รหัสผ่าน</Form.Label>
-                        <Form.Control
-                            type='password'
-                            placeholder="ใส่รหัสผ่าน"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-
-                    
-
-                    <div className="d-grid gap-2">
-                        <Button 
-                            variant='primary' 
-                            type='submit'
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <>
-                                    <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                                    กำลังเข้าสู่ระบบ...
-                                </>
-                            ) : (
-                                'เข้าสู่ระบบ'
-                            )}
-                        </Button>
-                    </div>
-
-                    {/* Forgot Password */}
-                    <div className="mt-3 text-center">
-                        <Button 
-                            variant="link" 
-                            onClick={handleReset}
-                            disabled={loading}
-                            className="p-0 text-decoration-none"
-                        >
-                            ลืมรหัสผ่าน?
-                        </Button>
-                    </div>
-
-                    {/* Register Link */}
-                    <div className="p-3 box mt-3 text-center border-top">
-                        ยังไม่มีบัญชี? <Link to="/register" className="text-decoration-none">สมัครสมาชิก</Link>
-                    </div>
-                </Form>
+        {/* Modal แจ้งเตือนให้ verify email */}
+        <Modal show={showVerificationModal} onHide={handleCloseVerificationModal} centered>
+          <Modal.Header closeButton className="bg-warning text-dark">
+            <Modal.Title>
+              <i className="bi bi-exclamation-triangle me-2"></i>
+              Email Verification Required
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center py-4">
+            <div className="mb-3">
+              <i className="bi bi-envelope-x" style={{ fontSize: '3rem', color: '#ffc107' }}></i>
             </div>
-        </div>
-    );
+            <h5 className="mb-3">Please Verify Your Email</h5>
+            <p className="mb-3">
+              Your email address has not been verified yet. You need to verify your email before you can sign in.
+            </p>
+            <div className="alert alert-warning">
+              <strong>{unverifiedUser?.email}</strong>
+            </div>
+            <p className="text-muted small">
+              Check your email (including spam folder) for the verification link, or click below to resend it.
+            </p>
+          </Modal.Body>
+          <Modal.Footer className="justify-content-center">
+            <Button 
+              variant="warning" 
+              onClick={handleResendVerification}
+              disabled={loading}
+              className="me-2"
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm" className="me-2" />
+                  Sending...
+                </>
+              ) : (
+                "Resend Verification Email"
+              )}
+            </Button>
+            <Button 
+              variant="secondary" 
+              onClick={handleCloseVerificationModal}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    </div>
+  );
 }
