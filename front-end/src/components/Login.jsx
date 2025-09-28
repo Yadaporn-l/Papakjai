@@ -11,7 +11,7 @@ export default function Login() {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(null);
   
-  const { signIn, sendVerificationEmail, logOut } = useUserAuth();
+  const { signIn, sendVerificationEmail, logOut, saveUserToFirestore } = useUserAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -38,9 +38,19 @@ export default function Login() {
         setShowVerificationModal(true);
         setError(""); // ล้าง error message
       } else {
-        // Email ถูก verify แล้ว - อนุญาตให้เข้าสู่ระบบ
-        console.log("Email verified, redirecting to dashboard");
-        navigate("/homelogin"); // หรือหน้าที่ต้องการ
+        // Email ถูก verify แล้ว - บันทึกข้อมูลลง Firestore และอนุญาตให้เข้าสู่ระบบ
+        console.log("Email verified, saving user data to Firestore");
+        
+        try {
+          // บันทึกข้อมูล user ลง Firestore
+          await saveUserToFirestore(user);
+          console.log("User data saved, redirecting to dashboard");
+          navigate("/homelogin"); // หรือหน้าที่ต้องการ
+        } catch (firestoreError) {
+          console.error("Error saving user data:", firestoreError);
+          // แม้ว่าจะบันทึกไม่สำเร็จ ก็ยังให้เข้าสู่ระบบได้
+          navigate("/login");
+        }
       }
       
     } catch (err) {
@@ -51,7 +61,8 @@ export default function Login() {
           setError("No account found with this email address.");
           break;
         case "auth/wrong-password":
-          setError("Incorrect password.");
+        case "auth/invalid-credential":
+          setError("Invalid email or password. Please check your credentials and try again.");
           break;
         case "auth/invalid-email":
           setError("Invalid email address.");
