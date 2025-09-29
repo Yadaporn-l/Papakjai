@@ -221,7 +221,7 @@ export default function Register() {
           </div>
           
           {/* Debug Button - เอาออกหลังจากแก้ไขเสร็จ */}
-          <div className="mt-3 text-center">
+          {/* <div className="mt-3 text-center">
             <Button 
               variant="outline-secondary" 
               size="sm" 
@@ -230,7 +230,7 @@ export default function Register() {
             >
               Test Email Verification
             </Button>
-          </div>
+          </div> */}
         </Form>
 
         {/* Modal แจ้งเตือนการส่ง email verification */}
