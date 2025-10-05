@@ -167,18 +167,26 @@ app.post('/api/videos/favorite', async (req, res) => {
 // ============================================
 // 3. API: Get User's Favorites
 // ============================================
+// ✅ แก้ไขแล้ว
 app.get('/api/videos/favorites/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-
+    
+    // ลบ .orderBy() ออก
     const snapshot = await db.collection('favorites')
       .where('userId', '==', userId)
-      .orderBy('createdAt', 'desc')
       .get();
-
+    
     const favorites = [];
     snapshot.forEach(doc => {
       favorites.push({ id: doc.id, ...doc.data() });
+    });
+
+    // เรียงลำดับด้วย JavaScript แทน
+    favorites.sort((a, b) => {
+      const timeA = a.createdAt?._seconds || a.createdAt?.seconds || 0;
+      const timeB = b.createdAt?._seconds || b.createdAt?.seconds || 0;
+      return timeB - timeA; // ใหม่ไปเก่า
     });
 
     res.json({
@@ -187,13 +195,13 @@ app.get('/api/videos/favorites/:userId', async (req, res) => {
     });
 
   } catch (error) {
+    console.error('Error fetching favorites:', error);
     res.status(500).json({
       success: false,
       error: error.message
     });
   }
 });
-
 // ============================================
 // 4. API: Remove Favorite
 // ============================================
