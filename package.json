@@ -1,0 +1,16 @@
+{
+  "name": "papakjai",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "front-end",
+    "backend"
+  ],
+  "scripts": {
+    "start": "concurrently \"npm run dev -w backend\" \"npm run dev -w front-end\"",
+    "dev": "npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

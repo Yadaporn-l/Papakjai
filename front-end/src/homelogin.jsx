@@ -205,7 +205,7 @@ export default function HomeLogin() {
         <div className="container">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
             <div>
-              <h1 className="h2 fw-bold mb-2">🌏 Travel Video Guide</h1>
+              <h1 className="text-black h2 fw-bold mb-2">🌏 Travel Video Guide</h1>
               <p className="mb-0 opacity-90">ค้นพบสถานที่ท่องเที่ยวผ่านคลิปวิดีโอคุณภาพสูง</p>
             </div>
             
@@ -371,7 +371,7 @@ export default function HomeLogin() {
                   <option value="relevance">📊 เกี่ยวข้องมากสุด</option>
                   <option value="date">🆕 ล่าสุด</option>
                   <option value="viewCount">👁️ ยอดวิวสูงสุด</option>
-                  <option value="rating">⭐ คะแนนสูงสุด</option>
+                  {/* <option value="rating">⭐ คะแนนสูงสุด</option> */}
                 </select>
               </div>
             </div>
@@ -396,7 +396,8 @@ export default function HomeLogin() {
             <div className="row g-4">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="col-12 col-sm-6 col-md-4 col-lg-3">
-                  <SkeletonCard />
+                  <SkeletonCard /> {/*ไล่การ์ดวีดีโอ  */}
+                  
                 </div>
               ))}
             </div>
@@ -501,6 +502,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
           </div>
         </div>
         
+        {/* ถูกใจบนสุด */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -534,7 +536,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
           </svg>
           {snippet.publishedAt ? timeAgo(snippet.publishedAt) : '...'}
         </p>
-        
+        {/*  ดูบน YouTube ปุ่ม */}
         <div className="mt-auto d-flex gap-2">
           <a 
             href={`https://www.youtube.com/watch?v=${videoId}`} 
@@ -549,7 +551,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
             </svg>
             ดูบน YouTube
           </a>
-          
+          {/*  ปุ่มถูกใจข้างยูทูป */}
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -564,8 +566,10 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
         </div>
       </div>
       
+      {/* การด์วีดีโอ */}
       <style jsx>{`
         .video-card {
+          background: pink;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .video-card:hover {
