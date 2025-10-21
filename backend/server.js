@@ -1,4 +1,4 @@
-// server.js - Backend API with Firebase
+// server.js - Backend API with Firebase and Pagination
 const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
@@ -6,17 +6,14 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-// Load environment variables
 require('dotenv').config();
 
-// Check YouTube API Key
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 if (!YOUTUBE_API_KEY) {
   console.error('❌ Error: YOUTUBE_API_KEY is required in environment variables');
   process.exit(1);
 }
 
-// Check Service Account file
 const serviceAccountPath = path.join(__dirname, 'serviceAccountKey.json');
 if (!fs.existsSync(serviceAccountPath)) {
   console.error('❌ Error: Service account file not found at:', serviceAccountPath);
@@ -26,26 +23,18 @@ if (!fs.existsSync(serviceAccountPath)) {
 
 var serviceAccount = require(serviceAccountPath);
 
-// Initialize Express
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Initialize Firebase Admin
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
-  // ถ้าคุณใช้ Realtime Database ให้เพิ่ม:
-  // databaseURL: "https://papakjai-eda88.firebaseio.com"
 });
 
 const db = admin.firestore();
 
-// YouTube API Key
-
-// ... REST OF YOUR CODE REMAINS THE SAME ...
-
 // ============================================
-// 1. API: Search Videos with Cache
+// 1. API: Search Videos with Cache & Pagination
 // ============================================
 app.get('/api/videos/search', async (req, res) => {
   try {
@@ -55,34 +44,35 @@ app.get('/api/videos/search', async (req, res) => {
       region = 'all', 
       duration = 'any',
       sortBy = 'relevance',
-      maxResults = 24 
+      maxResults = 24,
+      pageToken = null  // ✅ รับ pageToken สำหรับ pagination
     } = req.query;
 
-    // สร้าง cache key
-    const cacheKey = `${query}_${category}_${region}_${duration}_${sortBy}`;
-    
-    // 1. เช็ค Cache ใน Firebase
-    const cacheRef = db.collection('videoCache').doc(cacheKey);
-    const cacheDoc = await cacheRef.get();
-    
-    // ถ้ามี cache และยังไม่หมดอายุ (24 ชั่วโมง)
-    if (cacheDoc.exists) {
-      const cacheData = cacheDoc.data();
-      const now = Date.now();
-      const cacheAge = now - cacheData.timestamp;
+    // ถ้ามี pageToken = ไม่ใช้ cache (เพราะเป็นการโหลดหน้าถัดไป)
+    if (!pageToken) {
+      const cacheKey = `${query}_${category}_${region}_${duration}_${sortBy}`;
+      const cacheRef = db.collection('videoCache').doc(cacheKey);
+      const cacheDoc = await cacheRef.get();
       
-      if (cacheAge < 24 * 60 * 60 * 1000) { // 24 hours
-        console.log('📦 Returning cached data');
-        return res.json({
-          success: true,
-          data: cacheData.videos,
-          cached: true,
-          timestamp: cacheData.timestamp
-        });
+      if (cacheDoc.exists) {
+        const cacheData = cacheDoc.data();
+        const now = Date.now();
+        const cacheAge = now - cacheData.timestamp;
+        
+        if (cacheAge < 24 * 60 * 60 * 1000) {
+          console.log('📦 Returning cached data');
+          return res.json({
+            success: true,
+            data: cacheData.videos,
+            nextPageToken: cacheData.nextPageToken || null,
+            cached: true,
+            timestamp: cacheData.timestamp
+          });
+        }
       }
     }
 
-    // 2. ดึงข้อมูลจาก YouTube API
+    // ดึงข้อมูลจาก YouTube API
     console.log('🔍 Fetching from YouTube API...');
     const searchQuery = buildSearchQuery(query, category, region);
     
@@ -96,28 +86,41 @@ app.get('/api/videos/search', async (req, res) => {
       key: YOUTUBE_API_KEY
     });
 
+    // ✅ เพิ่ม pageToken ถ้ามี
+    if (pageToken) {
+      params.append('pageToken', pageToken);
+    }
+
     const youtubeUrl = `https://www.googleapis.com/youtube/v3/search?${params}`;
     const response = await axios.get(youtubeUrl);
 
-    // 3. บันทึก Cache ลง Firebase
-    await cacheRef.set({
-      videos: response.data.items,
-      timestamp: Date.now(),
-      query: searchQuery,
-      filters: { category, region, duration, sortBy }
-    });
+    const videos = response.data.items || [];
+    const nextPageToken = response.data.nextPageToken || null;
 
-    // 4. บันทึก Search History
-    await db.collection('searchHistory').add({
-      query: searchQuery,
-      filters: { category, region, duration, sortBy },
-      resultCount: response.data.items.length,
-      timestamp: admin.firestore.FieldValue.serverTimestamp()
-    });
+    // บันทึก Cache เฉพาะหน้าแรก (ไม่มี pageToken)
+    if (!pageToken) {
+      const cacheKey = `${query}_${category}_${region}_${duration}_${sortBy}`;
+      await db.collection('videoCache').doc(cacheKey).set({
+        videos: videos,
+        nextPageToken: nextPageToken,
+        timestamp: Date.now(),
+        query: searchQuery,
+        filters: { category, region, duration, sortBy }
+      });
+
+      // บันทึก Search History
+      await db.collection('searchHistory').add({
+        query: searchQuery,
+        filters: { category, region, duration, sortBy },
+        resultCount: videos.length,
+        timestamp: admin.firestore.FieldValue.serverTimestamp()
+      });
+    }
 
     res.json({
       success: true,
-      data: response.data.items,
+      data: videos,
+      nextPageToken: nextPageToken,
       cached: false
     });
 
@@ -167,12 +170,10 @@ app.post('/api/videos/favorite', async (req, res) => {
 // ============================================
 // 3. API: Get User's Favorites
 // ============================================
-// ✅ แก้ไขแล้ว
 app.get('/api/videos/favorites/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
     
-    // ลบ .orderBy() ออก
     const snapshot = await db.collection('favorites')
       .where('userId', '==', userId)
       .get();
@@ -182,11 +183,10 @@ app.get('/api/videos/favorites/:userId', async (req, res) => {
       favorites.push({ id: doc.id, ...doc.data() });
     });
 
-    // เรียงลำดับด้วย JavaScript แทน
     favorites.sort((a, b) => {
       const timeA = a.createdAt?._seconds || a.createdAt?.seconds || 0;
       const timeB = b.createdAt?._seconds || b.createdAt?.seconds || 0;
-      return timeB - timeA; // ใหม่ไปเก่า
+      return timeB - timeA;
     });
 
     res.json({
@@ -202,6 +202,7 @@ app.get('/api/videos/favorites/:userId', async (req, res) => {
     });
   }
 });
+
 // ============================================
 // 4. API: Remove Favorite
 // ============================================
@@ -231,7 +232,6 @@ app.get('/api/videos/popular', async (req, res) => {
   try {
     const { limit = 10 } = req.query;
 
-    // นับจำนวนครั้งที่ video ถูก favorite
     const snapshot = await db.collection('favorites').get();
     
     const videoCount = {};
@@ -248,7 +248,6 @@ app.get('/api/videos/popular', async (req, res) => {
       videoCount[videoId].count++;
     });
 
-    // เรียงลำดับตามความนิยม
     const popularVideos = Object.entries(videoCount)
       .sort((a, b) => b[1].count - a[1].count)
       .slice(0, parseInt(limit))
@@ -350,21 +349,17 @@ app.get('/api/videos/reviews/:videoId', async (req, res) => {
 // ============================================
 // Helper Functions
 // ============================================
-// server.js - Helper Functions (ส่วน buildSearchQuery)
-
 function buildSearchQuery(query, category, region) {
   let mandatoryKeywords = [];
   
-  // 1. คำหลักที่เกี่ยวกับ "การท่องเที่ยว" เสมอ
   mandatoryKeywords.push('travel', 'trip', 'guide', 'review'); 
 
-  // 2. คีย์เวิร์ดจาก Category
   const categoryQueries = {
     beach: 'beach resort',
     mountain: 'mountain hiking',
     city: 'city life tour',
     temple: 'temple shrine',
-    food: 'street food review', // เน้นรีวิวอาหารแทนคำว่า 'อาหาร' ลอยๆ
+    food: 'street food review',
     adventure: 'adventure activities',
     nature: 'nature park',
     shopping: 'shopping mall market'
@@ -374,10 +369,9 @@ function buildSearchQuery(query, category, region) {
     mandatoryKeywords.push(categoryQueries[category]);
   }
 
-  // 3. คีย์เวิร์ดจาก Region (สำหรับภาษา)
   const regionKeywords = {
     thailand: 'thailand (ภาษาไทย)', 
-    japan: 'japan (เที่ยวญี่ปุ่น)', // ใช้คำภาษาไทยเพื่อให้การค้นหาเอนเอียงไปทางคนไทย
+    japan: 'japan (เที่ยวญี่ปุ่น)',
     korea: 'korea (한국 여행)',
     singapore: 'singapore english vlog',
     vietnam: 'vietnam du lịch',
@@ -389,20 +383,16 @@ function buildSearchQuery(query, category, region) {
     mandatoryKeywords.push(regionKeywords[region]);
   }
   
-  // 4. รวมทุกอย่างเข้าด้วยกัน: [User Query] + [Mandatory Keywords]
-  
-  // ใช้คำค้นหาของผู้ใช้เป็นฐาน
   let finalQuery = query.trim();
 
-  // ถ้าผู้ใช้ไม่ได้ใส่คำค้นหาหลัก (เช่น กดแค่ Filter อย่างเดียว) ให้ใช้คำว่า 'Japan Travel' เป็นฐาน
   if (!finalQuery) {
-      finalQuery = 'Japan Travel';
+    finalQuery = 'Japan Travel';
   }
   
-  // นำคีย์เวิร์ดเสริมทั้งหมด (Category/Region) มาต่อท้าย
-  const additionalTerms = mandatoryKeywords.filter(term => term.toLowerCase() !== query.toLowerCase()).join(' ');
+  const additionalTerms = mandatoryKeywords
+    .filter(term => term.toLowerCase() !== query.toLowerCase())
+    .join(' ');
   
-  // สร้าง Query สุดท้าย
   const finalSearchString = `${finalQuery} ${additionalTerms}`;
 
   console.log(`Final YouTube Query: ${finalSearchString}`);
@@ -416,6 +406,8 @@ function buildSearchQuery(query, category, region) {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📺 YouTube API Key configured`);
+  console.log(`🔥 Firebase connected`);
 });
 
 module.exports = app;

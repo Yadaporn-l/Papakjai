@@ -2,19 +2,22 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/footer';
 import NavHome from './components/navhome';
-import { useUserAuth } from './context/UserAuthContext'; // เพิ่ม import
-import { useNavigate } from 'react-router-dom'; // ถ้าใช้ react-router
+import { useUserAuth } from './context/UserAuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function HomeLogin() {
-  const { user, logOut } = useUserAuth(); // ดึง user จาก context
-  const navigate = useNavigate(); // สำหรับ redirect
+  const { user, logOut } = useUserAuth();
+  const navigate = useNavigate();
   
   const [videos, setVideos] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [cached, setCached] = useState(false);
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
+  const [nextPageToken, setNextPageToken] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -25,15 +28,10 @@ export default function HomeLogin() {
   const [previewModal, setPreviewModal] = useState({ open: false, videoId: null });
 
   const API_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5000/api';
-  
-  // ✅ ใช้ userId จากผู้ใช้ที่ล็อกอินแทน
   const userId = user?.uid || null;
 
-  // ✅ เช็คว่า user ล็อกอินหรือยัง
   useEffect(() => {
     if (!user) {
-      // ถ้ายังไม่ล็อกอิน redirect ไปหน้า login
-      // navigate('/login');
       console.log('User not logged in');
     }
   }, [user]);
@@ -86,9 +84,18 @@ export default function HomeLogin() {
     } catch { return ''; }
   };
 
-  const fetchVideos = async () => {
-    setLoading(true);
+  const fetchVideos = async (pageToken = null) => {
+    if (pageToken) {
+      setLoadingMore(true);
+    } else {
+      setLoading(true);
+      setVideos([]);
+      setNextPageToken(null);
+      setHasMore(true);
+    }
+    
     setError('');
+    
     try {
       const params = new URLSearchParams({
         query: searchQuery || 'travel guide',
@@ -98,23 +105,35 @@ export default function HomeLogin() {
         sortBy: sortBy,
         maxResults: 24
       });
+      
+      if (pageToken) {
+        params.append('pageToken', pageToken);
+      }
+      
       const res = await fetch(`${API_URL}/videos/search?${params}`);
       const json = await res.json();
       
       if (!json.success) throw new Error(json.error || 'เกิดข้อผิดพลาด');
       
-      setVideos(json.data || []);
+      if (pageToken) {
+        setVideos(prev => [...prev, ...(json.data || [])]);
+      } else {
+        setVideos(json.data || []);
+      }
+      
+      setNextPageToken(json.nextPageToken || null);
+      setHasMore(Boolean(json.nextPageToken));
       setCached(Boolean(json.cached));
     } catch (e) {
       console.error(e);
       setError(e.message || 'โหลดข้อมูลไม่สำเร็จ');
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
 
   const fetchFavorites = async () => {
-    // ✅ เช็คว่ามี userId หรือไม่
     if (!userId) {
       console.log('No user logged in');
       setFavorites([]);
@@ -139,10 +158,8 @@ export default function HomeLogin() {
   };
 
   const toggleFavorite = async (video) => {
-    // ✅ เช็คว่าล็อกอินหรือยัง
     if (!userId) {
       showToast('⚠️ กรุณาเข้าสู่ระบบก่อนใช้งานรายการโปรด');
-      // navigate('/login'); // redirect ไปหน้า login
       return;
     }
     
@@ -150,7 +167,6 @@ export default function HomeLogin() {
     const snippet = video.videoData || video.snippet;
     const isFav = favorites.some((f) => f.videoId === videoId);
 
-    // Optimistic update
     if (isFav) {
       setFavorites((prev) => prev.filter((f) => f.videoId !== videoId));
       showToast('❤️ ลบออกจากรายการโปรดแล้ว');
@@ -173,7 +189,7 @@ export default function HomeLogin() {
       }
     } catch (e) {
       console.error(e);
-      fetchFavorites(); // Rollback
+      fetchFavorites();
       showToast('❌ เกิดข้อผิดพลาด กรุณาลองใหม่');
     }
   };
@@ -184,11 +200,16 @@ export default function HomeLogin() {
     fetchVideos();
   };
 
+  const handleLoadMore = () => {
+    if (nextPageToken && !loadingMore) {
+      fetchVideos(nextPageToken);
+    }
+  };
+
   const listToRender = activeTab === 'search' ? videos : favorites;
 
   return (
     <div className="min-h-screen bg-light">
-      {/* Toast Notification */}
       {toast && (
         <div 
           className="position-fixed top-0 start-50 translate-middle-x mt-4 bg-dark text-white px-4 py-3 rounded shadow-lg"
@@ -200,7 +221,6 @@ export default function HomeLogin() {
 
       <NavHome />
 
-      {/* Header */}
       <header className="bg-gradient text-white py-4" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
         <div className="container">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
@@ -210,7 +230,6 @@ export default function HomeLogin() {
             </div>
             
             <div className="d-flex align-items-center gap-3">
-              {/* แสดงข้อมูล User */}
               {user && (
                 <div className="d-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2">
                   <div 
@@ -279,7 +298,6 @@ export default function HomeLogin() {
             </div>
           </div>
 
-          {/* Search Form */}
           {activeTab === 'search' && (
             <div className="row justify-content-center">
               <div className="col-lg-8">
@@ -314,11 +332,9 @@ export default function HomeLogin() {
         </div>
       </header>
 
-      {/* Filters */}
       {activeTab === 'search' && (
         <div className="bg-white border-bottom shadow-sm py-3 sticky-top" style={{ top: 0, zIndex: 1020 }}>
           <div className="container">
-            {/* Category Filters */}
             <div className="mb-3 overflow-auto">
               <div className="d-flex gap-2 pb-2" style={{ flexWrap: 'nowrap' }}>
                 {categories.map((cat) => (
@@ -335,7 +351,6 @@ export default function HomeLogin() {
               </div>
             </div>
 
-            {/* Dropdowns */}
             <div className="row g-2">
               <div className="col-md-4">
                 <select
@@ -371,7 +386,6 @@ export default function HomeLogin() {
                   <option value="relevance">📊 เกี่ยวข้องมากสุด</option>
                   <option value="date">🆕 ล่าสุด</option>
                   <option value="viewCount">👁️ ยอดวิวสูงสุด</option>
-                  {/* <option value="rating">⭐ คะแนนสูงสุด</option> */}
                 </select>
               </div>
             </div>
@@ -379,7 +393,6 @@ export default function HomeLogin() {
         </div>
       )}
 
-      {/* Content */}
       <div className="container py-4">
         {error && (
           <div className="alert alert-danger d-flex align-items-center" role="alert">
@@ -396,8 +409,7 @@ export default function HomeLogin() {
             <div className="row g-4">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="col-12 col-sm-6 col-md-4 col-lg-3">
-                  <SkeletonCard /> {/*ไล่การ์ดวีดีโอ  */}
-                  
+                  <SkeletonCard />
                 </div>
               ))}
             </div>
@@ -407,7 +419,7 @@ export default function HomeLogin() {
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h2 className="h4 mb-0">
                 {activeTab === 'search' 
-                  ? `พบ ${videos.length} วิดีโอ` 
+                  ? `พบ ${videos.length}${hasMore ? '+' : ''} วิดีโอ` 
                   : `รายการโปรดของคุณ (${favorites.length})`
                 }
               </h2>
@@ -432,22 +444,49 @@ export default function HomeLogin() {
                 </p>
               </div>
             ) : (
-              <div className="row g-4">
-                {listToRender.map((video, idx) => (
-                  <div 
-                    key={video.id?.videoId || video.videoId || idx} 
-                    className="col-12 col-sm-6 col-md-4 col-lg-3"
-                  >
-                    <VideoCard
-                      video={video}
-                      favorites={favorites}
-                      onFavorite={toggleFavorite}
-                      onPreview={(id) => setPreviewModal({ open: true, videoId: id })}
-                      timeAgo={timeAgo}
-                    />
+              <>
+                <div className="row g-4">
+                  {listToRender.map((video, idx) => (
+                    <div 
+                      key={video.id?.videoId || video.videoId || idx} 
+                      className="col-12 col-sm-6 col-md-4 col-lg-3"
+                    >
+                      <VideoCard
+                        video={video}
+                        favorites={favorites}
+                        onFavorite={toggleFavorite}
+                        onPreview={(id) => setPreviewModal({ open: true, videoId: id })}
+                        timeAgo={timeAgo}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Load More Button */}
+                {activeTab === 'search' && hasMore && (
+                  <div className="text-center mt-5">
+                    <button
+                      onClick={handleLoadMore}
+                      disabled={loadingMore}
+                      className="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm"
+                    >
+                      {loadingMore ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                          กำลังโหลด...
+                        </>
+                      ) : (
+                        <>
+                          <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" className="me-2">
+                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"/>
+                          </svg>
+                          โหลดเพิ่มเติม
+                        </>
+                      )}
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </>
         )}
@@ -455,7 +494,6 @@ export default function HomeLogin() {
 
       <Footer />
 
-      {/* Video Preview Modal */}
       {previewModal.open && (
         <BootstrapModal
           title="ดูตัวอย่างวิดีโอ"
@@ -474,8 +512,6 @@ export default function HomeLogin() {
     </div>
   );
 }
-
-// ==================== Components ====================
 
 function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
   const videoId = video.videoId || video?.id?.videoId;
@@ -502,7 +538,6 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
           </div>
         </div>
         
-        {/* ถูกใจบนสุด */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -536,37 +571,8 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
           </svg>
           {snippet.publishedAt ? timeAgo(snippet.publishedAt) : '...'}
         </p>
-        {/*  ดูบน YouTube ปุ่ม */}
-        <div className="mt-auto d-flex gap-2">
-          <a 
-            href={`https://www.youtube.com/watch?v=${videoId}`} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="btn btn-sm btn-primary flex-fill"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" className="me-1">
-              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-              <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
-            </svg>
-            ดูบน YouTube
-          </a>
-          {/*  ปุ่มถูกใจข้างยูทูป */}
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onFavorite(video);
-            }}
-            className={`btn btn-sm ${isFavorited ? 'btn-danger' : 'btn-outline-danger'}`}
-            style={{ minWidth: '44px' }}
-          >
-            {isFavorited ? '❤️' : '🤍'}
-          </button>
-        </div>
       </div>
       
-      {/* การด์วีดีโอ */}
       <style jsx>{`
         .video-card {
           background: pink;
@@ -604,10 +610,6 @@ function SkeletonCard() {
           <div className="placeholder col-10 mb-2"></div>
           <div className="placeholder col-7 mb-2"></div>
           <div className="placeholder col-6 mb-3"></div>
-          <div className="d-flex gap-2">
-            <div className="placeholder col-7" style={{ height: '32px' }}></div>
-            <div className="placeholder col-4" style={{ height: '32px' }}></div>
-          </div>
         </div>
       </div>
     </div>
