@@ -20,6 +20,7 @@ export default function HomeLogin() {
   const [hasMore, setHasMore] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [inputValue, setInputValue] = useState(''); 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedDuration, setSelectedDuration] = useState('any');
@@ -197,8 +198,10 @@ export default function HomeLogin() {
   const handleSearch = (e) => {
     e?.preventDefault?.();
     if (activeTab !== 'search') setActiveTab('search');
+    setSearchQuery(inputValue); // ✅ อัปเดตค่าที่ค้นหาเฉพาะตอนกด
     fetchVideos();
   };
+
 
   const handleLoadMore = () => {
     if (nextPageToken && !loadingMore) {
@@ -306,8 +309,8 @@ export default function HomeLogin() {
                     <span className="input-group-text bg-transparent border-0">🔎</span>
                     <input
                       type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSearch(e)}
                       placeholder="ค้นหาสถานที่ท่องเที่ยว เช่น Japan, Bali, Street Food..."
                       className="form-control border-0 shadow-none"
@@ -319,6 +322,7 @@ export default function HomeLogin() {
                     >
                       ค้นหา
                     </button>
+
                   </div>
                 </div>
                 {cached && (
@@ -418,11 +422,15 @@ export default function HomeLogin() {
           <>
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h2 className="h4 mb-0">
-                {activeTab === 'search' 
-                  ? `พบ ${videos.length}${hasMore ? '+' : ''} วิดีโอ` 
-                  : `รายการโปรดของคุณ (${favorites.length})`
-                }
+                {activeTab === 'search' ? (
+                  searchQuery
+                    ? `🎬 แสดงผลวิดีโอที่ค้นหา "${searchQuery}"`
+                    : '🔍 กรุณาค้นหาวิดีโอที่คุณต้องการ'
+                ) : (
+                  `รายการโปรดของคุณ (${favorites.length})`
+                )}
               </h2>
+
             </div>
 
             {listToRender.length === 0 ? (
