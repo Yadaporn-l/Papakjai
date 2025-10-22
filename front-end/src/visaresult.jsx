@@ -12,7 +12,6 @@ function AccordionItem({ title, fetchData, children }) {
   const handleClick = async () => {
     setOpen(!open);
 
-    // Fetch data only when opening for the first time
     if (!open && fetchData && !content) {
       setLoading(true);
       setError(null);
@@ -20,7 +19,7 @@ function AccordionItem({ title, fetchData, children }) {
         const data = await fetchData();
         setContent(data);
       } catch (err) {
-        setError('Failed to load data');
+        setError('Failed to load data. Please try again.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -37,7 +36,7 @@ function AccordionItem({ title, fetchData, children }) {
       {open && (
         <div className="accordion-content">
           {loading && <p>Loading...</p>}
-          {error && <p style={{color:'red'}}>{error}</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
           {content || children}
         </div>
       )}
@@ -50,33 +49,71 @@ export default function VisaResult() {
   const navigate = useNavigate();
   const { country, days } = location.state || { country: 'Australia', days: 30 };
 
-  // default data
-  const defaultInfo = {
-    documents: ["Passport", "Visa application form", "Photo"],
-    expenses: "$100/day (default)",
-    accommodationTips: "Book in advance, check reviews.",
-    otherTips: "Travel insurance recommended.",
-  };
+  // ✅ API Key FastForex
+  const EXCHANGE_RATE_API_KEY = "e4699491c5-a4c761eb38-t4k1jg";
 
-  // fetch function for Country Info
+  // --- START: API & Data functions ---
+
   const fetchCountryInfo = async () => {
     const res = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
     if (!res.ok) throw new Error(`Country not found: ${res.status}`);
     const data = await res.json();
     const c = data[0];
+    const currencyCode = Object.keys(c.currencies)[0];
+    const currencyName = c.currencies[currencyCode].name;
 
     return (
       <div>
         <p><strong>Official Name:</strong> {c.name.official}</p>
         <p><strong>Region:</strong> {c.region}</p>
         <p><strong>Subregion:</strong> {c.subregion || 'N/A'}</p>
-        <p><strong>Languages:</strong> {c.languages ? Object.values(c.languages).join(', ') : 'N/A'}</p>
-        <p><strong>Currency:</strong> {c.currencies ? Object.keys(c.currencies).join(', ') : 'N/A'}</p>
-        <p><strong>Timezones:</strong> {c.timezones ? c.timezones.join(', ') : 'N/A'}</p>
+        <p><strong>Languages:</strong> {Object.values(c.languages).join(', ')}</p>
+        <p><strong>Currency:</strong> {`${currencyName} (${currencyCode})`}</p>
+        <p><strong>Timezones:</strong> {c.timezones.join(', ')}</p>
         <p><strong>Population:</strong> {c.population.toLocaleString()}</p>
       </div>
     );
   };
+
+  const fetchFinancialInfo = async () => {
+    try {
+      // 1. ดึงข้อมูลประเทศเพื่อหาสกุลเงินและธง
+      const countryRes = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
+      if (!countryRes.ok) throw new Error("Could not find country to get currency.");
+      const countryData = await countryRes.json();
+      const currencyCode = Object.keys(countryData[0].currencies)[0];
+      const currencyName = countryData[0].currencies[currencyCode].name;
+      const flag = countryData[0].flags?.png;
+
+      // 2. ดึงอัตราแลกเปลี่ยน (base: THB) จาก FastForex
+      const exchangeRateRes = await fetch(`https://api.fastforex.io/fetch-one?from=THB&to=${currencyCode}&api_key=${EXCHANGE_RATE_API_KEY}`);
+      if (!exchangeRateRes.ok) throw new Error("Could not fetch exchange rates.");
+      const exchangeData = await exchangeRateRes.json();
+
+      // ✅ แก้ไขตรงนี้: ใช้ exchangeData.result
+      const rate = exchangeData?.result?.[currencyCode];
+      if (!rate) throw new Error(`Exchange rate not found for ${currencyCode}`);
+
+      return (
+        <div>
+          {flag && <img src={flag} alt={`${country} flag`} style={{ width: '80px', borderRadius: '8px' }} />}
+          <p>Currency of {country} คือ <strong>{currencyName} ({currencyCode})</strong></p>
+          <p>
+            💱 Current exchange rate:<br />
+            <strong>1 {currencyCode} ≈ {(1 / rate).toFixed(2)} THB</strong><br />
+            (or 1 THB ≈ {rate.toFixed(4)} {currencyCode})
+          </p>
+          <p><em>💡 Tip: It’s recommended to exchange money in advance for the best rate and to carry some cash as a backup.</em></p>
+        </div>
+      );
+
+    } catch (error) {
+      console.error("Error in fetchFinancialInfo:", error);
+      throw error;
+    }
+  };
+
+  // --- END: API & Data functions ---
 
   return (
     <div>
@@ -97,23 +134,19 @@ export default function VisaResult() {
 
       <div className="accordion">
         <AccordionItem title="📄 Important Documents">
-          {defaultInfo.documents.join(', ')}
+          {"Passport, Visa application form, Photo"}
         </AccordionItem>
 
-        <AccordionItem title={`ℹ️ ${country} Country Information`} fetchData={fetchCountryInfo}>
-          Loading...
-        </AccordionItem>
+        <AccordionItem title={`ℹ️ ${country} Country Information`} fetchData={fetchCountryInfo} />
 
-        <AccordionItem title="💰 Financial Management">
-          {defaultInfo.expenses}
-        </AccordionItem>
+        <AccordionItem title="💰 Financial Management" fetchData={fetchFinancialInfo} />
 
         <AccordionItem title="🏨 Accommodation Preparation">
-          {defaultInfo.accommodationTips}
+          Book in advance, check reviews.
         </AccordionItem>
 
         <AccordionItem title="➕ Other Preparations">
-          {defaultInfo.otherTips}
+          Travel insurance recommended.
         </AccordionItem>
       </div>
 
