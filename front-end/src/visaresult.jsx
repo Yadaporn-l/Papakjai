@@ -474,6 +474,59 @@ const fetchAccommodationData = async (country) => {
     return "Ensure your passport validity and basic travel essentials are ready.";
   };
   
+
+  // ฟังก์ชันใหม่สำหรับดึงข้อมูลคำแนะนำด้านสุขภาพ
+const fetchHealthAdvisory = async () => {
+  try {
+    const res = await fetch(`http://localhost:4000/api/health-notices?country=${encodeURIComponent(country)}`);
+    if (!res.ok) {
+      throw new Error('Could not fetch health notices.');
+    }
+    const data = await res.json();
+
+    // ✅ แก้ไขตรงนี้: แยกข้อความคำแนะนำแต่ละบรรทัดให้เป็นรายการ
+    const recommendations = data.recommendation
+      ? data.recommendation
+          .split(/[\n•\-]/) // แยกตาม newline หรือ bullet หรือ dash
+          .map(item => item.trim())
+          .filter(item => item.length > 0)
+      : ["No detailed recommendations available."];
+
+    return (
+      <div>
+        <h4>CDC Travel Health Notices</h4>
+        <ul style={{ paddingLeft: '20px' }}>
+          {recommendations.map((rec, index) => (
+            <li key={index}>{rec}</li>
+          ))}
+        </ul>
+        <p style={{ fontSize: '0.8em', opacity: 0.7 }}>
+          <em>
+            Source: U.S. Centers for Disease Control and Prevention. This is for reference only.
+            Consult a healthcare professional before traveling.
+          </em>
+        </p>
+      </div>
+    );
+
+  } catch (error) {
+    console.error("Error fetching health advisory:", error);
+
+    // ✅ เพิ่ม default ข้อมูลให้แสดงแบบลำดับด้วย
+    return (
+      <div>
+        <h4>Health Advisory</h4>
+        <ul style={{ paddingLeft: '20px' }}>
+          <li>Ensure you have travel insurance.</li>
+          <li>Stay up-to-date with routine vaccinations.</li>
+          <li>Check country-specific vaccine requirements with your doctor.</li>
+          <li>Prepare basic medicine (painkillers, fever reducer, etc.).</li>
+        </ul>
+      </div>
+    );
+  }
+};
+
   // --- END: API & Data functions ---
 
   return (
@@ -503,9 +556,9 @@ const fetchAccommodationData = async (country) => {
         fetchData={fetchFinancialInfo} />
         <AccordionItem title="🏨 Accommodation Preparation" 
         fetchData={() => fetchAccommodationData(country)} />
-        <AccordionItem title="➕ Other Preparations">
-          {getOtherPreparations(country, days)}
-        </AccordionItem>
+        <AccordionItem 
+          title="➕ Health & Other Preparations" 
+          fetchData={fetchHealthAdvisory} />
       </div>
 
       <button className="back-btn" onClick={() => navigate(-1)}>Back</button>
