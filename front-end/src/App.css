@@ -1,28 +1,17 @@
 /* ===== Base ===== */
 :root{
   --bg:#ffffff;
-  --surface:#0f141b;
-  --text:#f5f8ff;
-  --muted:#a7b3c6;
-  --stroke:#1f2a37;
+  --surface:#ffffff;   /* เดิมเป็น #0f141b ให้เปลี่ยนเป็นขาว */
+  --text:#1a1a1a;      /* เดิมเกือบขาว → มองไม่เห็นบนพื้นขาว */
+  --muted:#475569;     /* สีข้อความรอง เทาเข้มอ่านง่าย */
+  --stroke:#e5e7eb;    /* เส้นคั่น/ขอบอ่อน ๆ */
   --card:#ffffff;
-  --accent:#00d4b4;
-  --accent-2:#90e0ef;
-  --shadow:0 10px 25px rgba(0,0,0,.35);
+  --accent:#007aff;    /* โทนฟ้าโมเดิร์น (เปลี่ยนได้ตามแบรนด์) */
+  --accent-2:#22c55e;
+  --shadow:0 8px 20px rgba(0,0,0,.06);
 }
-
 /* ===== Base Variables ===== */
-:root {
-  --bg: #ffffff; /* Main dark background */
-  --surface: #0f141b; /* Slightly lighter dark for cards/surfaces */
-  --text: #f5f8ff; /* Primary text color */
-  --muted: #ffffff; /* Muted text color */
-  --stroke: #1f2a37; /* Borders and dividers */
-  --card: #ffffff; /* Card background */
-  --accent: #90e0ef; /* Primary vibrant green accent */
-  --accent-2: #90e0ef; /* Secondary accent (light blue) */
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.35); /* Soft shadow */
-}
+
 
 /* ===== Global Resets and Base Styles ===== */
 * {
@@ -33,7 +22,10 @@ html,
 body,
 #root { /* Ensure all parent elements allow content to fill height if needed */
   height: 100%;
+  font-family: 'Inter','Poppins','Noto Sans Thai',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color: var(--text); /* ใช้ตัวแปรที่เพิ่งเปลี่ยนเป็นสีเข้ม */
 }
+
 
 body {
   font-family: 'Poppins', system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
@@ -79,9 +71,9 @@ a {
 
 .section-title {
   margin: 0 0 16px;
-  font-size: 1.75rem; /* Increased font size for section titles */
+  font-size: 5.75rem; /* Increased font size for section titles */
   font-weight: 700;
-  color: var(--text); /* Generally white/text for titles */
+  color: black;
 }
 
 /* ===== Header (NavHome Component - Bootstrap Overrides) ===== */
@@ -121,10 +113,23 @@ a {
   vertical-align: middle; /* Align middle with text */
 }
 
-.feature-card h3{margin:0 0 8px; font-size:1rem}
-.feature-card p{margin:0; color:#b7c3d8}
+.feature-card h3{
+  margin:0 0 8px; 
+  font-size:1rem; 
+  color: white;
+}
+
+.feature-card p{
+  margin:0; 
+  color:#ffffff
+}
+  
 .feature-card .card-edge{
-  position:absolute; inset:auto 0 0 0; height:10px; border-bottom-left-radius:16px; border-bottom-right-radius:16px;
+  position: relative; 
+  inset:auto 0 0 0; 
+  height:10px; 
+  border-bottom-left-radius:16px;
+  border-bottom-right-radius:16px;
   background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
 }
 
@@ -239,6 +244,7 @@ a {
 .hero h1 {
   margin: 0 0 8px;
   font-size: 1.7rem;
+  color: white;
 }
 .hero .lead {
   max-width: 700px;
@@ -247,6 +253,7 @@ a {
   font-size: 16px;
   font-weight: 30px;
 }
+
 .cta-row {
   display: flex;
   gap: 10px;
@@ -263,9 +270,14 @@ a {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.feature-card .p {
+  color: white;
+}
+
 .feature-card {
   position: relative;
   background: #fff;
+  color: white;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 40px 24px;            /* padding มากขึ้น การ์ดดูกว้างโปร่ง */
@@ -333,7 +345,9 @@ a {
 
 
 .section.section p {
-  color: #000;
+  color: #bdbdbd;
+  font-size: 15px;
+  margin:0 auto;
 }
 
 
@@ -459,6 +473,7 @@ a {
 }
 .links h4 {
   margin: 0 0 8px;
+  font-size: 15px;
   color: var(--text); /* White for link section titles */
 }
 .links a {
