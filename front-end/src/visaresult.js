@@ -14,3 +14,5 @@ async function getExchangeRate() {
 }
 
 getExchangeRate();
+
+
