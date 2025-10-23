@@ -1,8 +1,8 @@
 /* ===== Base ===== */
 :root{
   --bg:#0b1118;
-  --surface:#0f141b;
-  --text:#f5f8ff;
+  --surface:#000000;
+  --text:#ffffff;
   --muted:#a7b3c6;
   --stroke:#1f2a37;
   --card:#0f151d;
@@ -33,6 +33,11 @@ body{
   margin:0 0 14px;
 }
 
+
+.d-flex .gap-2 .pb-2 {
+color: #000000;
+}
+
 /* Topbar */
 .topbar{
   position:sticky; top:0; z-index:50;
@@ -53,7 +58,7 @@ body{
 .menu a{
   color:var(--muted); text-decoration:none; font-weight:500; font-size:.92rem;
 }
-.menu a.active, .menu a:hover{color:#fff}
+.menu a.active, .menu a:hover{color:#000000}
 .actions{display:flex; gap:10px}
 .icon-btn,.avatar{
   background:transparent; color:#d6deea; border:1px solid var(--stroke);

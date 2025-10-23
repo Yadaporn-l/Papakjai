@@ -265,36 +265,10 @@ const [previewModal, setPreviewModal] = useState({
                     className="rounded-circle bg-white d-flex align-items-center justify-content-center"
                     style={{ width: '32px', height: '32px' }}
                   >
-                    {user.photoURL ? (
-                      <img 
-                        src={user.photoURL} 
-                        alt="User" 
-                        className="rounded-circle"
-                        style={{ width: '32px', height: '32px' }}
-                      />
-                    ) : (
-                      <span className="text-primary fw-bold">
-                        {user.displayName?.charAt(0) || user.email?.charAt(0) || '?'}
-                      </span>
-                    )}
+                   
                   </div>
-                  <span className="text-black small d-none d-md-inline">
-                    {user.displayName || user.email}
-                  </span>
-                  <button 
-                    onClick={() => {
-                      if (window.confirm('คุณต้องการออกจากระบบหรือไม่?')) {
-                        logOut();
-                        navigate('/login');
-                      }
-                    }}
-                    className="btn btn-sm btn-outline-light rounded-pill"
-                    title="ออกจากระบบ"
-                  >
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd"/>
-                    </svg>
-                  </button>
+  
+                  
                 </div>
               )}
               
@@ -371,7 +345,7 @@ const [previewModal, setPreviewModal] = useState({
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
                     className={`btn btn-sm rounded-pill flex-shrink-0 ${
-                      selectedCategory === cat.id ? 'btn-primary' : 'btn-outline-secondary'
+                      selectedCategory === cat.id ? 'btn-primary text-black' : 'btn-primary text-black'
                     }`}
                   >
                     {cat.label}
@@ -642,7 +616,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
             onFavorite(video);
           }}
           className={`position-absolute btn btn-sm rounded-circle favorite-btn ${
-            isFavorited ? 'btn-danger' : 'btn-light'
+            isFavorited ? 'btn-danger' : 'btn-primary text-black'
           }`}
           style={{ top: '10px', right: '10px', width: '40px', height: '40px' }}
         >
