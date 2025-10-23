@@ -1,32 +1,25 @@
 body{margin:0;font-family:Arial,sans-serif;
     background-color:#fff;}
-.navbar{background-color:#000;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:12px 40px;
-    color:#fff;}
+.navbar{background-color:#000;display:flex;justify-content:space-between;align-items:center;padding:12px 40px;color:#fff;}
 .navbar .logo{display:flex;align-items:center;color:#00c0d9;font-weight:bold;font-size:18px;}
 
-.brand{display:flex; 
-    align-items:center; 
-    gap:10px; 
-    color:black; text-decoration:none; font-weight:800}
+.brand{display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; font-weight:800}
 .brand img{width:26px;height:26px; filter: none; fill: #87CEEB;   /* works if SVG */}
 .brand .accent{color:var(--accent)}
 .navbar ul{list-style:none;display:flex;margin:0;padding:0;}
 .navbar ul li{margin:0 15px;}
 .navbar ul li a{text-decoration:none;color:white;}
-.navbar ul li a.active{color:#00c0d9;border-bottom:2px solid #00c0d9;padding-bottom:2px;}
 .navbar .signin{background-color:#00c0d9;padding:6px 15px;border-radius:5px;text-decoration:none;color:black;font-weight:bold;}
 
 .content{text-align:center;margin:50px auto;max-width:500px;}
 .content h1{font-size:24px;font-weight:bold;}
-.visa-box{background:#ffecec;padding:30px;border-radius:8px;margin-top:20px;}
+.visa-box{background:#ffecec;padding:40px;border-radius:8px;margin-top:20px;}
+
+
 
 .visa-box label{display:block;margin:10px 0 5px;font-weight:bold;text-align:left;}
 .visa-box select{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
-.visa-box input{width:95%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
+.visa-box input{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;}
 .visa-box button{background:black;color:white;padding:10px 20px;border:none;cursor:pointer;border-radius:5px;}
 .visa-box button:hover{background:#333;}
 
