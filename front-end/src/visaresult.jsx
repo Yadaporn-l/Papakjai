@@ -497,16 +497,14 @@ const fetchAccommodationData = async (country) => {
         <AccordionItem title="📄 Important Documents">
           {getDocumentAdvice(country)}
         </AccordionItem>
-
-        <AccordionItem title={`ℹ️ ${country} Country Information`} fetchData={fetchCountryInfo} />
-
-        <AccordionItem title="💰 Financial Management" fetchData={fetchFinancialInfo} />
-
-        <AccordionItem title="🏨 Accommodation Preparation" fetchData={() => fetchAccommodationData(country)} />
-
-
+        <AccordionItem title={`ℹ️ ${country} Country Information`} 
+        fetchData={fetchCountryInfo} />
+        <AccordionItem title="💰 Financial Management" 
+        fetchData={fetchFinancialInfo} />
+        <AccordionItem title="🏨 Accommodation Preparation" 
+        fetchData={() => fetchAccommodationData(country)} />
         <AccordionItem title="➕ Other Preparations">
-          Travel insurance recommended.
+          {getOtherPreparations(country, days)}
         </AccordionItem>
       </div>
 
