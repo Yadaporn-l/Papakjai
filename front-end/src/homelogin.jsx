@@ -8,27 +8,30 @@ import { useNavigate } from 'react-router-dom';
 export default function HomeLogin() {
   const { user, logOut } = useUserAuth();
   const navigate = useNavigate();
-  
+
   const [videos, setVideos] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false); // ✅ loading สำหรับปุ่ม "ดูเพิ่มเติม"
   const [cached, setCached] = useState(false);
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
-  const [nextPageToken, setNextPageToken] = useState(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [nextPageToken, setNextPageToken] = useState(null); // ✅ เก็บ token หน้าถัดไป
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [inputValue, setInputValue] = useState(''); 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedDuration, setSelectedDuration] = useState('any');
   const [sortBy, setSortBy] = useState('relevance');
   const [activeTab, setActiveTab] = useState('search');
-  const [previewModal, setPreviewModal] = useState({ open: false, videoId: null });
+const [previewModal, setPreviewModal] = useState({ 
+  open: false, 
+  videoId: null, 
+  videoData: null 
+});
 
   const API_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5000/api';
+  
   const userId = user?.uid || null;
 
   useEffect(() => {
@@ -36,6 +39,23 @@ export default function HomeLogin() {
       console.log('User not logged in');
     }
   }, [user]);
+
+  // ✅ Logout เมื่อปิดหน้าเว็บ
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (user) {
+        logOut();
+      }
+    };
+
+    // ฟังการปิดหน้าเว็บ
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [user, logOut]);
 
   const categories = [
     { id: 'all', label: '🌏 ทั้งหมด' }, 
@@ -62,7 +82,7 @@ export default function HomeLogin() {
 
   useEffect(() => {
     if (activeTab === 'search') {
-      fetchVideos();
+      fetchVideos(true); // true = reset (เริ่มต้นใหม่)
     } else {
       fetchFavorites();
     }
@@ -85,14 +105,16 @@ export default function HomeLogin() {
     } catch { return ''; }
   };
 
-  const fetchVideos = async (pageToken = null) => {
-    if (pageToken) {
+  // ✅ ปรับปรุง fetchVideos ให้รองรับ pagination
+  const fetchVideos = async (reset = false) => {
+    const isLoadingMore = !reset;
+    
+    if (isLoadingMore) {
       setLoadingMore(true);
     } else {
       setLoading(true);
-      setVideos([]);
+      setVideos([]); // ล้างวิดีโอเก่าถ้า reset
       setNextPageToken(null);
-      setHasMore(true);
     }
     
     setError('');
@@ -106,31 +128,36 @@ export default function HomeLogin() {
         sortBy: sortBy,
         maxResults: 24
       });
-      
-      if (pageToken) {
-        params.append('pageToken', pageToken);
+
+      // ✅ ถ้าโหลดเพิ่ม ให้ส่ง pageToken ไปด้วย
+      if (isLoadingMore && nextPageToken) {
+        params.append('pageToken', nextPageToken);
       }
-      
+
       const res = await fetch(`${API_URL}/videos/search?${params}`);
       const json = await res.json();
       
       if (!json.success) throw new Error(json.error || 'เกิดข้อผิดพลาด');
       
-      if (pageToken) {
+      // ✅ ถ้าโหลดเพิ่ม ให้เพิ่มวิดีโอเข้าไปในรายการเดิม
+      if (isLoadingMore) {
         setVideos(prev => [...prev, ...(json.data || [])]);
       } else {
         setVideos(json.data || []);
       }
       
-      setNextPageToken(json.nextPageToken || null);
-      setHasMore(Boolean(json.nextPageToken));
+      setNextPageToken(json.nextPageToken || null); // ✅ เก็บ token หน้าถัดไป
       setCached(Boolean(json.cached));
+      
     } catch (e) {
       console.error(e);
       setError(e.message || 'โหลดข้อมูลไม่สำเร็จ');
     } finally {
-      setLoading(false);
-      setLoadingMore(false);
+      if (isLoadingMore) {
+        setLoadingMore(false);
+      } else {
+        setLoading(false);
+      }
     }
   };
 
@@ -198,14 +225,13 @@ export default function HomeLogin() {
   const handleSearch = (e) => {
     e?.preventDefault?.();
     if (activeTab !== 'search') setActiveTab('search');
-    setSearchQuery(inputValue); // ✅ อัปเดตค่าที่ค้นหาเฉพาะตอนกด
-    fetchVideos();
+    fetchVideos(true); // true = reset
   };
 
-
+  // ✅ ฟังก์ชันโหลดเพิ่ม
   const handleLoadMore = () => {
     if (nextPageToken && !loadingMore) {
-      fetchVideos(nextPageToken);
+      fetchVideos(false); // false = load more
     }
   };
 
@@ -309,8 +335,8 @@ export default function HomeLogin() {
                     <span className="input-group-text bg-transparent border-0">🔎</span>
                     <input
                       type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSearch(e)}
                       placeholder="ค้นหาสถานที่ท่องเที่ยว เช่น Japan, Bali, Street Food..."
                       className="form-control border-0 shadow-none"
@@ -322,7 +348,6 @@ export default function HomeLogin() {
                     >
                       ค้นหา
                     </button>
-
                   </div>
                 </div>
                 {cached && (
@@ -375,7 +400,7 @@ export default function HomeLogin() {
                   className="form-select form-select-sm"
                 >
                   <option value="any">⏱️ ทุกความยาว</option>
-                  <option value="short">สั้น (&lt; 4 นาที)</option>
+                  <option value="short">สั้น (&lt; 4 นาทื)</option>
                   <option value="medium">ปานกลาง (4-20 นาที)</option>
                   <option value="long">ยาว (&gt; 20 นาที)</option>
                 </select>
@@ -422,15 +447,11 @@ export default function HomeLogin() {
           <>
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h2 className="h4 mb-0">
-                {activeTab === 'search' ? (
-                  searchQuery
-                    ? `🎬 แสดงผลวิดีโอที่ค้นหา "${searchQuery}"`
-                    : '🔍 กรุณาค้นหาวิดีโอที่คุณต้องการ'
-                ) : (
-                  `รายการโปรดของคุณ (${favorites.length})`
-                )}
+                {activeTab === 'search' 
+                  ? `พบ ${videos.length}${nextPageToken ? '+' : ''} วิดีโอ` 
+                  : `รายการโปรดของคุณ (${favorites.length})`
+                }
               </h2>
-
             </div>
 
             {listToRender.length === 0 ? (
@@ -459,24 +480,31 @@ export default function HomeLogin() {
                       key={video.id?.videoId || video.videoId || idx} 
                       className="col-12 col-sm-6 col-md-4 col-lg-3"
                     >
-                      <VideoCard
-                        video={video}
-                        favorites={favorites}
-                        onFavorite={toggleFavorite}
-                        onPreview={(id) => setPreviewModal({ open: true, videoId: id })}
-                        timeAgo={timeAgo}
-                      />
+                     <VideoCard
+                      video={video}
+                      favorites={favorites}
+                      onFavorite={toggleFavorite}
+                      onPreview={(id, data) => setPreviewModal({ open: true, videoId: id, videoData: data })}
+                      timeAgo={timeAgo}
+                    />
                     </div>
                   ))}
                 </div>
 
-                {/* Load More Button */}
-                {activeTab === 'search' && hasMore && (
-                  <div className="text-center mt-5">
+                {/* ✅ ปุ่มดูเพิ่มเติม - แสดงเฉพาะใน Search Tab และมี nextPageToken */}
+                {activeTab === 'search' && nextPageToken && (
+                  <div className="text-center mt-5 mb-4">
                     <button
                       onClick={handleLoadMore}
                       disabled={loadingMore}
-                      className="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm"
+                      className="btn btn-lg btn-primary px-5 py-3 rounded-pill shadow-sm"
+                      style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        border: 'none',
+                        transition: 'transform 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                      onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
                     >
                       {loadingMore ? (
                         <>
@@ -486,12 +514,28 @@ export default function HomeLogin() {
                       ) : (
                         <>
                           <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" className="me-2">
-                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"/>
+                            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd"/>
                           </svg>
-                          โหลดเพิ่มเติม
+                          ดูวิดีโอเพิ่มเติม 🎬
                         </>
                       )}
                     </button>
+                    <p className="text-muted small mt-3 mb-0">
+                      💡 คลิกเพื่อโหลดวิดีโอเพิ่มอีก 24 คลิป
+                    </p>
+                  </div>
+                )}
+
+                {/* ✅ แสดงข้อความเมื่อไม่มีวิดีโอเพิ่ม */}
+                {activeTab === 'search' && !nextPageToken && videos.length > 0 && (
+                  <div className="text-center mt-5 mb-4">
+                    <div className="text-muted">
+                      <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20" className="mb-2">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                      </svg>
+                      <p className="mb-0">✨ คุณได้ดูวิดีโอทั้งหมดแล้ว</p>
+                      <small>ลองค้นหาด้วยคำค้นหาอื่นเพื่อดูวิดีโอใหม่ๆ</small>
+                    </div>
                   </div>
                 )}
               </>
@@ -502,24 +546,41 @@ export default function HomeLogin() {
 
       <Footer />
 
-      {previewModal.open && (
-        <BootstrapModal
-          title="ดูตัวอย่างวิดีโอ"
-          onClose={() => setPreviewModal({ open: false, videoId: null })}
-        >
-          <div className="ratio ratio-16x9">
-            <iframe
-              src={`https://www.youtube.com/embed/${previewModal.videoId}?autoplay=1`}
-              title="YouTube video preview"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </BootstrapModal>
-      )}
+     {previewModal.open && (
+  <BootstrapModal
+    title="ดูตัวอย่างวิดีโอ"
+    onClose={() => setPreviewModal({ open: false, videoId: null, videoData: null })}
+  >
+    <div className="ratio ratio-16x9">
+      <iframe
+        src={`https://www.youtube.com/embed/${previewModal.videoId}?autoplay=1`}
+        title="YouTube video preview"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </div>
+    
+    {/* แสดงข้อมูลใต้วิดีโอ */}
+    {previewModal.videoData && (
+      <div className="p-3 bg-light">
+        <h5 className="fw-bold mb-2">{previewModal.videoData.title}</h5>
+        <p className="text-muted mb-0">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" className="me-1">
+            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+          </svg>
+          {previewModal.videoData.channelTitle}
+          
+        </p>
+        
+      </div>
+    )}
+  </BootstrapModal>
+)}
     </div>
   );
 }
+
+// ==================== Components ====================
 
 function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
   const videoId = video.videoId || video?.id?.videoId;
@@ -530,7 +591,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
   return (
     <div className="card h-100 shadow-sm border-0 video-card">
       <div className="position-relative video-thumbnail">
-        <div onClick={() => onPreview(videoId)} style={{ cursor: 'pointer' }}>
+      <div onClick={() => onPreview(videoId, snippet)} style={{ cursor: 'pointer' }}>
           <img 
             src={thumb} 
             alt={snippet.title} 
@@ -642,13 +703,16 @@ function BootstrapModal({ children, title, onClose }) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{title}</h5>
+              
               <button 
                 type="button" 
                 className="btn-close" 
                 onClick={onClose}
                 aria-label="Close"
               ></button>
+              
             </div>
+
             <div className="modal-body p-0">
               {children}
             </div>
