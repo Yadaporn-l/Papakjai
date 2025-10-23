@@ -546,10 +546,16 @@ const [previewModal, setPreviewModal] = useState({
 
       <Footer />
 
-     {previewModal.open && (
+{previewModal.open && (
   <BootstrapModal
     title="ดูตัวอย่างวิดีโอ"
     onClose={() => setPreviewModal({ open: false, videoId: null, videoData: null })}
+    videoData={{
+      ...previewModal.videoData,
+      videoId: previewModal.videoId
+    }}
+    onFavorite={toggleFavorite}
+    isFavorited={favorites.some((f) => f.videoId === previewModal.videoId)}
   >
     <div className="ratio ratio-16x9">
       <iframe
@@ -560,18 +566,40 @@ const [previewModal, setPreviewModal] = useState({
       />
     </div>
     
-    {/* แสดงข้อมูลใต้วิดีโอ */}
+    {/* แสดงข้อมูลใต้วิดีโอพร้อมปุ่ม */}
     {previewModal.videoData && (
       <div className="p-3 bg-light">
         <h5 className="fw-bold mb-2">{previewModal.videoData.title}</h5>
-        <p className="text-muted mb-0">
+        <p className="text-muted mb-3">
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" className="me-1">
             <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
           </svg>
           {previewModal.videoData.channelTitle}
-          
         </p>
-        
+
+        {/* ปุ่มบันทึกและแชร์ */}
+        <div className="d-flex gap-2">
+          <button
+            onClick={() => toggleFavorite({
+              videoId: previewModal.videoId,
+              videoData: previewModal.videoData
+            })}
+            className={`btn btn-sm rounded-pill ${
+              favorites.some((f) => f.videoId === previewModal.videoId) 
+                ? 'btn-danger' 
+                : 'btn-outline-danger'
+            }`}
+          >
+            {favorites.some((f) => f.videoId === previewModal.videoId) 
+              ? '❤️ บันทึกแล้ว' 
+              : '🤍 บันทึก'}
+          </button>
+
+          <ShareButton 
+            videoId={previewModal.videoId} 
+            videoTitle={previewModal.videoData.title} 
+          />
+        </div>
       </div>
     )}
   </BootstrapModal>
@@ -685,6 +713,90 @@ function SkeletonCard() {
   );
 }
 
+function ShareButton({ videoId, videoTitle }) {
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+
+  const handleShare = (platform) => {
+    const text = encodeURIComponent(videoTitle || 'Check out this video!');
+    const url = encodeURIComponent(videoUrl);
+    
+    const shareUrls = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+      line: `https://social-plugins.line.me/lineit/share?url=${url}`,
+      copy: videoUrl
+    };
+
+    if (platform === 'copy') {
+      navigator.clipboard.writeText(videoUrl);
+      alert('📋 คัดลอกลิงก์แล้ว!');
+      setShowShareMenu(false);
+    } else {
+      window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+      setShowShareMenu(false);
+    }
+  };
+
+  return (
+    <div className="position-relative">
+      <button
+        onClick={() => setShowShareMenu(!showShareMenu)}
+        className="btn btn-sm btn-outline-primary rounded-pill"
+      >
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" className="me-1">
+          <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
+        </svg>
+        แชร์
+      </button>
+
+      {showShareMenu && (
+        <>
+          <div 
+            className="position-fixed top-0 start-0 w-100 h-100" 
+            onClick={() => setShowShareMenu(false)}
+            style={{ zIndex: 1055 }}
+          />
+          <div 
+            className="position-absolute bg-white border rounded-3 shadow-lg p-2" 
+            style={{ 
+              bottom: '110%', 
+              left: 0, 
+              minWidth: '200px',
+              zIndex: 1060
+            }}
+          >
+            <button
+              onClick={() => handleShare('facebook')}
+              className="btn btn-sm btn-outline-primary w-100 mb-2 text-start"
+            >
+              <span className="me-2">📘</span> Facebook
+            </button>
+            <button
+              onClick={() => handleShare('twitter')}
+              className="btn btn-sm btn-outline-info w-100 mb-2 text-start"
+            >
+              <span className="me-2">🐦</span> Twitter
+            </button>
+            <button
+              onClick={() => handleShare('line')}
+              className="btn btn-sm btn-outline-success w-100 mb-2 text-start"
+            >
+              <span className="me-2">💬</span> LINE
+            </button>
+            <button
+              onClick={() => handleShare('copy')}
+              className="btn btn-sm btn-outline-secondary w-100 text-start"
+            >
+              <span className="me-2">📋</span> คัดลอกลิงก์
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function BootstrapModal({ children, title, onClose }) {
   return (
     <>
@@ -703,16 +815,13 @@ function BootstrapModal({ children, title, onClose }) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{title}</h5>
-              
               <button 
                 type="button" 
                 className="btn-close" 
                 onClick={onClose}
                 aria-label="Close"
               ></button>
-              
             </div>
-
             <div className="modal-body p-0">
               {children}
             </div>
