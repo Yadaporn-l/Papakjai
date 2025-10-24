@@ -358,6 +358,16 @@ a {
   align-items: center;
 }
 
+
+.mb-3  {
+color: black;
+}
+
+.d-grid .submit {
+  color: black;
+
+}
+
 /* แก้ */
 .split.reverse { 
   background: white;
