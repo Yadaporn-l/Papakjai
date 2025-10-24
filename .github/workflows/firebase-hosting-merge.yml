@@ -16,7 +16,7 @@ jobs:
         run: npm install -g concurrently
 
       - name: Build project
-        run: npm run build  # หรือ npm run dev ถ้าคุณใช้ dev script ในการ build
+        run: npm run dev  # หรือ npm run dev ถ้าคุณใช้ dev script ในการ build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

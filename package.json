@@ -10,7 +10,8 @@
     "start": "concurrently \"npm run dev -w backend\" \"npm run dev -w front-end\"",
     "dev": "npm run start"
   },
-  "devDependencies": {
-    "concurrently": "^9.2.1"
-  }
+ "dependencies": {
+  "concurrently": "^9.0.0"
+}
+
 }
