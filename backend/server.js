@@ -10,6 +10,7 @@ const path = require('path');
 require('dotenv').config();
 
 // Check YouTube API Key
+
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 if (!YOUTUBE_API_KEY) {
   console.error('❌ Error: YOUTUBE_API_KEY is required in environment variables');
