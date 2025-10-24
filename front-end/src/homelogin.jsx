@@ -560,7 +560,7 @@ const [previewModal, setPreviewModal] = useState({
             }`}
           >
             {favorites.some((f) => f.videoId === previewModal.videoId) 
-              ? '❤️ บันทึกแล้ว' 
+              ? '🤍 บันทึกแล้ว' 
               : '🤍 บันทึก'}
           </button>
 
@@ -611,7 +611,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
             onFavorite(video);
           }}
           className={`position-absolute btn btn-sm rounded-circle favorite-btn ${
-            isFavorited ? 'btn' : 'btn-primary text-black'
+            isFavorited ? 'btn' : 'btn-outline-danger text-black'
           }`}
           style={{ top: '10px', right: '10px', width: '40px', height: '40px' }}
         >
