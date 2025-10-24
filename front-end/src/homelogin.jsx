@@ -340,7 +340,7 @@ const [previewModal, setPreviewModal] = useState({
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
                     className={`btn btn-sm rounded-pill flex-shrink-0 ${
-                      selectedCategory === cat.id ? 'btn-primary text-black' : 'btn-primary text-black'
+                      selectedCategory === cat.id ? 'btn-primary bg-white text-black' : 'btn-primary bg-white text-black'
                     }`}
                   >
                     {cat.label}
@@ -610,12 +610,12 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
             e.stopPropagation();
             onFavorite(video);
           }}
-          className={`position-absolute btn btn-sm rounded-circle favorite-btn ${
-            isFavorited ? 'btn' : 'btn-outline-danger text-black'
+          className={`position-absolute btn-danger border-0 btn-sm rounded-circle favorite-btn ${
+            isFavorited ? 'btn' : 'btn-outline-danger'
           }`}
           style={{ top: '10px', right: '10px', width: '40px', height: '40px' }}
         >
-          {isFavorited ? '❤️' : '🤍'}
+          {isFavorited ? '🤍' : '❤️'}
         </button>
       </div>
 
