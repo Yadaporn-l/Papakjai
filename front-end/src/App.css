@@ -78,6 +78,10 @@ a {
 
 /* ===== Header (NavHome Component - Bootstrap Overrides) ===== */
 
+.mb-3 {
+  color: black;
+}
+
 /* Base Navbar Styling */
 .navbar {
   /* Override Bootstrap's default background and padding */
@@ -91,6 +95,8 @@ a {
   width: 100%;
   backdrop-filter: blur(5px); /* Subtle blur even when not scrolled */
 }
+
+
 
 /* Scrolled state for the header */
 .navbar.scrolled {
@@ -170,10 +176,11 @@ a {
   line-height: 1.5 !important;
 }
 
+
 /* Ghost Button (e.g., Sign In) */
 .btn.ghost {
   border: 1px solid var(--stroke) !important; /* Dark grey border */
-  color: var(--text) !important; /* White text */
+  color: black; /* White text */
   background: transparent !important;
 }
 .btn.ghost:hover {
@@ -356,16 +363,6 @@ a {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: center;
-}
-
-
-.mb-3  {
-color: black;
-}
-
-.d-grid .submit {
-  color: black;
-
 }
 
 /* แก้ */

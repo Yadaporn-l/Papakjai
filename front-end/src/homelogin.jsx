@@ -324,11 +324,6 @@ const [previewModal, setPreviewModal] = useState({
                     </button>
                   </div>
                 </div>
-                {cached && (
-                  <div className="mt-2 text-center">
-                    <small className="text-white opacity-75">📦 แสดงผลจากแคช</small>
-                  </div>
-                )}
               </div>
             </div>
           )}

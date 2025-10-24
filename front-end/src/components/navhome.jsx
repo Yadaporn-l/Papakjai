@@ -31,7 +31,7 @@ export default function NavHome() {
         {/* Brand / Logo - เปลี่ยน path ตามสถานะ login */}
         <Link className="navbar-brand d-flex align-items-center" to={homePath} onClick={closeNav}>
           <img src="/img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" />
-          <span>
+          <span className="Papak">
             PaPak<span className="text-info">Jai</span>
           </span>
         </Link>
