@@ -618,6 +618,8 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
           {isFavorited ? '❤️' : '🤍'}
         </button>
       </div>
+
+      
       
       <div className="card-body d-flex flex-column">
         <h5 className="card-title fw-bold mb-2" style={{ fontSize: '0.95rem', lineHeight: '1.4' }}>
