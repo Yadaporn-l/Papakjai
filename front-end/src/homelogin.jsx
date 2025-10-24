@@ -275,7 +275,7 @@ const [previewModal, setPreviewModal] = useState({
               <div className="d-flex gap-2">
                 <button 
                   onClick={() => setActiveTab('search')} 
-                  className={`btn ${activeTab === 'search' ? 'text-black btn-light' : 'btn-outline-light'}`}
+                  className={`btn ${activeTab === 'search' ? 'text-black btn-light' : 'text-black btn-outline-light'}`}
                 >
                   🔍 ค้นหา
                 </button>
@@ -611,7 +611,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
             onFavorite(video);
           }}
           className={`position-absolute btn btn-sm rounded-circle favorite-btn ${
-            isFavorited ? 'btn-danger' : 'btn-primary text-black'
+            isFavorited ? 'btn' : 'btn-primary text-black'
           }`}
           style={{ top: '10px', right: '10px', width: '40px', height: '40px' }}
         >
@@ -641,7 +641,9 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
       
       <style jsx>{`
         .video-card {
-          background: pink;
+          background: #dbdbdbff;
+          border: 1px solid black;
+
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .video-card:hover {
