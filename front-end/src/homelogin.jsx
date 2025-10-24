@@ -255,7 +255,7 @@ const [previewModal, setPreviewModal] = useState({
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
             <div>
               <h1 className="text-black h2 fw-bold mb-2">🌏 Travel Video Guide</h1>
-              <p className="mb-0 opacity-90">ค้นพบสถานที่ท่องเที่ยวผ่านคลิปวิดีโอคุณภาพสูง</p>
+              <p className="text-black mb-0 opacity-90">ค้นพบสถานที่ท่องเที่ยวผ่านคลิปวิดีโอคุณภาพสูง</p>
             </div>
             
             <div className="d-flex align-items-center gap-3">
@@ -415,9 +415,9 @@ const [previewModal, setPreviewModal] = useState({
         ) : (
           <>
             <div className="d-flex justify-content-between align-items-center mb-4">
-              <h2 className="h4 mb-0">
+              <h2 className="h4 mb-0 text-black">
                 {activeTab === 'search' 
-                  ? `พบ ${videos.length}${nextPageToken ? '+' : ''} วิดีโอ` 
+                  ? `วิดีโอทั้งหมด` 
                   : `รายการโปรดของคุณ (${favorites.length})`
                 }
               </h2>
@@ -555,8 +555,8 @@ const [previewModal, setPreviewModal] = useState({
             })}
             className={`btn btn-sm rounded-pill ${
               favorites.some((f) => f.videoId === previewModal.videoId) 
-                ? 'btn-danger' 
-                : 'btn-outline-danger'
+                ? 'text-black btn-danger' 
+                : 'text-black btn-outline-danger'
             }`}
           >
             {favorites.some((f) => f.videoId === previewModal.videoId) 
@@ -713,7 +713,7 @@ function ShareButton({ videoId, videoTitle }) {
     <div className="position-relative">
       <button
         onClick={() => setShowShareMenu(!showShareMenu)}
-        className="btn btn-sm btn-outline-primary rounded-pill"
+        className="text-black btn btn-sm btn-outline-primary rounded-pill"
       >
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" className="me-1">
           <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
@@ -739,25 +739,25 @@ function ShareButton({ videoId, videoTitle }) {
           >
             <button
               onClick={() => handleShare('facebook')}
-              className="btn btn-sm btn-outline-primary w-100 mb-2 text-start"
+              className="text-black btn btn-sm btn-outline-primary w-100 mb-2 text-start"
             >
               <span className="me-2">📘</span> Facebook
             </button>
             <button
               onClick={() => handleShare('twitter')}
-              className="btn btn-sm btn-outline-info w-100 mb-2 text-start"
+              className="text-black btn btn-sm btn-outline-info w-100 mb-2 text-start"
             >
               <span className="me-2">🐦</span> Twitter
             </button>
             <button
               onClick={() => handleShare('line')}
-              className="btn btn-sm btn-outline-success w-100 mb-2 text-start"
+              className="text-black btn btn-sm btn-outline-success w-100 mb-2 text-start"
             >
               <span className="me-2">💬</span> LINE
             </button>
             <button
               onClick={() => handleShare('copy')}
-              className="btn btn-sm btn-outline-secondary w-100 text-start"
+              className="text-black btn btn-sm btn-outline-secondary w-100 text-start"
             >
               <span className="me-2">📋</span> คัดลอกลิงก์
             </button>
