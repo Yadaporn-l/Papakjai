@@ -1,3 +1,4 @@
+<<<<<<< HEAD:front-end/src/visapage.css
 body{margin:0;font-family:Arial,sans-serif;
     background-color:#fff;}
 .navbar{background-color:#000;
@@ -6,6 +7,10 @@ body{margin:0;font-family:Arial,sans-serif;
     align-items:center;
     padding:12px 40px;
     color:#fff;}
+=======
+body{margin:0;font-family:Arial,sans-serif;background-color:#fff;}
+.navbar{background-color:#000;display:flex;justify-content:space-between;align-items:center;padding:12px 40px;color:#fff;}
+>>>>>>> main:visapage.css
 .navbar .logo{display:flex;align-items:center;color:#00c0d9;font-weight:bold;font-size:18px;}
 
 .brand{display:flex; 

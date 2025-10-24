@@ -6,7 +6,6 @@
   <title>Visa Information</title>
 
   <link rel="stylesheet" href="visapage.css" />
-  <script src="visapage.js"></script>
  
 </head>
 <body>
@@ -31,24 +30,17 @@
   <div class="content">
     <h1>VISA INFORMATION</h1>
     <div class="visa-box">
-      <p><b>Only Tourist Visa ✈</b></p>
-      <label for="country">Select country</label>
-      <select id="country">
-        <option value="">Country</option>
-        <option value="japan">Japan</option>
-        <option value="thailand">Thailand</option>
-        <option value="southkorea">South Korea</option>
-        <option value="usa">USA</option>
-        <option value="india">India</option>
-        <option value="china">China</option>
-        <option value="russia">Russia</option>
-      </select>
+  <p><b>Only Tourist Visa ✈</b></p>
+  
+  <label for="country">Select country</label>
+  <select id="country"></select> <!-- API จะเติมรายชื่อประเทศให้ -->
 
-      <label for="days">Length of stay</label>
-      <input type="number" id="days" placeholder="Day">
+  <label for="days">Length of stay</label>
+  <input type="number" id="days" placeholder="Day">
 
-      <button onclick="checkVisa()">Check</button>
-    </div>
+  <button onclick="checkVisa()">Check</button>
+</div>
+
     <p id="result" style="margin-top:20px; font-weight:bold;"></p>
   </div>
 
@@ -74,8 +66,9 @@
     </div>
   </footer>
 
-
-
+<script src="visapage.js"></script>
 </body>
+
+
 </html>
 

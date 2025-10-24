@@ -23,4 +23,8 @@ body{margin:0;font-family:Arial,sans-serif;background-color:#fff;}
     font-size:16px;border:none;border-radius:8px;cursor:pointer;transition:.2s}
 .back-btn {display: block;margin: 25px auto 0;   /* ลดระยะห่างด้านบนจาก 50px เหลือ 25px */padding: 12px 30px;
   background: #000;color: #fff;font-size: 16px;border: none;border-radius: 8px;cursor: pointer;transition: .2s;}
+<<<<<<< HEAD
 .back-btn:hover {background: #333;}
+=======
+.back-btn:hover {background: #333;}
+>>>>>>> main
