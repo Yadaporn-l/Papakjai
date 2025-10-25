@@ -49,21 +49,21 @@ function App() {
             <article className="feature-card">
               <div className="icon"><i className="fa-regular fa-file-lines"></i></div>
               <h3>All-in-One<br />Visa Information</h3>
-              <p>Get sample letters, up-to-date requirements, and country-by-country rules in one connected place.</p>
+              <p className="text-grey">Get sample letters, up-to-date requirements, and country-by-country rules in one connected place.</p>
               <span className="card-edge"></span>
             </article>
 
             <article className="feature-card">
               <div className="icon"><i className="fa-solid fa-bullseye"></i></div>
               <h3>Budget-Based<br />Recommendations</h3>
-              <p>Filter by your budget tier and discover matching destinations and stays—no guesswork.</p>
+              <p className="text-grey">Filter by your budget tier and discover matching destinations and stays—no guesswork.</p>
               <span className="card-edge"></span>
             </article>
 
             <article className="feature-card">
               <div className="icon"><i className="fa-solid fa-list-check"></i></div>
               <h3>Ready-to-Go<br />List</h3>
-              <p>Quick start checklists and mini itineraries so you can leave in hours, not weeks.</p>
+              <p className="text-grey">Quick start checklists and mini itineraries so you can leave in hours, not weeks.</p>
               <span className="card-edge"></span>
             </article>
           </div>

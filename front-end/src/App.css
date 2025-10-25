@@ -53,6 +53,10 @@ a {
   /* padding-left: 0; padding-right: 0; */
 }
 
+.container .accent {
+  color: #0dcaf0   !important;
+  font-style: italic;
+}
 
 
 /* ===== Header (public) ===== */
@@ -66,7 +70,7 @@ a {
 /* แก้ */
 .section {  
   padding: 44px 0;
-  background: white;
+  background: rgb(255, 255, 255);
 }
 
 .section-title {
@@ -179,7 +183,7 @@ a {
 
 /* Ghost Button (e.g., Sign In) */
 .btn.ghost {
-  border: 1px solid var(--stroke) !important; /* Dark grey border */
+  border: 1px solid !important; /* Dark grey border */
   color: black; /* White text */
   background: transparent !important;
 }
@@ -309,7 +313,7 @@ a {
   border: none;
 }
 
-.feature-card h3 {
+.feature-card h3{
   margin: 0 0 12px;
   font-size: 1.25rem;            /* ใหญ่ขึ้นชัด */
   font-weight: 600;
@@ -325,8 +329,17 @@ a {
   line-height: 1.5;
 }
 
+.feature-card p.text-grey{
+  color:#cfcfcf !important;
+}
+
+
 .feature-card .card-edge {
   display: none;
+}
+
+.article.feature-card p{
+    color: #bdbdbd;
 }
 
 
@@ -352,7 +365,7 @@ a {
 
 
 .section.section p {
-  color: #bdbdbd;
+  color: #656363;
   font-size: 15px;
   margin:0 auto;
 }
@@ -373,14 +386,16 @@ a {
 }
 .text h3 {
   margin: 0 0 8px;
-  font-size: 1.75rem; /* Larger font size for split section titles */
+  font-size: 30px; /* Larger font size for split section titles */
   color: black;
 }
 
+
 /*แก้*/
 .link-accent {
-  color: #0dcaf0;
-  text-decoration: none;
+  color: #146e80;
+  font-size: 25px;
+  font-weight: 500px;
   transition: color 0.2s ease;
 }
 .link-accent:hover {
@@ -588,6 +603,7 @@ a {
     grid-template-columns: repeat(2, 1fr); /* Two columns for footer links */
   }
 }
+
 
 /* Mobile Devices - under 415px (e.g., iPhone SE/smaller phones) */
 @media (max-width: 415px) {

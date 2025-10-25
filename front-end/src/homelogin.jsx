@@ -340,7 +340,7 @@ const [previewModal, setPreviewModal] = useState({
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
                     className={`btn btn-sm rounded-pill flex-shrink-0 ${
-                      selectedCategory === cat.id ? 'btn-primary bg-white text-black' : 'btn-primary bg-white text-black'
+                      selectedCategory === cat.id ? 'bg-info text-black border-0.5' : 'btn-primary bg-white text-black'
                     }`}
                   >
                     {cat.label}
