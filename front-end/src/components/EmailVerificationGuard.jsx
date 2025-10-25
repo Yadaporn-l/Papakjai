@@ -120,7 +120,7 @@ export default function EmailVerificationGuard({ children }) {
             </Button>
             
             <Button 
-              variant="outline-secondary" 
+              variant="outline-light text-black border-0.5" 
               onClick={handleSignOut}
             >
               Sign Out
