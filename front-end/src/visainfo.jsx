@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import NavHome from './components/navhome.jsx';
 import Footer from './components/footer.jsx';
 import "./visapage.css";
-
+// this visa ja
 export default function Visainfo() {
   const [country, setCountry] = useState(null);
   const [days, setDays] = useState('');

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './visashowinfo.css';
 
+// Use this ja
+
 // AccordionItem component
 function AccordionItem({ title, fetchData, children }) {
   const [open, setOpen] = useState(false);
@@ -9,8 +11,10 @@ function AccordionItem({ title, fetchData, children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
   const handleClick = async () => {
     setOpen(!open);
+
 
     if (!open && fetchData && !content) {
       setLoading(true);
@@ -26,6 +30,7 @@ function AccordionItem({ title, fetchData, children }) {
       }
     }
   };
+
 
   return (
     <>
@@ -44,13 +49,16 @@ function AccordionItem({ title, fetchData, children }) {
   );
 }
 
+
 export default function VisaResult() {
   const location = useLocation();
   const navigate = useNavigate();
   const { country, days } = location.state || { country: 'Australia', days: 30 };
 
+
   // ✅ API Key FastForex
   const EXCHANGE_RATE_API_KEY = "e4699491c5-a4c761eb38-t4k1jg";
+
 
   // --- START: API & Data functions ---
   const VISA_DOC_REFERENCE = {
@@ -68,6 +76,7 @@ export default function VisaResult() {
     preparation: 'Part of the Schengen Area. Apply for a Schengen visa if your nationality requires it. Book appointments well in advance.'
   },
 
+
   // --- B ---
   'Belgium': {
     documents: 'Passport, Schengen visa application, photos, travel medical insurance (€30,000 coverage), flight itinerary, proof of accommodation.',
@@ -77,7 +86,7 @@ export default function VisaResult() {
     documents: 'Passport (valid 6+ months). Many nationalities, including those from the US, Canada, and Australia, are now visa-free for tourism.',
     preparation: 'Check the latest visa policy for your specific nationality as it has changed recently. Some may require an e-visa.'
   },
-  
+ 
   // --- C ---
   'Cambodia': {
     documents: 'Passport (valid 6+ months), one passport-sized photo. Visa on arrival is available at major airports and land borders, or apply for an E-visa online.',
@@ -104,11 +113,13 @@ export default function VisaResult() {
     preparation: 'If you need a Schengen visa, you can enter Croatia with it. Check requirements for your nationality.'
   },
 
+
   // --- D ---
   'Denmark': {
     documents: 'Passport (valid 3+ months after departure), Schengen visa application, photos, travel insurance, proof of funds.',
     preparation: 'Schengen Area state. Follow the standard application procedure for a Schengen visa if needed.'
   },
+
 
   // --- E ---
   'Egypt': {
@@ -119,7 +130,7 @@ export default function VisaResult() {
     documents: 'Passport, Schengen visa application, photo, travel insurance. Part of Schengen Area.',
     preparation: 'Standard Schengen visa application process. Known for its digital infrastructure.'
   },
-  
+ 
   // --- F ---
   'Finland': {
     documents: 'Passport, Schengen visa application, photos, proof of accommodation, flight itinerary, travel insurance.',
@@ -129,6 +140,7 @@ export default function VisaResult() {
     documents: 'Passport (valid 3+ months after departure), Schengen visa application form, two recent passport photos (3.5cm x 4.5cm), flight itinerary, travel insurance.',
     preparation: 'Part of the Schengen Area. Appointments can be scarce, book months ahead, especially for peak season.'
   },
+
 
   // --- G ---
   'Germany': {
@@ -140,6 +152,7 @@ export default function VisaResult() {
     preparation: 'Standard Schengen visa process. A popular destination, so apply early.'
   },
 
+
   // --- H ---
   'Hong Kong': {
     documents: 'Passport (validity depends on nationality, but 6+ months recommended). Many nationalities have visa-free access for 14 to 180 days.',
@@ -149,7 +162,7 @@ export default function VisaResult() {
     documents: 'Passport, Schengen visa application, photo, travel insurance, proof of accommodation and funds.',
     preparation: 'Schengen Area member. Follow standard procedures.'
   },
-  
+ 
   // --- I ---
   'Iceland': {
     documents: 'Passport, Schengen visa application, photo, travel insurance, details of your itinerary (important for Iceland).',
@@ -176,6 +189,7 @@ export default function VisaResult() {
     preparation: 'The process is standardized across Schengen countries. Visa centers can be very busy.'
   },
 
+
   // --- J ---
   'Japan': {
     documents: 'Passport, visa application form (if needed), recent passport photo (4.5cm x 3.5cm).',
@@ -186,11 +200,13 @@ export default function VisaResult() {
     preparation: 'The Jordan Pass includes the visa fee and entry to many sites like Petra. It often saves money.'
   },
 
+
   // --- K ---
   'Kenya': {
     documents: 'Passport (valid 6+ months), digital photo, e-Visa obtained online before travel.',
     preparation: 'All visitors must now apply for an e-Visa in advance. Visa on arrival is no longer available. Apply via the official government portal.'
   },
+
 
   // --- L ---
   'Laos': {
@@ -201,6 +217,7 @@ export default function VisaResult() {
     documents: 'Passport, Schengen visa application materials if required.',
     preparation: 'Standard Schengen Area procedure.'
   },
+
 
   // --- M ---
   'Malaysia': {
@@ -224,6 +241,7 @@ export default function VisaResult() {
     preparation: 'Tourism is slowly reopening. An e-Visa must be obtained online before travel. Check official government announcements.'
   },
 
+
   // --- N ---
   'Nepal': {
     documents: 'Passport (valid 6+ months), application form, photos. Visa on arrival is widely available at Tribhuvan International Airport (KTM).',
@@ -242,11 +260,13 @@ export default function VisaResult() {
     preparation: 'Part of the Schengen Area, but not the EU. Standard application process.'
   },
 
+
   // --- O ---
   'Oman': {
     documents: 'Passport (valid 6+ months). Many nationalities are visa-exempt or can apply for an e-Visa.',
     preparation: 'Check the Royal Oman Police e-Visa website for your specific requirements. The e-Visa is the standard method.'
   },
+
 
   // --- P ---
   'Peru': {
@@ -266,12 +286,13 @@ export default function VisaResult() {
     preparation: 'Standard Schengen Area procedure. Apply early for summer travel.'
   },
 
+
   // --- Q ---
   'Qatar': {
     documents: 'Passport (valid 6+ months), confirmed onward or return ticket. Over 100 nationalities can enter visa-free for 30 or 90 days.',
     preparation: 'Check your eligibility for visa-free entry. Hotel booking may be required.'
   },
-  
+ 
   // --- R ---
   'Romania': {
     documents: 'Passport. As a new Schengen member (Air/Sea borders), Schengen visa rules apply. Check land border rules.',
@@ -281,6 +302,7 @@ export default function VisaResult() {
     documents: 'Passport (valid 6+ months after visa expiry), completed application form, passport photos, and an official Tourist Invitation (Voucher).',
     preparation: 'A Tourist Invitation is mandatory and can be obtained from your hotel or an authorized travel agency. The visa process is very strict.'
   },
+
 
   // --- S ---
   'Saudi Arabia': {
@@ -316,6 +338,7 @@ export default function VisaResult() {
     preparation: 'Schengen Area member, not EU. Known for being strict on financial proof.'
   },
 
+
   // --- T ---
   'Taiwan': {
     documents: 'Passport (valid 6+ months). Many nationalities are visa-free for up to 90 days.',
@@ -334,6 +357,7 @@ export default function VisaResult() {
     preparation: 'Many nationalities can easily apply for an e-Visa online. Check the official e-Visa website. Do not use third-party sites.'
   },
 
+
   // --- U ---
   'United Arab Emirates': {
     documents: 'Passport. Many nationalities get a free visa on arrival for 30 or 90 days. Others must pre-arrange a visa, usually through an airline or hotel.',
@@ -347,13 +371,13 @@ export default function VisaResult() {
     documents: 'Passport (valid 6+ months beyond stay), DS-160 confirmation page, visa fee receipt, appointment confirmation, one 2x2 inch photo.',
     preparation: 'Detailed process. Complete the DS-160 online form accurately. Be prepared for an interview at the embassy. Visa Waiver Program countries need an ESTA.'
   },
-  
+ 
   // --- V ---
   'Vietnam': {
     documents: 'Passport (valid 6+ months). Depending on nationality, may require an E-visa or be visa-exempt.',
     preparation: 'Check if your nationality is eligible for an E-visa or visa exemption. The online E-visa process is straightforward but apply at least a week in advance.'
   },
-  
+ 
   // --- DEFAULT ---
   'Default': {
     documents: 'Passport (with at least 6 months validity), completed visa application form, recent passport-sized photographs (usually with a white background).',
@@ -368,7 +392,8 @@ export default function VisaResult() {
       ? VISA_DOC_REFERENCE[normalizedCountry]
       : VISA_DOC_REFERENCE['Default'];
 
-      
+
+     
     return (
       <div>
         <p><strong>Required Documents:</strong> {advice.documents}</p>
@@ -380,6 +405,7 @@ export default function VisaResult() {
     );
   };
 
+
   const fetchCountryInfo = async () => {
     const res = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
     if (!res.ok) throw new Error(`Country not found: ${res.status}`);
@@ -387,6 +413,7 @@ export default function VisaResult() {
     const c = data[0];
     const currencyCode = Object.keys(c.currencies)[0];
     const currencyName = c.currencies[currencyCode].name;
+
 
     return (
       <div>
@@ -401,6 +428,7 @@ export default function VisaResult() {
     );
   };
 
+
   const fetchFinancialInfo = async () => {
     try {
       // 1. ดึงข้อมูลประเทศเพื่อหาสกุลเงินและธง
@@ -411,14 +439,17 @@ export default function VisaResult() {
       const currencyName = countryData[0].currencies[currencyCode].name;
       const flag = countryData[0].flags?.png;
 
+
       // 2. ดึงอัตราแลกเปลี่ยน (base: THB) จาก FastForex
       const exchangeRateRes = await fetch(`https://api.fastforex.io/fetch-one?from=THB&to=${currencyCode}&api_key=${EXCHANGE_RATE_API_KEY}`);
       if (!exchangeRateRes.ok) throw new Error("Could not fetch exchange rates.");
       const exchangeData = await exchangeRateRes.json();
 
+
       // ✅ แก้ไขตรงนี้: ใช้ exchangeData.result
       const rate = exchangeData?.result?.[currencyCode];
       if (!rate) throw new Error(`Exchange rate not found for ${currencyCode}`);
+
 
       return (
         <div>
@@ -433,6 +464,7 @@ export default function VisaResult() {
         </div>
       );
 
+
     } catch (error) {
       console.error("Error in fetchFinancialInfo:", error);
       throw error;
@@ -445,6 +477,7 @@ const fetchAccommodationData = async (country) => {
       `https://api.open-meteo.com/v1/forecast?latitude=13.75&longitude=100.50&current=temperature_2m,weathercode`
     );
     const weatherData = await weatherResponse.json();
+
 
     return (
       <div>
@@ -473,61 +506,70 @@ const fetchAccommodationData = async (country) => {
     }
     return "Ensure your passport validity and basic travel essentials are ready.";
   };
-  
 
   // ฟังก์ชันใหม่สำหรับดึงข้อมูลคำแนะนำด้านสุขภาพ
-const fetchHealthAdvisory = async () => {
+const fetchOtherPreparationsCombined = async () => {
   try {
-    const res = await fetch(`http://localhost:4000/api/health-notices?country=${encodeURIComponent(country)}`);
-    if (!res.ok) {
-      throw new Error('Could not fetch health notices.');
-    }
-    const data = await res.json();
+    // 1️⃣ คำแนะนำทั่วไป
+    const generalAdvice = getOtherPreparations(country, days);
 
-    // ✅ แก้ไขตรงนี้: แยกข้อความคำแนะนำแต่ละบรรทัดให้เป็นรายการ
-    const recommendations = data.recommendation
-      ? data.recommendation
-          .split(/[\n•\-]/) // แยกตาม newline หรือ bullet หรือ dash
-          .map(item => item.trim())
-          .filter(item => item.length > 0)
-      : ["No detailed recommendations available."];
+    // 3️⃣ ดึงข้อมูลโรคระบาด (ข้าม health notices ไปเลย)
+    const epidemicSituation = await fetchDiseaseSituation();
 
     return (
       <div>
-        <h4>CDC Travel Health Notices</h4>
-        <ul style={{ paddingLeft: '20px' }}>
-          {recommendations.map((rec, index) => (
-            <li key={index}>{rec}</li>
-          ))}
-        </ul>
-        <p style={{ fontSize: '0.8em', opacity: 0.7 }}>
-          <em>
-            Source: U.S. Centers for Disease Control and Prevention. This is for reference only.
-            Consult a healthcare professional before traveling.
-          </em>
-        </p>
+        <h4>General Travel Advice</h4>
+        <p>{generalAdvice}</p>
+        <div style={{ marginTop: '15px' }}>
+          {epidemicSituation}
+        </div>
       </div>
     );
-
   } catch (error) {
-    console.error("Error fetching health advisory:", error);
+    console.error("Error fetching combined preparations:", error);
+    return <p>Unable to load preparation data at the moment. Please check again later.</p>;
+  }
+};
 
-    // ✅ เพิ่ม default ข้อมูลให้แสดงแบบลำดับด้วย
+const fetchDiseaseSituation = async () => {
+  try {
+    // เรียก API ของ Disease.sh ตามชื่อประเทศที่เลือก
+    const res = await fetch(`https://disease.sh/v3/covid-19/countries/${encodeURIComponent(country)}`);
+    if (!res.ok) throw new Error("No epidemic data found.");
+    const data = await res.json();
+
     return (
       <div>
-        <h4>Health Advisory</h4>
-        <ul style={{ paddingLeft: '20px' }}>
-          <li>Ensure you have travel insurance.</li>
-          <li>Stay up-to-date with routine vaccinations.</li>
-          <li>Check country-specific vaccine requirements with your doctor.</li>
-          <li>Prepare basic medicine (painkillers, fever reducer, etc.).</li>
+        <h4>🦠 Real-time Epidemic Situation (COVID-19)</h4>
+        <ul style={{ fontSize: '1em', lineHeight: 1.6 }}>
+          <li>
+            <strong>Total cases:</strong> {data.cases.toLocaleString()}<br />
+            <strong>Active:</strong> {data.active.toLocaleString()}, <strong>Recovered:</strong> {data.recovered.toLocaleString()}, <strong>Deaths:</strong> {data.deaths.toLocaleString()}
+          </li>
+          <li>
+            <strong>Today's new cases:</strong> {data.todayCases.toLocaleString()}, <strong>Today's deaths:</strong> {data.todayDeaths.toLocaleString()}
+          </li>
+          <li>
+            <strong>Vaccinated:</strong> {data.tests?.toLocaleString() ?? 'N/A'} (from API's "tests" field)
+          </li>
         </ul>
+        <span style={{ fontSize: '0.9em', color: '#aaa' }}>
+          Data: <a href="https://disease.sh" target="_blank" rel="noopener noreferrer">disease.sh</a>
+        </span>
+      </div>
+    );
+  } catch (error) {
+    console.error("Disease.sh fetch error:", error);
+    return (
+      <div>
+        <h4>🦠 Real-time Epidemic Situation (COVID-19)</h4>
+        <p style={{ color: 'gray' }}>No real-time epidemic data available for this country.</p>
       </div>
     );
   }
 };
-
   // --- END: API & Data functions ---
+
 
   return (
     <div>
@@ -538,6 +580,7 @@ const fetchHealthAdvisory = async () => {
         </a>
       </div>
 
+
       <div className="profile">
         <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Traveler" />
         <div className="info">
@@ -546,20 +589,23 @@ const fetchHealthAdvisory = async () => {
         </div>
       </div>
 
+
       <div className="accordion">
         <AccordionItem title="📄 Important Documents">
           {getDocumentAdvice(country)}
         </AccordionItem>
-        <AccordionItem title={`ℹ️ ${country} Country Information`} 
+        <AccordionItem title={`ℹ️ ${country} Country Information`}
         fetchData={fetchCountryInfo} />
-        <AccordionItem title="💰 Financial Management" 
+        <AccordionItem title="💰 Financial Management"
         fetchData={fetchFinancialInfo} />
-        <AccordionItem title="🏨 Accommodation Preparation" 
+        <AccordionItem title="🏨 Accommodation Preparation"
         fetchData={() => fetchAccommodationData(country)} />
-        <AccordionItem 
-          title="➕ Health & Other Preparations" 
-          fetchData={fetchHealthAdvisory} />
+        <AccordionItem
+          title="➕ Other Preparations"
+          fetchData={fetchOtherPreparationsCombined}
+        />
       </div>
+
 
       <button className="back-btn" onClick={() => navigate(-1)}>Back</button>
     </div>
