@@ -9,6 +9,7 @@ import { UserAuthContextProvider } from './context/UserAuthContext.jsx' // à¸Šà¸
 import Visainfo from './visainfo.jsx'
 import AccomodationTarvel from './homelogin.jsx'
 import Accomodation from './Accomodation.jsx'
+import VisaResult from './visaresult.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {
   createBrowserRouter,
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/visainfo",
     element: <Visainfo/>
+  },
+  {
+    path: "/visaresult",
+    element: <VisaResult/>
   },
   {
     path: "/accomodationTarvel",
