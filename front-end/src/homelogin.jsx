@@ -334,7 +334,7 @@ export default function HomeLogin() {
       </header>
 
       {activeTab === 'search' && (
-        <div className="bg-white border-bottom shadow-sm py-3 sticky-top" style={{ top: 0, zIndex: 1020 }}>
+        <div className="bg-white border-bottom shadow-sm py-3 ">
           <div className="container">
             <div className="mb-3 overflow-auto">
               <div className="d-flex gap-2 pb-2" style={{ flexWrap: 'nowrap' }}>
