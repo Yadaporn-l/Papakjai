@@ -48,7 +48,8 @@ export default function NavHome() {
             {/* Home: ใส่ end เพื่อไม่ให้ active ตอนอยู่เส้นทางย่อย */}
             <li className="nav-item">
               <NavLink
-                to={homePath}
+                // to={homePath}
+                to="/"
                 end
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeNav}
@@ -69,7 +70,7 @@ export default function NavHome() {
 
             <li className="nav-item">
               <NavLink
-                to="/accomodation"
+                to={homePath}
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeNav}
               >
