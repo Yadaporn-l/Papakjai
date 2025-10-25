@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom'; // ⬅️ เปลี่ยน Link → NavLink
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../context/UserAuthContext';
 
 export default function NavHome() {
@@ -21,12 +21,10 @@ export default function NavHome() {
     }
   };
 
-  const homePath = user ? '/homelogin' : '/';
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div className="container">
-        <NavLink className="navbar-brand d-flex align-items-center" to={homePath} onClick={closeNav}>
+        <NavLink className="navbar-brand d-flex align-items-center" to='/' onClick={closeNav}>
           <img src="/img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" />
           <span className="Papak">PaPak<span className="text-info">Jai</span></span>
         </NavLink>
@@ -44,11 +42,8 @@ export default function NavHome() {
 
         <div className={`collapse navbar-collapse ${isNavCollapsed ? '' : 'show'}`} id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
-            {/* Home: ใส่ end เพื่อไม่ให้ active ตอนอยู่เส้นทางย่อย */}
             <li className="nav-item">
               <NavLink
-                // to={homePath}
                 to="/"
                 end
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
@@ -70,11 +65,11 @@ export default function NavHome() {
 
             <li className="nav-item">
               <NavLink
-                to={homePath}
+                to="/homelogin"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeNav}
               >
-                ACCOMODATION
+                ACCOMMODATION
               </NavLink>
             </li>
           </ul>

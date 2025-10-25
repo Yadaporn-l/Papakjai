@@ -12,11 +12,11 @@ export default function HomeLogin() {
   const [videos, setVideos] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false); // ✅ loading สำหรับปุ่ม "ดูเพิ่มเติม"
+  const [loadingMore, setLoadingMore] = useState(false);
   const [cached, setCached] = useState(false);
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
-  const [nextPageToken, setNextPageToken] = useState(null); // ✅ เก็บ token หน้าถัดไป
+  const [nextPageToken, setNextPageToken] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -24,23 +24,24 @@ export default function HomeLogin() {
   const [selectedDuration, setSelectedDuration] = useState('any');
   const [sortBy, setSortBy] = useState('relevance');
   const [activeTab, setActiveTab] = useState('search');
-const [previewModal, setPreviewModal] = useState({ 
-  open: false, 
-  videoId: null, 
-  videoData: null 
-});
+  const [previewModal, setPreviewModal] = useState({ 
+    open: false, 
+    videoId: null, 
+    videoData: null 
+  });
 
   const API_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5000/api';
   
   const userId = user?.uid || null;
 
+  // ✅ ลบ useEffect ที่ redirect ผู้ใช้ที่ไม่ได้ล็อกอิน
   useEffect(() => {
     if (!user) {
-      console.log('User not logged in');
+      console.log('Guest user - limited features');
     }
   }, [user]);
 
-  // ✅ Logout เมื่อปิดหน้าเว็บ
+  // ✅ Logout เมื่อปิดหน้าเว็บ (เฉพาะผู้ที่ล็อกอิน)
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (user) {
@@ -48,10 +49,8 @@ const [previewModal, setPreviewModal] = useState({
       }
     };
 
-    // ฟังการปิดหน้าเว็บ
     window.addEventListener('beforeunload', handleBeforeUnload);
 
-    // Cleanup
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
@@ -82,11 +81,11 @@ const [previewModal, setPreviewModal] = useState({
 
   useEffect(() => {
     if (activeTab === 'search') {
-      fetchVideos(true); // true = reset (เริ่มต้นใหม่)
-    } else {
+      fetchVideos(true);
+    } else if (activeTab === 'favorites' && user) {
       fetchFavorites();
     }
-  }, [selectedCategory, selectedRegion, selectedDuration, sortBy, activeTab]);
+  }, [selectedCategory, selectedRegion, selectedDuration, sortBy, activeTab, user]);
 
   const showToast = (msg) => {
     setToast(msg);
@@ -105,7 +104,6 @@ const [previewModal, setPreviewModal] = useState({
     } catch { return ''; }
   };
 
-  // ✅ ปรับปรุง fetchVideos ให้รองรับ pagination
   const fetchVideos = async (reset = false) => {
     const isLoadingMore = !reset;
     
@@ -113,7 +111,7 @@ const [previewModal, setPreviewModal] = useState({
       setLoadingMore(true);
     } else {
       setLoading(true);
-      setVideos([]); // ล้างวิดีโอเก่าถ้า reset
+      setVideos([]);
       setNextPageToken(null);
     }
     
@@ -129,7 +127,6 @@ const [previewModal, setPreviewModal] = useState({
         maxResults: 24
       });
 
-      // ✅ ถ้าโหลดเพิ่ม ให้ส่ง pageToken ไปด้วย
       if (isLoadingMore && nextPageToken) {
         params.append('pageToken', nextPageToken);
       }
@@ -139,14 +136,13 @@ const [previewModal, setPreviewModal] = useState({
       
       if (!json.success) throw new Error(json.error || 'เกิดข้อผิดพลาด');
       
-      // ✅ ถ้าโหลดเพิ่ม ให้เพิ่มวิดีโอเข้าไปในรายการเดิม
       if (isLoadingMore) {
         setVideos(prev => [...prev, ...(json.data || [])]);
       } else {
         setVideos(json.data || []);
       }
       
-      setNextPageToken(json.nextPageToken || null); // ✅ เก็บ token หน้าถัดไป
+      setNextPageToken(json.nextPageToken || null);
       setCached(Boolean(json.cached));
       
     } catch (e) {
@@ -186,8 +182,12 @@ const [previewModal, setPreviewModal] = useState({
   };
 
   const toggleFavorite = async (video) => {
+    // ✅ ปรับปรุงข้อความแจ้งเตือนให้ชัดเจนขึ้น
     if (!userId) {
-      showToast('⚠️ กรุณาเข้าสู่ระบบก่อนใช้งานรายการโปรด');
+      showToast('🔒 กรุณาเข้าสู่ระบบเพื่อใช้งานฟีเจอร์บันทึกวิดีโอ');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2500);
       return;
     }
     
@@ -225,13 +225,12 @@ const [previewModal, setPreviewModal] = useState({
   const handleSearch = (e) => {
     e?.preventDefault?.();
     if (activeTab !== 'search') setActiveTab('search');
-    fetchVideos(true); // true = reset
+    fetchVideos(true);
   };
 
-  // ✅ ฟังก์ชันโหลดเพิ่ม
   const handleLoadMore = () => {
     if (nextPageToken && !loadingMore) {
-      fetchVideos(false); // false = load more
+      fetchVideos(false);
     }
   };
 
@@ -256,55 +255,52 @@ const [previewModal, setPreviewModal] = useState({
             <div>
               <h1 className="text-black h2 fw-bold mb-2">🌏 Travel Video Guide</h1>
               <p className="text-black mb-0 opacity-90">ค้นพบสถานที่ท่องเที่ยวผ่านคลิปวิดีโอคุณภาพสูง</p>
+              {!user && (
+                <p className="text-black mb-0 opacity-75 small mt-1">
+                  💡 <strong>เข้าสู่ระบบ</strong>เพื่อบันทึกวิดีโอโปรดของคุณ
+                </p>
+              )}
             </div>
             
             <div className="d-flex align-items-center gap-3 align-self-end align-self-md-center ms-md-auto">
-
               {user && (
                 <div className="d-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2">
                   <div 
                     className="rounded-circle bg-white d-flex align-items-center justify-content-center"
                     style={{ width: '32px', height: '32px' }}
                   >
-                   
+                    <span className="text-purple fw-bold">
+                      {user.email?.charAt(0).toUpperCase()}
+                    </span>
                   </div>
-  
-                  
                 </div>
               )}
               
- <div className="d-flex gap-2">
-  {/* ✅ แสดงปุ่มย้อนกลับเฉพาะตอน activeTab เป็น favorites */}
-  {activeTab === 'favorites' && (
-    <button 
-      onClick={() => setActiveTab('search')} 
-      className="btn text-black btn-light"
-    >
-      ย้อนกลับ
-    </button>
-  )}
+              <div className="d-flex gap-2">
+                {activeTab === 'favorites' && (
+                  <button 
+                    onClick={() => setActiveTab('search')} 
+                    className="btn text-black btn-light"
+                  >
+                    ย้อนกลับ
+                  </button>
+                )}
 
-  {/* ปุ่มรายการโปรด */}
-  <button 
-    onClick={() => {
-      if (!user) {
-        showToast('⚠️ กรุณาเข้าสู่ระบบก่อนใช้งานรายการโปรด');
-        return;
-      }
-      setActiveTab('favorites');
-    }}
-    className={`btn ${activeTab === 'favorites' ? 'btn-light text-black' : 'btn-outline-light text-black'} position-relative`}
-    disabled={!user}
-  >
-    ❤️ รายการโปรด
-    {favorites.length > 0 && (
-      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
-        {favorites.length}
-      </span>
-    )}
-  </button>
-</div>
-
+                {/* ✅ ปุ่มรายการโปรด - แสดงเฉพาะผู้ที่ล็อกอิน */}
+                {user && (
+                  <button 
+                    onClick={() => setActiveTab('favorites')}
+                    className={`btn ${activeTab === 'favorites' ? 'btn-light text-black' : 'btn-outline-light text-black'} position-relative`}
+                  >
+                    ❤️ รายการโปรด
+                    {favorites.length > 0 && (
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
+                        {favorites.length}
+                      </span>
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -376,7 +372,7 @@ const [previewModal, setPreviewModal] = useState({
                   className="form-select form-select-sm"
                 >
                   <option value="any">⏱️ ทุกความยาว</option>
-                  <option value="short">สั้น (&lt; 4 นาทื)</option>
+                  <option value="short">สั้น (&lt; 4 นาที)</option>
                   <option value="medium">ปานกลาง (4-20 นาที)</option>
                   <option value="long">ยาว (&gt; 20 นาที)</option>
                 </select>
@@ -456,18 +452,18 @@ const [previewModal, setPreviewModal] = useState({
                       key={video.id?.videoId || video.videoId || idx} 
                       className="col-12 col-sm-6 col-md-4 col-lg-3"
                     >
-                     <VideoCard
-                      video={video}
-                      favorites={favorites}
-                      onFavorite={toggleFavorite}
-                      onPreview={(id, data) => setPreviewModal({ open: true, videoId: id, videoData: data })}
-                      timeAgo={timeAgo}
-                    />
+                      <VideoCard
+                        video={video}
+                        favorites={favorites}
+                        onFavorite={toggleFavorite}
+                        onPreview={(id, data) => setPreviewModal({ open: true, videoId: id, videoData: data })}
+                        timeAgo={timeAgo}
+                        isLoggedIn={!!user}
+                      />
                     </div>
                   ))}
                 </div>
 
-                {/* ✅ ปุ่มดูเพิ่มเติม - แสดงเฉพาะใน Search Tab และมี nextPageToken */}
                 {activeTab === 'search' && nextPageToken && (
                   <div className="text-center mt-5 mb-4">
                     <button
@@ -502,7 +498,6 @@ const [previewModal, setPreviewModal] = useState({
                   </div>
                 )}
 
-                {/* ✅ แสดงข้อความเมื่อไม่มีวิดีโอเพิ่ม */}
                 {activeTab === 'search' && !nextPageToken && videos.length > 0 && (
                   <div className="text-center mt-5 mb-4">
                     <div className="text-muted">
@@ -522,71 +517,70 @@ const [previewModal, setPreviewModal] = useState({
 
       <Footer />
 
-{previewModal.open && (
-  <BootstrapModal
-    title="ดูตัวอย่างวิดีโอ"
-    onClose={() => setPreviewModal({ open: false, videoId: null, videoData: null })}
-    videoData={{
-      ...previewModal.videoData,
-      videoId: previewModal.videoId
-    }}
-    onFavorite={toggleFavorite}
-    isFavorited={favorites.some((f) => f.videoId === previewModal.videoId)}
-  >
-    <div className="ratio ratio-16x9">
-      <iframe
-        src={`https://www.youtube.com/embed/${previewModal.videoId}?autoplay=1`}
-        title="YouTube video preview"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    </div>
-    
-    {/* แสดงข้อมูลใต้วิดีโอพร้อมปุ่ม */}
-    {previewModal.videoData && (
-      <div className="p-3 bg-light">
-        <h5 className="fw-bold mb-2">{previewModal.videoData.title}</h5>
-        <p className="text-muted mb-3">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" className="me-1">
-            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-          </svg>
-          {previewModal.videoData.channelTitle}
-        </p>
+      {previewModal.open && (
+        <BootstrapModal
+          title="ดูตัวอย่างวิดีโอ"
+          onClose={() => setPreviewModal({ open: false, videoId: null, videoData: null })}
+          videoData={{
+            ...previewModal.videoData,
+            videoId: previewModal.videoId
+          }}
+          onFavorite={toggleFavorite}
+          isFavorited={favorites.some((f) => f.videoId === previewModal.videoId)}
+          isLoggedIn={!!user}
+        >
+          <div className="ratio ratio-16x9">
+            <iframe
+              src={`https://www.youtube.com/embed/${previewModal.videoId}?autoplay=1`}
+              title="YouTube video preview"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          
+          {previewModal.videoData && (
+            <div className="p-3 bg-light">
+              <h5 className="fw-bold mb-2">{previewModal.videoData.title}</h5>
+              <p className="text-muted mb-3">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" className="me-1">
+                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                </svg>
+                {previewModal.videoData.channelTitle}
+              </p>
 
-        {/* ปุ่มบันทึกและแชร์ */}
-        <div className="d-flex gap-2">
-          <button
-            onClick={() => toggleFavorite({
-              videoId: previewModal.videoId,
-              videoData: previewModal.videoData
-            })}
-            className={`btn btn-sm rounded-pill ${
-              favorites.some((f) => f.videoId === previewModal.videoId) 
-                ? 'text-black btn-danger' 
-                : 'text-black btn-outline-danger'
-            }`}
-          >
-            {favorites.some((f) => f.videoId === previewModal.videoId) 
-              ? '🤍 บันทึกแล้ว' 
-              : '🤍 บันทึก'}
-          </button>
+              <div className="d-flex gap-2">
+                <button
+                  onClick={() => toggleFavorite({
+                    videoId: previewModal.videoId,
+                    videoData: previewModal.videoData
+                  })}
+                  className={`btn btn-sm rounded-pill ${
+                    favorites.some((f) => f.videoId === previewModal.videoId) 
+                      ? 'text-black btn-danger' 
+                      : 'text-black btn-outline-danger'
+                  }`}
+                >
+                  {favorites.some((f) => f.videoId === previewModal.videoId) 
+                    ? '🤍 บันทึกแล้ว' 
+                    : '🤍 บันทึก'}
+                </button>
 
-          <ShareButton 
-            videoId={previewModal.videoId} 
-            videoTitle={previewModal.videoData.title} 
-          />
-        </div>
-      </div>
-    )}
-  </BootstrapModal>
-)}
+                <ShareButton 
+                  videoId={previewModal.videoId} 
+                  videoTitle={previewModal.videoData.title} 
+                />
+              </div>
+            </div>
+          )}
+        </BootstrapModal>
+      )}
     </div>
   );
 }
 
 // ==================== Components ====================
 
-function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
+function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo, isLoggedIn }) {
   const videoId = video.videoId || video?.id?.videoId;
   const snippet = video.videoData || video.snippet || {};
   const thumb = snippet?.thumbnails?.high?.url || snippet?.thumbnails?.medium?.url;
@@ -595,7 +589,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
   return (
     <div className="card h-100 shadow-sm border-0 video-card">
       <div className="position-relative video-thumbnail">
-      <div onClick={() => onPreview(videoId, snippet)} style={{ cursor: 'pointer' }}>
+        <div onClick={() => onPreview(videoId, snippet)} style={{ cursor: 'pointer' }}>
           <img 
             src={thumb} 
             alt={snippet.title} 
@@ -621,12 +615,11 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
             isFavorited ? 'btn' : 'btn-outline-danger'
           }`}
           style={{ top: '10px', right: '10px', width: '40px', height: '40px' }}
+          title={isLoggedIn ? (isFavorited ? 'ลบจากรายการโปรด' : 'เพิ่มเข้ารายการโปรด') : 'เข้าสู่ระบบเพื่อบันทึก'}
         >
           {isFavorited ? '🤍' : '❤️'}
         </button>
       </div>
-
-      
       
       <div className="card-body d-flex flex-column">
         <h5 className="card-title fw-bold mb-2" style={{ fontSize: '0.95rem', lineHeight: '1.4' }}>
@@ -652,7 +645,6 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo }) {
         .video-card {
           background: #dbdbdbff;
           border: 1px solid black;
-
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .video-card:hover {

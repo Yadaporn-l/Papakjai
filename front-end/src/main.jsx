@@ -35,9 +35,7 @@ const router = createBrowserRouter([
   {
     path: "/homelogin",
     element: 
-    <EmailVerificationGuard>
-      <Homelogin/>
-    </EmailVerificationGuard>
+    <Homelogin/>
     
   },
   {
