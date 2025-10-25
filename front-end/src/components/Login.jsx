@@ -45,7 +45,7 @@ export default function Login() {
           // บันทึกข้อมูล user ลง Firestore
           await saveUserToFirestore(user);
           console.log("User data saved, redirecting to dashboard");
-          navigate("/homelogin"); // หรือหน้าที่ต้องการ
+          navigate("/accomodationTarvel"); // หรือหน้าที่ต้องการ
         } catch (firestoreError) {
           console.error("Error saving user data:", firestoreError);
           // แม้ว่าจะบันทึกไม่สำเร็จ ก็ยังให้เข้าสู่ระบบได้

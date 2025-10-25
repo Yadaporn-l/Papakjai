@@ -65,7 +65,7 @@ export default function NavHome() {
 
             <li className="nav-item">
               <NavLink
-                to="/homelogin"
+                to="/accomodationTarvel"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeNav}
               >
