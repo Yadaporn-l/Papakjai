@@ -258,7 +258,8 @@ const [previewModal, setPreviewModal] = useState({
               <p className="text-black mb-0 opacity-90">ค้นพบสถานที่ท่องเที่ยวผ่านคลิปวิดีโอคุณภาพสูง</p>
             </div>
             
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex align-items-center gap-3 align-self-end align-self-md-center ms-md-auto">
+
               {user && (
                 <div className="d-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2">
                   <div 
@@ -272,32 +273,38 @@ const [previewModal, setPreviewModal] = useState({
                 </div>
               )}
               
-              <div className="d-flex gap-2">
-                <button 
-                  onClick={() => setActiveTab('search')} 
-                  className={`btn ${activeTab === 'search' ? 'text-black btn-light' : 'text-black btn-outline-light'}`}
-                >
-                  🔍 ค้นหา
-                </button>
-                <button 
-                  onClick={() => {
-                    if (!user) {
-                      showToast('⚠️ กรุณาเข้าสู่ระบบก่อนใช้งานรายการโปรด');
-                      return;
-                    }
-                    setActiveTab('favorites');
-                  }}
-                  className={`btn ${activeTab === 'favorites' ? 'btn-light text-black' : 'btn-outline-light text-black'} position-relative`}
-                  disabled={!user}
-                >
-                  ❤️ รายการโปรด
-                  {favorites.length > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
-                      {favorites.length}
-                    </span>
-                  )}
-                </button>
-              </div>
+ <div className="d-flex gap-2">
+  {/* ✅ แสดงปุ่มย้อนกลับเฉพาะตอน activeTab เป็น favorites */}
+  {activeTab === 'favorites' && (
+    <button 
+      onClick={() => setActiveTab('search')} 
+      className="btn text-black btn-light"
+    >
+      ย้อนกลับ
+    </button>
+  )}
+
+  {/* ปุ่มรายการโปรด */}
+  <button 
+    onClick={() => {
+      if (!user) {
+        showToast('⚠️ กรุณาเข้าสู่ระบบก่อนใช้งานรายการโปรด');
+        return;
+      }
+      setActiveTab('favorites');
+    }}
+    className={`btn ${activeTab === 'favorites' ? 'btn-light text-black' : 'btn-outline-light text-black'} position-relative`}
+    disabled={!user}
+  >
+    ❤️ รายการโปรด
+    {favorites.length > 0 && (
+      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
+        {favorites.length}
+      </span>
+    )}
+  </button>
+</div>
+
             </div>
           </div>
 

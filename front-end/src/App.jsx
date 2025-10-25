@@ -49,21 +49,21 @@ function App() {
             <article className="feature-card">
               <div className="icon"><i className="fa-regular fa-file-lines"></i></div>
               <h3>All-in-One<br />Visa Information</h3>
-              <p className="text-grey">Get sample letters, up-to-date requirements, and country-by-country rules in one connected place.</p>
+              <p className="text-grey">Clear, quick, and complete visa prep—rules, samples, and guides for every country.</p>
               <span className="card-edge"></span>
             </article>
 
             <article className="feature-card">
               <div className="icon"><i className="fa-solid fa-bullseye"></i></div>
-              <h3>Budget-Based<br />Recommendations</h3>
-              <p className="text-grey">Filter by your budget tier and discover matching destinations and stays—no guesswork.</p>
+              <h3>Immersive<br />Travel Features</h3>
+              <p className="text-grey">Discover top places through inspiring travel stories and visuals from around the world.</p>
               <span className="card-edge"></span>
             </article>
 
             <article className="feature-card">
               <div className="icon"><i className="fa-solid fa-list-check"></i></div>
-              <h3>Ready-to-Go<br />List</h3>
-              <p className="text-grey">Quick start checklists and mini itineraries so you can leave in hours, not weeks.</p>
+              <h3>Global<br />Travel Prep Hub</h3>
+              <p className="text-grey">Get ready to go— visa tips, travel essentials, and quick guides for every journey.</p>
               <span className="card-edge"></span>
             </article>
           </div>
@@ -101,10 +101,9 @@ function App() {
             />
           </div>
           <div className="text">
-            <h3><span className="link-accent">Budget-Based</span> <span className="nowrap">Recommendations</span></h3>
+            <h3><span className="link-accent">Explore with</span> <span className="nowrap">Video Inspiration</span></h3>
             <p>
-              Decide cost tiers and deals-first lists that match your budget range. Set a daily spend, pick the mood,
-              and let our engine suggest trip ideas with ease and real prices.
+             Discover your next dream destination through curated travel clips from around the world. Watch real experiences, explore hidden gems, and get inspired to plan your journey with visuals that speak louder than words.
             </p>
           </div>
         </div>
@@ -113,10 +112,10 @@ function App() {
       <section className="section alt">
         <div className="container split">
           <div className="text">
-            <h3><span className="link-accent">Ready-to-Go</span> List</h3>
+            <h3><span className="link-accent">Global</span> Travel Prep Hub</h3>
             <p>
-              Fast launch. Travel staples, short plans, & quick saves that minimize prep time for
-              solo or family trips.
+              From visa checklists to must-have travel tips, our prep center gathers everything you need before flying abroad. Understand document requirements, travel rules, and packing guides—so you can take off with confidence.
+
             </p>
           </div>
           <div className="images">
