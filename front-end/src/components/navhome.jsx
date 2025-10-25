@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom'; // ⬅️ เปลี่ยน Link → NavLink
 import { useUserAuth } from '../context/UserAuthContext';
-// import "./navhome.css";
 
 export default function NavHome() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
@@ -15,28 +14,23 @@ export default function NavHome() {
     try {
       await logOut();
       closeNav();
-      navigate('/'); // กลับไปหน้าแรก (homepage ปกติ)
+      navigate('/');
       console.log("You are logged out");
     } catch (error) {
       console.error("Failed to log out:", error);
     }
   };
 
-  // กำหนด home path ตามสถานะ login
   const homePath = user ? '/homelogin' : '/';
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div className="container">
-        {/* Brand / Logo - เปลี่ยน path ตามสถานะ login */}
-        <Link className="navbar-brand d-flex align-items-center" to={homePath} onClick={closeNav}>
+        <NavLink className="navbar-brand d-flex align-items-center" to={homePath} onClick={closeNav}>
           <img src="/img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" />
-          <span className="Papak">
-            PaPak<span className="text-info">Jai</span>
-          </span>
-        </Link>
-                
-        {/* Toggler */}
+          <span className="Papak">PaPak<span className="text-info">Jai</span></span>
+        </NavLink>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -48,51 +42,60 @@ export default function NavHome() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Navigation links */}
         <div className={`collapse navbar-collapse ${isNavCollapsed ? '' : 'show'}`} id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+            {/* Home: ใส่ end เพื่อไม่ให้ active ตอนอยู่เส้นทางย่อย */}
             <li className="nav-item">
-              {/* HOME link - เปลี่ยน path ตามสถานะ login */}
-              <Link className="nav-link active" to={homePath} onClick={closeNav}>
+              <NavLink
+                to={homePath}
+                end
+                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                onClick={closeNav}
+              >
                 HOME
-              </Link>
+              </NavLink>
             </li>
+
             <li className="nav-item">
-              <Link className="nav-link" to="/visainfo" onClick={closeNav}>
+              <NavLink
+                to="/visainfo"
+                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                onClick={closeNav}
+              >
                 VISA
-              </Link>
+              </NavLink>
             </li>
+
             <li className="nav-item">
-              <Link className="nav-link" to="/accomodation" onClick={closeNav}>
+              <NavLink
+                to="/accomodation"
+                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                onClick={closeNav}
+              >
                 ACCOMODATION
-              </Link>
+              </NavLink>
             </li>
           </ul>
 
-          {/* ส่วนที่เปลี่ยนแปลงตามสถานะ Login */}
           <div className="d-flex align-items-center gap-2">
             {user ? (
-              // ---- เมื่อผู้ใช้ Login แล้ว ----
               <>
                 <span className="navbar-text text-white me-2">
                   สวัสดี, {user.displayName || user.email}
                 </span>
-                <button
-                  className="btn btn-outline-warning"
-                  onClick={handleLogout}
-                >
+                <button className="btn btn-outline-warning" onClick={handleLogout}>
                   ออกจากระบบ
                 </button>
               </>
             ) : (
-              // ---- เมื่อยังไม่ได้ Login ----
               <>
-                <Link to="/login" className="btn ghost" onClick={closeNav}>
+                <NavLink to="/login" className="btn ghost" onClick={closeNav}>
                   Sign in
-                </Link>
-                <Link to="/register" className="btn primary" onClick={closeNav}>
+                </NavLink>
+                <NavLink to="/register" className="btn primary" onClick={closeNav}>
                   Sign Up
-                </Link>
+                </NavLink>
               </>
             )}
           </div>
