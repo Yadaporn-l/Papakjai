@@ -10,6 +10,7 @@ import Visainfo from './visainfo.jsx'
 import Homelogin from './homelogin.jsx'
 import Accomodation from './Accomodation.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import ForgotPassword from './components/ForgotPassword.jsx'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -20,9 +21,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <App/>
   },
+
   {
     path: "/login",
     element: <Login/>
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword/>
   },
   {
     path: "/register",
