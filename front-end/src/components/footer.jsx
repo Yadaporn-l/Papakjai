@@ -1,6 +1,6 @@
 import React from 'react'
 
-import logo from '/pubilc/pa_pak_jai-removebg.png'
+
 export default function Footer() {
   return (
     <>
@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="container f-top">
                 <div className="brandline">
                     <div className="logo">
-                        <img src={logo} alt="logo"></img>
+                        <img src="./img/pa_pak_jai-removebg.png" alt="logo" />
                         <span>PaPak<span className="accent">Jai</span></span>
                     </div>
                     <p>All-in-one travel picks, visa info, and lists for quick trips.</p>
