@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../context/UserAuthContext';
-import logo from '/img/pa_pak_jai-removebg.png'
+import logo from '/public/pa_pak_jai-removebg.png'
 
 export default function NavHome() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
