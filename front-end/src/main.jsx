@@ -11,6 +11,9 @@ import AccomodationTarvel from './homelogin.jsx'
 import Accomodation from './Accomodation.jsx'
 import VisaResult from './visaresult.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import ForgotPassword from './components/ForgotPassword.jsx'
+
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -24,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword/>
   },
   {
     path: "/register",
