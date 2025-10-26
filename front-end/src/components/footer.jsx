@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../public/pa_pak_jai-removebg.png'
+import logo from '/public/pa_pak_jai-removebg.png'
 
 export default function Footer() {
   return (
