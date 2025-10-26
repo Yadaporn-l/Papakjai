@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../context/UserAuthContext';
-import logo from '/public/pa_pak_jai-removebg.png'
+import logo from '../public/pa_pak_jai-removebg.png'
 
 export default function NavHome() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
@@ -26,7 +26,7 @@ export default function NavHome() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div className="container">
         <NavLink className="navbar-brand d-flex align-items-center" to='/' onClick={closeNav}>
-          {/* <img src="/img/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" /> */}
+          {/* <img src="/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" /> */}
           <img src={logo} alt="logo" height="40" className="me-2"/>
           <span className="Papak">PaPak<span className="text-info">Jai</span></span>
         </NavLink>
