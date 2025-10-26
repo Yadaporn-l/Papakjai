@@ -3,12 +3,12 @@ body{
   margin:0;
   font-family:Arial, sans-serif;
   background-color:#fff;
-  color:#111;                  /* ✅ ข้อความปกติเป็นสีดำเข้ม */
+  color:#111;
 }
 
-h1,h2,h3,h4,h5,h6{ color:#111; }   /* เฮดดิ้งอ่านชัด */
+h1,h2,h3,h4,h5,h6{ color:#111; }
 
-a{ color:inherit; text-decoration:none; }  /* ลิงก์ใช้สีตามบริบท */
+a{ color:inherit; text-decoration:none; }
 
 
 /* ===== Navbar ===== */
@@ -19,34 +19,33 @@ a{ color:inherit; text-decoration:none; }  /* ลิงก์ใช้สีต�
   align-items:center;
   padding:12px 40px;
   color:#fff;
+  flex-wrap: wrap;
 }
 .navbar .logo{
   display:flex; align-items:center;
   color:#00c0d9; font-weight:bold; font-size:18px;
 }
-.navbar ul{ list-style:none; display:flex; margin:0; padding:0; }
+.navbar ul{
+  list-style:none; display:flex; margin:0; padding:0;
+  flex-wrap: wrap;
+}
 .navbar ul li{ margin:0 15px; }
-.navbar ul li a{ text-decoration:none; color:#fff; }          /* ✅ เมนูเป็นขาว */
+.navbar ul li a{ text-decoration:none; color:#fff; }
 .navbar .signin{
   background-color:#00c0d9;
   padding:6px 15px; border-radius:5px;
   text-decoration:none; color:#000; font-weight:bold;
 }
 
-
-/* ===== Navbar Hover Style ===== */
+/* Navbar Hover */
 .navbar ul li a {
   color: #ffffff;
   transition: color 0.2s ease, transform 0.2s ease;
 }
-
-/* เมื่อ hover */
 .navbar ul li a:hover {
-  color: #0dcaf0;       /* ✅ เปลี่ยนเป็นฟ้า (เหมือนปุ่ม Visa) */
-  transform: translateY(-2px); /* ขยับขึ้นเล็กน้อย ดูมี motion */
+  color: #0dcaf0;
+  transform: translateY(-2px);
 }
-
-/* ถ้าอยากให้มีเส้นใต้แบบ modern */
 .navbar ul li a::after {
   content: "";
   display: block;
@@ -56,11 +55,7 @@ a{ color:inherit; text-decoration:none; }  /* ลิงก์ใช้สีต�
   transition: width 0.25s ease;
   margin-top: 4px;
 }
-
-.navbar ul li a:hover::after {
-  width: 100%;  /* เส้นจะค่อย ๆ ขยายเวลา hover */
-}
-
+.navbar ul li a:hover::after { width: 100%; }
 
 
 /* ===== Content ===== */
@@ -68,9 +63,10 @@ a{ color:inherit; text-decoration:none; }  /* ลิงก์ใช้สีต�
   text-align:center;
   margin:50px auto;
   max-width:500px;
+  padding: 0 16px;
 }
 .content h1{ font-size:34px; font-weight:bold; color: #000; }
-.content p{  font-size: 14px; color:#111; }                                      /* ✅ ย้ำให้ p เป็นดำ */
+.content p{ font-size: 14px; color:#111; }
 
 
 /* ===== Visa Box (ฟอร์ม) ===== */
@@ -78,27 +74,25 @@ a{ color:inherit; text-decoration:none; }  /* ลิงก์ใช้สีต�
   background:#ffecec;
   padding:20px;
   border-radius:8px;
-  margin-top:30px;
+  margin:30px auto;        /* margin อัตโนมัติซ้าย-ขวา */
   color:#111; 
-  font-size: 16px;                                                 /* ✅ สีตัวอักษรในกล่องเป็นดำ */
+  font-size: 16px;
+  max-width:500px;          /* กำหนด max-width */
+  box-sizing:border-box;    /* รวม padding ใน width */
 }
 
-
-
-.visa-box p{   
-text-align: left; 
-margin:0 0 10px; color:#111;  
-font-size: 20px;
-
+.visa-box p{
+  text-align: left;
+  margin:0 0 10px;
+  color:#111;
+  font-size: 20px;
 }
-                    /* ✅ ย้ำ p ในกล่อง */
 .visa-box label{
-    
   display:block;
   margin: 18px 0 5px;
-  font-weight: 200px;
+  font-weight: 500;
   text-align:left;
-  color:#111;                                                  /* ✅ label ดำ */
+  color:#111;
 }
 .visa-box select,
 .visa-box input{
@@ -107,7 +101,7 @@ font-size: 20px;
   border:1px solid #ccc;
   border-radius:5px;
   background:#fff;
-  color:#111;                                                  /* ✅ ตัวอักษรใน input/select ดำ */
+  color:#111;
 }
 .visa-box button{
   text-align: center !important;
@@ -121,7 +115,56 @@ font-size: 20px;
 }
 .visa-box button:hover{ background:#6f6e6e; }
 
-
-
 /* ===== Footer ===== */
+.footer{
+  background:#f8f8f8;
+  text-align:center;
+  padding:20px 40px;
+  color:#111;
+  margin-top:50px;
+  font-size:14px;
+}
 
+
+/* ===== Responsive: Mobile & Tablets ===== */
+
+/* Very small phones */
+@media (max-width: 375px){
+  .navbar{ padding:10px 16px; }
+  .navbar .logo{ font-size:16px; }
+  .navbar ul li{ margin:0 8px; }
+  .content{ margin:30px auto; padding:0 12px; }
+  .content h1{ font-size:24px; }
+  .content p{ font-size:12px; }
+  .visa-box{ margin:20px auto; padding:12px; }
+  .visa-box p{ font-size:16px; }
+  .visa-box label{ font-size:14px; }
+  .visa-box button{ width:100%; }
+}
+
+/* Small phones */
+@media (max-width: 480px){
+  .navbar ul{ flex-direction: column; align-items:center; gap:8px; }
+  .navbar .signin{ margin-top:8px; }
+  .content{ margin:30px auto; padding:0 12px; }
+  .visa-box{ margin:20px auto; padding:14px; }
+}
+
+/* Medium phones / small tablets */
+@media (max-width: 768px){
+  .navbar{ padding:10px 20px; justify-content:center; }
+  .navbar ul{ flex-direction: column; align-items:center; gap:10px; }
+  .content{ max-width:90%; margin:30px auto; padding:0 16px; }
+  .visa-box{ max-width:90%; margin:20px auto; padding:16px; }
+  .visa-box p{ font-size:18px; }
+  .visa-box label{ font-size:16px; }
+  .visa-box button{ padding:10px 20px; font-size:16px; }
+}
+
+/* Large tablets / iPad landscape */
+@media (max-width: 1024px){
+  .navbar{ flex-direction: column; padding:12px 20px; }
+  .navbar ul{ flex-direction: row; flex-wrap: wrap; justify-content:center; gap:12px; }
+  .content{ max-width:95%; margin:40px auto; padding:0 20px; }
+  .visa-box{ max-width:95%; padding:18px; margin:30px auto; }
+}
