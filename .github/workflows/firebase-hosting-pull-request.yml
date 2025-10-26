@@ -13,6 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Create .env file
+        run: |
+          echo "YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}" > .env
+    
+      - name: Create service account key
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > serviceAccountKey.json
+
       - run: npm install
       - run: npm run dev
       - uses: FirebaseExtended/action-hosting-deploy@v0
