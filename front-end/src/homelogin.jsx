@@ -57,26 +57,26 @@ export default function HomeLogin() {
   }, [user, logOut]);
 
   const categories = [
-    { id: 'all', label: '🌏 ทั้งหมด' }, 
-    { id: 'beach', label: '🏖️ ชายหาด' },
-    { id: 'mountain', label: '⛰️ ภูเขา' }, 
-    { id: 'city', label: '🏙️ เมืองใหญ่' },
-    { id: 'temple', label: '🛕 วัดวาอาราม' }, 
-    { id: 'food', label: '🍜 อาหาร' },
-    { id: 'adventure', label: '🎢 ผจญภัย' }, 
-    { id: 'nature', label: '🌿 ธรรมชาติ' },
-    { id: 'shopping', label: '🛍️ ช็อปปิ้ง' }
+    { id: 'all', label: '🌏 All' }, 
+    { id: 'beach', label: '🏖️ Beach' },
+    { id: 'mountain', label: '⛰️ Mountain' }, 
+    { id: 'city', label: '🏙️ City' },
+    { id: 'temple', label: '🛕 Temples' }, 
+    { id: 'food', label: '🍜 Food' },
+    { id: 'adventure', label: '🎢 Adventure' }, 
+    { id: 'nature', label: '🌿 Nature' },
+    { id: 'shopping', label: '🛍️ Shopping' }
   ];
 
   const regions = [
-    { id: 'all', label: '🌏 ทั่วโลก' }, 
-    { id: 'thailand', label: '🇹🇭 ไทย' },
-    { id: 'japan', label: '🇯🇵 ญี่ปุ่น' }, 
-    { id: 'korea', label: '🇰🇷 เกาหลี' },
-    { id: 'singapore', label: '🇸🇬 สิงคโปร์' }, 
-    { id: 'vietnam', label: '🇻🇳 เวียดนาม' },
-    { id: 'indonesia', label: '🇮🇩 อินโดนีเซีย' }, 
-    { id: 'malaysia', label: '🇲🇾 มาเลเซีย' }
+    { id: 'all', label: '🌏 Worldwide' }, 
+    { id: 'thailand', label: '🇹🇭 Thailand' },
+    { id: 'japan', label: '🇯🇵 Japan' }, 
+    { id: 'korea', label: '🇰🇷 Korea' },
+    { id: 'singapore', label: '🇸🇬 Singapore' }, 
+    { id: 'vietnam', label: '🇻🇳 Vietnam' },
+    { id: 'indonesia', label: '🇮🇩 Indonesia' }, 
+    { id: 'malaysia', label: '🇲🇾 Malaysia' }
   ];
 
   useEffect(() => {
@@ -96,10 +96,10 @@ export default function HomeLogin() {
     try {
       const then = new Date(iso);
       const diff = (Date.now() - then.getTime()) / 1000;
-      if (diff < 60) return 'เมื่อสักครู่';
-      if (diff < 3600) return `${Math.floor(diff / 60)} นาทีที่แล้ว`;
-      if (diff < 86400) return `${Math.floor(diff / 3600)} ชั่วโมงที่แล้ว`;
-      if (diff < 2592000) return `${Math.floor(diff / 86400)} วันที่แล้ว`;
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+      if (diff < 2592000) return `${Math.floor(diff / 86400)} days ago`;
       return then.toLocaleDateString('th-TH');
     } catch { return ''; }
   };
@@ -134,7 +134,7 @@ export default function HomeLogin() {
       const res = await fetch(`${API_URL}/videos/search?${params}`);
       const json = await res.json();
       
-      if (!json.success) throw new Error(json.error || 'เกิดข้อผิดพลาด');
+      if (!json.success) throw new Error(json.error || 'An error occurred');
       
       if (isLoadingMore) {
         setVideos(prev => [...prev, ...(json.data || [])]);
@@ -147,7 +147,7 @@ export default function HomeLogin() {
       
     } catch (e) {
       console.error(e);
-      setError(e.message || 'โหลดข้อมูลไม่สำเร็จ');
+      setError(e.message || 'Failed to load data');
     } finally {
       if (isLoadingMore) {
         setLoadingMore(false);
@@ -170,12 +170,12 @@ export default function HomeLogin() {
       const res = await fetch(`${API_URL}/videos/favorites/${userId}`);
       const json = await res.json();
       
-      if (!json.success) throw new Error(json.error || 'เกิดข้อผิดพลาด');
+      if (!json.success) throw new Error(json.error || 'An error occurred');
       
       setFavorites(json.data || []);
     } catch (e) {
       console.error(e);
-      setError(e.message || 'โหลดรายการโปรดไม่สำเร็จ');
+      setError(e.message || 'Failed to load favorites');
     } finally {
       setLoading(false);
     }
@@ -184,7 +184,7 @@ export default function HomeLogin() {
   const toggleFavorite = async (video) => {
     // ✅ ปรับปรุงข้อความแจ้งเตือนให้ชัดเจนขึ้น
     if (!userId) {
-      showToast('🔒 กรุณาเข้าสู่ระบบเพื่อใช้งานฟีเจอร์บันทึกวิดีโอ');
+      showToast('🔒 Please log in to use the favorites feature');
       setTimeout(() => {
         navigate('/login');
       }, 2500);
@@ -197,10 +197,10 @@ export default function HomeLogin() {
 
     if (isFav) {
       setFavorites((prev) => prev.filter((f) => f.videoId !== videoId));
-      showToast('❤️ ลบออกจากรายการโปรดแล้ว');
+      showToast('❤️ Removed from favorites');
     } else {
       setFavorites((prev) => [{ userId, videoId, videoData: snippet, createdAt: new Date() }, ...prev]);
-      showToast('❤️ เพิ่มเข้ารายการโปรดแล้ว');
+      showToast('❤️ Added to favorites');
     }
 
     try {
@@ -218,7 +218,7 @@ export default function HomeLogin() {
     } catch (e) {
       console.error(e);
       fetchFavorites();
-      showToast('❌ เกิดข้อผิดพลาด กรุณาลองใหม่');
+      showToast('❌ An error occurred, Please try again');
     }
   };
 
@@ -254,10 +254,10 @@ export default function HomeLogin() {
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
             <div>
               <h1 className="text-black h2 fw-bold mb-2">🌏 Travel Video Guide</h1>
-              <p className="text-black mb-0 opacity-90">ค้นพบสถานที่ท่องเที่ยวผ่านคลิปวิดีโอคุณภาพสูง</p>
+              <p className="text-black mb-0 opacity-90">Discover amazing places through high-quality travel videos</p>
               {!user && (
                 <p className="text-black mb-0 opacity-75 small mt-1">
-                  💡 <strong>เข้าสู่ระบบ</strong>เพื่อบันทึกวิดีโอโปรดของคุณ
+                  💡 <strong>Log in</strong> to save your favorite videos
                 </p>
               )}
             </div>
@@ -282,7 +282,7 @@ export default function HomeLogin() {
                     onClick={() => setActiveTab('search')} 
                     className="btn text-black btn-light"
                   >
-                    ย้อนกลับ
+                    Back
                   </button>
                 )}
 
@@ -292,7 +292,7 @@ export default function HomeLogin() {
                     onClick={() => setActiveTab('favorites')}
                     className={`btn ${activeTab === 'favorites' ? 'btn-light text-black' : 'btn-outline-light text-black'} position-relative`}
                   >
-                    ❤️ รายการโปรด
+                    ❤️ Favorites
                     {favorites.length > 0 && (
                       <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
                         {favorites.length}
@@ -315,7 +315,7 @@ export default function HomeLogin() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSearch(e)}
-                      placeholder="ค้นหาสถานที่ท่องเที่ยว เช่น Japan, Bali, Street Food..."
+                      placeholder="Search destinations, e.g. Japan, Bali, Street Food..."
                       className="form-control border-0 shadow-none"
                     />
                     <button 
@@ -323,7 +323,7 @@ export default function HomeLogin() {
                       onClick={handleSearch} 
                       className="btn btn-warning fw-bold px-4"
                     >
-                      ค้นหา
+                      Search
                     </button>
                   </div>
                 </div>
@@ -371,10 +371,10 @@ export default function HomeLogin() {
                   onChange={(e) => setSelectedDuration(e.target.value)}
                   className="form-select form-select-sm"
                 >
-                  <option value="any">⏱️ ทุกความยาว</option>
-                  <option value="short">สั้น (&lt; 4 นาที)</option>
-                  <option value="medium">ปานกลาง (4-20 นาที)</option>
-                  <option value="long">ยาว (&gt; 20 นาที)</option>
+                  <option value="any">⏱️ Any length</option>
+                  <option value="short">Short (&lt; 4 mins)</option>
+                  <option value="medium">Medium (4–20 mins)</option>
+                  <option value="long">Long (&gt; 20 mins)</option>
                 </select>
               </div>
 
@@ -384,9 +384,9 @@ export default function HomeLogin() {
                   onChange={(e) => setSortBy(e.target.value)}
                   className="form-select form-select-sm"
                 >
-                  <option value="relevance">📊 เกี่ยวข้องมากสุด</option>
-                  <option value="date">🆕 ล่าสุด</option>
-                  <option value="viewCount">👁️ ยอดวิวสูงสุด</option>
+                  <option value="relevance">📊 Most relevant</option>
+                  <option value="date">🆕 Latest</option>
+                  <option value="viewCount">👁️ Most viewed</option>
                 </select>
               </div>
             </div>
@@ -406,7 +406,7 @@ export default function HomeLogin() {
 
         {loading ? (
           <>
-            <h2 className="h4 mb-4">กำลังโหลด...</h2>
+            <h2 className="h4 mb-4">Loading...</h2>
             <div className="row g-4">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -420,8 +420,8 @@ export default function HomeLogin() {
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h2 className="h4 mb-0 text-black">
                 {activeTab === 'search' 
-                  ? `วิดีโอทั้งหมด` 
-                  : `รายการโปรดของคุณ (${favorites.length})`
+                  ? `All Videos` 
+                  : `Favorites (${favorites.length})`
                 }
               </h2>
             </div>
@@ -433,14 +433,14 @@ export default function HomeLogin() {
                 </div>
                 <h3 className="h5 text-muted">
                   {activeTab === 'search'
-                    ? 'ไม่พบวิดีโอที่ตรงกับการค้นหา'
-                    : 'ยังไม่มีรายการโปรด'
+                    ? 'No videos matched your search'
+                    : 'No favorites yet'
                   }
                 </h3>
                 <p className="text-muted">
                   {activeTab === 'search'
-                    ? 'ลองเปลี่ยนคำค้นหาหรือตัวกรองใหม่'
-                    : 'กดปุ่ม ❤️ เพื่อเพิ่มวิดีโอที่คุณชอบ'
+                    ? 'Try changing your search or filters'
+                    : 'Tap ❤️ to add videos you love'
                   }
                 </p>
               </div>
@@ -481,19 +481,19 @@ export default function HomeLogin() {
                       {loadingMore ? (
                         <>
                           <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                          กำลังโหลด...
+                          Loading...
                         </>
                       ) : (
                         <>
                           <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" className="me-2">
                             <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd"/>
                           </svg>
-                          ดูวิดีโอเพิ่มเติม 🎬
+                          Load more videos 🎬
                         </>
                       )}
                     </button>
                     <p className="text-muted small mt-3 mb-0">
-                      💡 คลิกเพื่อโหลดวิดีโอเพิ่มอีก 24 คลิป
+                      💡 Click to load more videos 
                     </p>
                   </div>
                 )}
@@ -504,8 +504,8 @@ export default function HomeLogin() {
                       <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20" className="mb-2">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
                       </svg>
-                      <p className="mb-0">✨ คุณได้ดูวิดีโอทั้งหมดแล้ว</p>
-                      <small>ลองค้นหาด้วยคำค้นหาอื่นเพื่อดูวิดีโอใหม่ๆ</small>
+                      <p className="mb-0">✨ You’ve watched all videos</p>
+                      <small>Try another keyword to discover new videos</small>
                     </div>
                   </div>
                 )}
@@ -519,7 +519,7 @@ export default function HomeLogin() {
 
       {previewModal.open && (
         <BootstrapModal
-          title="ดูตัวอย่างวิดีโอ"
+          title="Video Preview"
           onClose={() => setPreviewModal({ open: false, videoId: null, videoData: null })}
           videoData={{
             ...previewModal.videoData,
@@ -561,8 +561,8 @@ export default function HomeLogin() {
                   }`}
                 >
                   {favorites.some((f) => f.videoId === previewModal.videoId) 
-                    ? '🤍 บันทึกแล้ว' 
-                    : '🤍 บันทึก'}
+                    ? '🤍 Saved' 
+                    : '🤍 Save'}
                 </button>
 
                 <ShareButton 
@@ -615,7 +615,7 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo, isLoggedI
             isFavorited ? 'btn' : 'btn-outline-danger'
           }`}
           style={{ top: '10px', right: '10px', width: '40px', height: '40px' }}
-          title={isLoggedIn ? (isFavorited ? 'ลบจากรายการโปรด' : 'เพิ่มเข้ารายการโปรด') : 'เข้าสู่ระบบเพื่อบันทึก'}
+          title={isLoggedIn ? (isFavorited ? 'Remove from Favorites' : 'Add to Favorites') : 'Log in to save'}
         >
           {isFavorited ? '🤍' : '❤️'}
         </button>
@@ -702,7 +702,7 @@ function ShareButton({ videoId, videoTitle }) {
 
     if (platform === 'copy') {
       navigator.clipboard.writeText(videoUrl);
-      alert('📋 คัดลอกลิงก์แล้ว!');
+      alert('📋 Link copied!');
       setShowShareMenu(false);
     } else {
       window.open(shareUrls[platform], '_blank', 'width=600,height=400');
@@ -719,7 +719,7 @@ function ShareButton({ videoId, videoTitle }) {
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" className="me-1">
           <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
         </svg>
-        แชร์
+        Share
       </button>
 
       {showShareMenu && (
@@ -742,25 +742,25 @@ function ShareButton({ videoId, videoTitle }) {
               onClick={() => handleShare('facebook')}
               className="text-black btn btn-sm btn-outline-primary w-100 mb-2 text-start"
             >
-              <span className="me-2">📘</span> Facebook
+              <span className="me-2"></span> Facebook
             </button>
             <button
               onClick={() => handleShare('twitter')}
               className="text-black btn btn-sm btn-outline-info w-100 mb-2 text-start"
             >
-              <span className="me-2">🐦</span> Twitter
+              <span className="me-2"></span> Twitter
             </button>
             <button
               onClick={() => handleShare('line')}
               className="text-black btn btn-sm btn-outline-success w-100 mb-2 text-start"
             >
-              <span className="me-2">💬</span> LINE
+              <span className="me-2"></span> LINE
             </button>
             <button
               onClick={() => handleShare('copy')}
               className="text-black btn btn-sm btn-outline-secondary w-100 text-start"
             >
-              <span className="me-2">📋</span> คัดลอกลิงก์
+              <span className="me-2"></span> Copy Link
             </button>
           </div>
         </>
