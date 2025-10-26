@@ -1,0 +1,811 @@
+/* ===== Base ===== */
+:root{
+  --bg:#ffffff;
+  --surface:#ffffff;   /* เดิมเป็น #0f141b ให้เปลี่ยนเป็นขาว */
+  --text:#1a1a1a;      /* เดิมเกือบขาว → มองไม่เห็นบนพื้นขาว */
+  --muted:#475569;     /* สีข้อความรอง เทาเข้มอ่านง่าย */
+  --stroke:#e5e7eb;    /* เส้นคั่น/ขอบอ่อน ๆ */
+  --card:#ffffff;
+  --accent:#007aff;    /* โทนฟ้าโมเดิร์น (เปลี่ยนได้ตามแบรนด์) */
+  --accent-2:#22c55e;
+  --shadow:0 8px 20px rgba(0,0,0,.06);
+}
+/* ===== Base Variables ===== */
+
+
+/* ===== Global Resets and Base Styles ===== */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root { /* Ensure all parent elements allow content to fill height if needed */
+  height: 100%;
+  font-family: 'Inter','Poppins','Noto Sans Thai',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color: var(--text); /* ใช้ตัวแปรที่เพิ่งเปลี่ยนเป็นสีเข้ม */
+}
+
+
+body {
+  font-family: 'Poppins', system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg); /* Set using variable */
+  color: var(--text); /* Set using variable */
+  line-height: 1.55;
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none; /* Default for all links */
+}
+
+/* ===== Layout ===== */
+/* Using Bootstrap's .container, but overriding width if needed */
+.container {
+  width: min(1100px, 92%);
+  margin-inline: auto;
+  /* Bootstrap's default padding is fine, but if you need to remove use: */
+  /* padding-left: 0; padding-right: 0; */
+}
+
+.container .accent {
+  color: #0dcaf0   !important;
+  font-style: italic;
+}
+
+
+/* ===== Header (public) ===== */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  background:#060a0fdd; backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--stroke);
+}
+
+
+/* แก้ */
+.section {  
+  padding: 44px 0;
+  background: rgb(255, 255, 255);
+}
+
+.section-title {
+  margin: 0 0 16px;
+  font-size: 5.75rem; /* Increased font size for section titles */
+  font-weight: 700;
+  color: black;
+}
+
+/* ===== Header (NavHome Component - Bootstrap Overrides) ===== */
+
+.mb-3 {
+  color: black;
+}
+
+/* Base Navbar Styling */
+.navbar {
+  /* Override Bootstrap's default background and padding */
+  background-color: transparent !important;
+  padding: 1.25rem 0 !important; /* Original generous padding */
+  border-bottom: 1px solid transparent !important; /* Start with no visible border */
+  z-index: 1000; /* Ensure it's always on top */
+  position: fixed; /* Use fixed for full-width sticky behavior */
+  top: 0;
+  left: 0;
+  width: 100%;
+  backdrop-filter: blur(5px); /* Subtle blur even when not scrolled */
+}
+
+
+
+/* Scrolled state for the header */
+.navbar.scrolled {
+  background-color: rgba(6, 10, 15, 0.8) !important; /* Darker, semi-transparent when scrolled */
+  border-bottom: 1px solid var(--stroke) !important; /* Border appears when scrolled */
+  padding: 0.75rem 0 !important; /* Less padding when scrolled */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow when scrolled */
+}
+
+/* Brand/Logo Styling */
+.navbar-brand {
+  font-weight: 800 !important;
+  color: var(--text) !important; /* Ensure brand text is white */
+  font-size: 1.5rem; /* Larger brand text */
+}
+.navbar-brand img {
+  height: 40px !important; /* Adjust logo size */
+  /* If your logo background is white, use: filter: invert(1); */
+  /* If your logo needs a subtle glow, use: filter: drop-shadow(0 0 5px rgba(0, 212, 180, 0.5)); */
+  vertical-align: middle; /* Align middle with text */
+}
+
+.feature-card h3{
+  margin:0 0 8px; 
+  font-size:1rem; 
+  color: white;
+}
+
+.feature-card p{
+  margin:0; 
+  color:#ffffff
+}
+  
+.feature-card .card-edge{
+  position: relative; 
+  inset:auto 0 0 0; 
+  height:10px; 
+  border-bottom-left-radius:16px;
+  border-bottom-right-radius:16px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+}
+
+.navbar-brand .accent-color { /* Custom class for accent text */
+  color: var(--accent) !important; /* Vibrant green from your variables */
+}
+
+/* Navigation Links */
+.navbar-nav .nav-link {
+  color: var(--muted) !important; /* Muted text color for normal links */
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem !important;
+  transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--text) !important; /* White on hover/active */
+}
+
+
+/* --- Custom Button Styles (for Sign In/Sign Up and Hero CTA) --- */
+
+/* Base style for custom buttons */
+.btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  border-radius: 12px !important; /* Rounded buttons */
+  padding: 8px 18px !important; /* Fine-tune padding */
+  font-weight: 600 !important; /* Matches image well */
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important; /* Smooth transitions */
+  font-size: 1rem !important; /* Default font size for buttons */
+  line-height: 1.5 !important;
+}
+
+
+/* Ghost Button (e.g., Sign In) */
+.btn.ghost {
+  border: 1px solid !important; /* Dark grey border */
+  color: black; /* White text */
+  background: transparent !important;
+}
+.btn.ghost:hover {
+  border-color: var(--accent) !important; /* Accent border on hover */
+  color: var(--accent) !important; /* Accent text on hover */
+  background: rgba(0, 212, 180, 0.05) !important; /* Subtle accent background on hover */
+}
+
+/* Primary Button (e.g., Sign Up) */
+.btn.primary {
+  background:#0dcaf0  !important; /* Vibrant green */
+  color: var(--bg) !important; /* Dark text for contrast on green */
+  border: 1px solid var(--accent) !important; /* Accent border */
+}
+.btn.primary:hover {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  filter: brightness(0.9); /* Slightly darken on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+/* Large buttons (used in Hero section) */
+.btn.large {
+  padding: 12px 24px !important; /* Larger padding */
+  font-size: 1.1rem !important;
+}
+
+
+/* Hamburger Icon (Bootstrap Toggler) */
+.navbar-toggler {
+  border: 1px solid var(--stroke) !important; /* Match border style */
+  background-color: transparent !important;
+  padding: 0.25rem 0.75rem !important;
+  transition: all 0.2s ease;
+}
+.navbar-toggler:hover {
+  border-color: var(--accent) !important; /* Accent border on hover */
+}
+.navbar-toggler-icon {
+  filter: brightness(0) invert(1); /* Make the default bars white */
+}
+
+
+/* ===== Hero Section ===== */
+.hero {
+  /* Using padding-top to account for fixed navbar height */
+  padding-top: 15px; /* Adjust based on your header's total height */
+  height: 850px; /* This will be from the top of the viewport after the navbar */
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--stroke);
+  background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+  color: var(--text); /* Set text to white initially */
+}
+.hero .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .45), rgba(0, 0, 0, .6));
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  /* padding-top: 34px; -- Removed, now using padding-top on .hero */
+  color: var(--text); /* Ensure text is white despite overlay */
+  /* Bootstrap's .container already adds horizontal padding */
+}
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 1.7rem;
+  color: white;
+}
+.hero .lead {
+  max-width: 700px;
+  color: white; 
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 30px;
+}
+
+.cta-row {
+  margin-top: 30px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+/* 
+แก้ */
+/* ===== Features (ปรับขนาดบาลานซ์) ===== */
+.features .feature-grid {
+  display: grid;
+  gap: 28px; /* เพิ่มช่องว่างเล็กน้อยให้ดูโปร่ง */
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.feature-card .p {
+  color: white;
+}
+
+.feature-card {
+  position: relative;
+  background: #fff;
+  color: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 40px 24px;            /* padding มากขึ้น การ์ดดูกว้างโปร่ง */
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,.12);
+  transition: transform .2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+}
+
+.feature-card .icon {
+  width: 72px;                   /* ไอคอนใหญ่ขึ้น */
+  height: 72px;
+  font-size: 2.5rem;             /* ขยายขนาดไอคอน */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #f7ebeb;
+  background: transparent;
+  border: none;
+}
+
+.feature-card h3{
+  margin: 0 0 12px;
+  font-size: 1.25rem;            /* ใหญ่ขึ้นชัด */
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.feature-card p {
+  margin: 0 auto;
+  max-width: 260px;              /* จำกัดความกว้างให้ไม่ยาวเกิน */
+  color: #ffffff;
+  font-size: 1rem;               /* ตัวอักษรอ่านง่ายขึ้น */
+  line-height: 1.5;
+}
+
+.feature-card p.text-grey{
+  color:#cfcfcf !important;
+}
+
+
+.feature-card .card-edge {
+  display: none;
+}
+
+.article.feature-card p{
+    color: #bdbdbd;
+}
+
+
+
+/* ===== Split sections ===== */
+
+
+.alt{background:#0a0f15}
+.split{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center}
+.split.reverse{grid-template-columns:1fr 1fr}
+.text h3{margin:0 0 8px; font-size:1.15rem}
+.link-accent{color:var(--accent); text-decoration:none}
+.nowrap{white-space:nowrap}
+.text p{margin:0; color:#b9c7da}
+
+
+.section.alt { /* Targeting .section.alt specifically */
+  background: white; /* Slightly lighter background for alternate sections */
+}
+
+
+
+
+
+.section.section p {
+  color: #656363;
+  font-size: 15px;
+  margin:0 auto;
+}
+
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+/* แก้ */
+.split.reverse { 
+  background: white;
+  /* Using Bootstrap's flex-row-reverse for smaller screens, if applicable,
+     otherwise this remains for larger screens. */
+}
+.text h3 {
+  margin: 0 0 8px;
+  font-size: 30px; /* Larger font size for split section titles */
+  color: black;
+}
+
+
+/*แก้*/
+.link-accent {
+  color: #146e80;
+  font-size: 25px;
+  font-weight: 500px;
+  transition: color 0.2s ease;
+}
+.link-accent:hover {
+  color: #596061; /* Slightly brighter accent on hover */
+}
+.nowrap {
+  white-space: nowrap;
+}
+.text p {
+  margin: 0;
+  color: var(--muted); /* Muted color for paragraph text */
+}
+
+
+.images {
+  position: relative;
+}
+.images.single img {
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+}
+.images .stack {
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+}
+.images .top {
+  position: relative;
+  z-index: 2;
+  transform: translate(8px, -8px);
+}
+/* .images .bottom is for a second image in your original design, 
+   currently not in the JSX, but kept for future use */
+.images .bottom {
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  width: 55%;
+  z-index: 1;
+}
+
+
+.images{position:relative}
+.images.single img{border-radius:14px; border:1px solid var(--stroke)}
+.images .stack{border-radius:14px; border:1px solid var(--stroke); box-shadow:var(--shadow)}
+.images .top{position:relative; z-index:2; transform:translate(8px, -8px)}
+.images .bottom{position:absolute; right:0; bottom:-10px; width:55%; z-index:1}
+
+
+/* ===== Footer (same as before) ===== */
+.footer{border-top:1px solid var(--stroke); background:#060a0f; margin-top:24px}
+.f-top{display:grid; grid-template-columns:2fr 3fr; gap:20px; padding:28px 0}
+.logo{display:flex; align-items:center; gap:10px; font-weight:900}
+.logo img{width:26px;height:26px;filter: none; fill: #87CEEB;   /* works if SVG */}
+.brandline p{color:#b9c7da}
+.links{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.links h4{margin:0 0 8px}
+.links a{display:block; margin:6px 0; color:#c7d6ea; text-decoration:none}
+.f-bottom{display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-top:1px solid var(--stroke); color:#9eb0c7}
+.socials a{color:#c7d6ea; margin-left:10px}
+
+/* ===== Footer ===== */
+.footer {
+  border-top: 1px solid var(--stroke);
+  background: var(--surface); /* Using variable for footer background */
+  padding: 28px 0; /* Adding top/bottom padding */
+}
+.f-top {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 20px;
+  /* padding: 28px 0; -- Handled by .footer padding */
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  color: var(--text); /* Ensure footer logo is white */
+}
+.logo img {
+  width: 26px;
+  height: 26px;
+  filter: none; /* If image is already good */
+  /* If you need to color an SVG: fill: var(--accent); */
+}
+.logo .accent { /* For the specific 'jai' part in the footer brand */
+  color: var(--accent);
+}
+.brandline p {
+  color: var(--muted); /* Muted for branding text */
+}
+.links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.links h4 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: var(--text); /* White for link section titles */
+}
+.links a {
+  display: block;
+  margin: 6px 0;
+  color: var(--muted); /* Muted for footer links */
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.links a:hover {
+  color: var(--accent); /* Accent on hover */
+}
+.f-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-top: 1px solid var(--stroke);
+  color: var(--muted); /* Muted for copyright text */
+}
+.socials a {
+  color: var(--muted); /* Muted for social icons */
+  margin-left: 10px;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+.socials a:hover {
+  color: var(--accent); /* Accent on hover */
+}
+
+
+/* ===== Responsive Mobile / Tablet Overrides ===== */
+
+/* Tablet/iPad - roughly 992px is Bootstrap's 'lg' breakpoint for navbar collapse */
+@media (max-width: 991.98px) {
+  /* For the Navbar when collapsed */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%; /* Position right below the navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--bg) !important; /* Solid background for expanded menu */
+    border-top: 1px solid var(--stroke);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+  }
+  .navbar-nav {
+    flex-direction: column !important; /* Stack nav items vertically */
+    margin-bottom: 1rem;
+  }
+  .navbar-nav .nav-item {
+    margin-bottom: 0.5rem;
+  }
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem !important; /* More generous touch area */
+  }
+  .navbar-nav .nav-link.active {
+    border-left: 3px solid var(--accent); /* Highlight active link */
+    padding-left: 0.75rem !important;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE MEDIA QUERIES (วางท้ายไฟล์)
+   ครอบคลุม: ≥1400, 1200–1399, 992–1199, 768–991, 576–767,
+             ≤575, ≤480 (iPhone 12 mini/SE), ≤376 (SE รุ่นเล็ก)
+   ========================================================= */
+
+/* ≥ 1400px — จอใหญ่มาก */
+
+
+
+/* 768–991px — Tablet กลาง (Bootstrap md ช่วงบน) */
+@media (min-width:768px) and (max-width:991.98px){
+  .section{ padding: 40px 0; }
+  .section-title{ font-size: 3rem; }
+  .feature-card{ padding: 28px 20px; }
+}
+
+/* 576–767px — มือถือจอใหญ่/แท็บเล็ตเล็ก (Bootstrap sm ช่วงบน) */
+@media (min-width:576px) and (max-width:767.98px){
+  .container{ width: 92%; }
+  .section{ padding: 36px 0; }
+  .features .feature-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+  .feature-card{ padding: 22px 16px; }
+  .hero h1{ font-size: 1.6rem; }
+  .hero .lead{ font-size: 1rem; }
+}
+
+/* ≤ 575.98px — มือถือทั่วไป (Bootstrap xs) */
+@media (max-width:575.98px){
+  .container{ width: min(100%, 94%); }
+  .section{ padding: 32px 0; }
+  .section-title{ font-size: 2rem; }
+
+  .features .feature-grid{ grid-template-columns: 1fr; gap: 16px; }
+  .feature-card{ padding: 20px 14px; }
+  .feature-card h3{ font-size: 1.1rem; line-height: 1.35; word-break: break-word; }
+  .feature-card p{ font-size: .95rem; max-width: 100%; }
+
+  .cta-row{ display:flex; flex-wrap: wrap; gap: 8px; }
+  .cta-row .btn{ width: 100% !important; }
+
+  .f-bottom{
+    flex-direction: column; gap: 10px; align-items: flex-start;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .socials{ margin-top: 6px; }
+}
+
+/* ======== iPhone SE / Mobile Optimization ======== */
+
+/* สำหรับจอ ≤ 480px */
+@media (max-width: 480px) {
+  html, body {
+    overflow-x: hidden; /* กันการเลื่อนแนวนอน */
+  }
+
+  .container {
+    width: 90% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-inline: auto;
+  }
+
+  /* HERO section */
+  .hero {
+    height: auto !important;
+    min-height: 75vh !important;
+    padding: 80px 0 60px !important; /* เผื่อพื้นที่บน/ล่าง */
+    background-position: center center;
+    background-size: cover;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.25rem, 5vw, 1.5rem) !important;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    padding-inline: 6px;
+    word-break: break-word;
+  }
+
+  .hero .lead {
+    font-size: clamp(0.9rem, 3.8vw, 1rem) !important;
+    line-height: 1.45;
+    color: #f1f1f1;
+    max-width: 100%;
+    padding-inline: 8px;
+  }
+
+  /* ปุ่ม CTA */
+  .cta-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .cta-row .btn {
+    width: 100% !important;
+    font-size: 1rem !important;
+    min-height: 48px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Feature Section */
+  .section.features {
+    padding: 36px 0 !important;
+  }
+
+  .features .feature-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .feature-card {
+    padding: 22px 16px !important;
+    border-radius: 14px !important;
+    background: #0b121b !important;
+    color: #eaf4ff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .feature-card h3 {
+    font-size: 1rem !important;
+    line-height: 1.35;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem !important;
+    line-height: 1.45;
+  }
+
+  .feature-card .icon {
+    width: 52px !important;
+    height: 52px !important;
+    font-size: 1.4rem !important;
+  }
+
+  /* Split Section (ภาพ+ข้อความ) */
+  .split {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+    text-align: center !important;
+  }
+
+  .split .images img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 10px !important;
+  }
+
+  .split .text h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.35;
+    padding-inline: 6px;
+  }
+
+  .split .text p {
+    font-size: 0.9rem !important;
+    line-height: 1.45;
+    padding-inline: 6px;
+  }
+
+  /* Navbar */
+  .navbar-brand {
+    font-size: 1.1rem !important;
+  }
+
+  .navbar-brand img {
+    height: 26px !important;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+  }
+
+  .f-top {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .f-bottom {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+/* ===== ทำให้รูปใน content 3 บล็อกมีขนาดเท่ากันทุกจอ ===== */
+.section .split .images {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* กำหนดอัตราส่วนกรอบภาพ (ใช้ได้กับทุกขนาดจอ) */
+.section .split .images::before {
+  content: "";
+  display: block;
+  padding-top: 62.5%; /* = 16:10 ratio (ปรับได้: 56.25% = 16:9, 75% = 4:3) */
+}
+
+/* ทำให้ภาพเต็มกรอบและไม่บิดเบี้ยว */
+.section .split .images img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ครอบเต็มกรอบแต่ไม่บิดรูป */
+  object-position: center;
+  border-radius: 14px;
+}
+
+/* สำหรับจอมือถือ ≤ 575px */
+@media (max-width:575.98px){
+  .section .split .images::before {
+    padding-top: 75%;  /* ปรับให้สูงขึ้นหน่อยสำหรับมือถือ */
+  }
+}
+
+/* สำหรับแท็บเล็ต ≥ 768px */
+@media (min-width:768px){
+  .section .split .images::before {
+    padding-top: 56.25%; /* 16:9 – ดูพอดีกับ layout 2 คอลัมน์ */
+  }
+}
+
+
+}
+
+
+
+/* สำหรับจอ ≤ 375px — SE รุ่นเก่า */
+@media (max-width: 375px) {
+  .hero h1 {
+    font-size: 1.15rem !important;
+  }
+  .hero .lead {
+    font-size: 0.85rem !important;
+  }
+  .cta-row .btn {
+    font-size: 0.9rem !important;
+  }
+
+}
+
+

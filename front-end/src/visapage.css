@@ -1,0 +1,170 @@
+/* ===== Base ===== */
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background-color:#fff;
+  color:#111;
+}
+
+h1,h2,h3,h4,h5,h6{ color:#111; }
+
+a{ color:inherit; text-decoration:none; }
+
+
+/* ===== Navbar ===== */
+.navbar{
+  background-color:#000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 40px;
+  color:#fff;
+  flex-wrap: wrap;
+}
+.navbar .logo{
+  display:flex; align-items:center;
+  color:#00c0d9; font-weight:bold; font-size:18px;
+}
+.navbar ul{
+  list-style:none; display:flex; margin:0; padding:0;
+  flex-wrap: wrap;
+}
+.navbar ul li{ margin:0 15px; }
+.navbar ul li a{ text-decoration:none; color:#fff; }
+.navbar .signin{
+  background-color:#00c0d9;
+  padding:6px 15px; border-radius:5px;
+  text-decoration:none; color:#000; font-weight:bold;
+}
+
+/* Navbar Hover */
+.navbar ul li a {
+  color: #ffffff;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.navbar ul li a:hover {
+  color: #0dcaf0;
+  transform: translateY(-2px);
+}
+.navbar ul li a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #0dcaf0;
+  transition: width 0.25s ease;
+  margin-top: 4px;
+}
+.navbar ul li a:hover::after { width: 100%; }
+
+
+/* ===== Content ===== */
+.content{
+  text-align:center;
+  margin:50px auto;
+  max-width:500px;
+  padding: 0 16px;
+}
+.content h1{ font-size:34px; font-weight:bold; color: #000; }
+.content p{ font-size: 14px; color:#111; }
+
+
+/* ===== Visa Box (ฟอร์ม) ===== */
+.visa-box{
+  background:#ffecec;
+  padding:20px;
+  border-radius:8px;
+  margin:30px auto;        /* margin อัตโนมัติซ้าย-ขวา */
+  color:#111; 
+  font-size: 16px;
+  max-width:500px;          /* กำหนด max-width */
+  box-sizing:border-box;    /* รวม padding ใน width */
+}
+
+.visa-box p{
+  text-align: left;
+  margin:0 0 10px;
+  color:#111;
+  font-size: 20px;
+}
+.visa-box label{
+  display:block;
+  margin: 18px 0 5px;
+  font-weight: 500;
+  text-align:left;
+  color:#111;
+}
+.visa-box select,
+.visa-box input{
+  width:100%;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:5px;
+  background:#fff;
+  color:#111;
+}
+.visa-box button{
+  text-align: center !important;
+  background:#0dcaf0;
+  color:black;
+  margin-top: 40px;
+  padding:10px 20px;
+  border:none;
+  cursor:pointer;
+  border-radius:5px;
+}
+.visa-box button:hover{ background:#6f6e6e; }
+
+/* ===== Footer ===== */
+.footer{
+  background:#f8f8f8;
+  text-align:center;
+  padding:20px 40px;
+  color:#111;
+  margin-top:50px;
+  font-size:14px;
+}
+
+
+/* ===== Responsive: Mobile & Tablets ===== */
+
+/* Very small phones */
+@media (max-width: 375px){
+  .navbar{ padding:10px 16px; }
+  .navbar .logo{ font-size:16px; }
+  .navbar ul li{ margin:0 8px; }
+  .content{ margin:30px auto; padding:0 12px; }
+  .content h1{ font-size:24px; }
+  .content p{ font-size:12px; }
+  .visa-box{ margin:20px auto; padding:12px; }
+  .visa-box p{ font-size:16px; }
+  .visa-box label{ font-size:14px; }
+  .visa-box button{ width:100%; }
+}
+
+/* Small phones */
+@media (max-width: 480px){
+  .navbar ul{ flex-direction: column; align-items:center; gap:8px; }
+  .navbar .signin{ margin-top:8px; }
+  .content{ margin:30px auto; padding:0 12px; }
+  .visa-box{ margin:20px auto; padding:14px; }
+}
+
+/* Medium phones / small tablets */
+@media (max-width: 768px){
+  .navbar{ padding:10px 20px; justify-content:center; }
+  .navbar ul{ flex-direction: column; align-items:center; gap:10px; }
+  .content{ max-width:90%; margin:30px auto; padding:0 16px; }
+  .visa-box{ max-width:90%; margin:20px auto; padding:16px; }
+  .visa-box p{ font-size:18px; }
+  .visa-box label{ font-size:16px; }
+  .visa-box button{ padding:10px 20px; font-size:16px; }
+}
+
+/* Large tablets / iPad landscape */
+@media (max-width: 1024px){
+  .navbar{ flex-direction: column; padding:12px 20px; }
+  .navbar ul{ flex-direction: row; flex-wrap: wrap; justify-content:center; gap:12px; }
+  .content{ max-width:95%; margin:40px auto; padding:0 20px; }
+  .visa-box{ max-width:95%; padding:18px; margin:30px auto; }
+}

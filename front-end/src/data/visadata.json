@@ -1,0 +1,35 @@
+{
+  "Japan": {
+    "maxDays": 30,
+    "description": "Tourist visa for Japan allows up to 30 days.",
+    "documents": ["Passport", "Visa application form", "Photo", "Flight booking"],
+    "language": "Japanese",
+    "currency": "JPY",
+    "timezone": "GMT+9",
+    "expenses": "Approx. ¥10,000 per day",
+    "accommodationTips": "Book hotels or guesthouses in advance.",
+    "otherTips": "Carry cash, follow local customs."
+  },
+  "Thailand": {
+    "maxDays": 30,
+    "description": "Tourist visa for Thailand allows up to 30 days.",
+    "documents": ["Passport", "Visa application form", "Photo"],
+    "language": "Thai",
+    "currency": "THB",
+    "timezone": "GMT+7",
+    "expenses": "Approx. ฿2,000 per day",
+    "accommodationTips": "Use Agoda or Booking.com for hotels.",
+    "otherTips": "Respect temples and dress appropriately."
+  },
+  "Australia": {
+    "maxDays": 90,
+    "description": "Tourist visa for Australia allows up to 90 days.",
+    "documents": ["Passport", "Visa application form", "Photo", "Travel itinerary"],
+    "language": "English",
+    "currency": "AUD",
+    "timezone": "GMT+10",
+    "expenses": "Approx. $150 per day",
+    "accommodationTips": "Book hotels or Airbnb in advance.",
+    "otherTips": "Travel insurance recommended."
+  }
+}

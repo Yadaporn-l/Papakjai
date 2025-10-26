@@ -1,0 +1,116 @@
+:root{
+  --bg:#0b1118;
+  --surface:#0f141b;
+  --text:#f5f8ff;
+  --muted:#a7b3c6;
+  --stroke:#1f2a37;
+  --card:#0f151d;
+  --accent:#00d4b4;
+  --accent-2:#90e0ef;
+  --shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:#081019;
+  color:var(--text);
+  line-height:1.55;
+}
+
+img{display:block; max-width:100%}
+
+nav {
+  font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+/* ===== Layout ===== */
+.container{width:min(1100px,92%); margin-inline:auto}
+.section{padding:44px 0}
+.section-title{margin:0 0 16px; font-size:1.2rem; font-weight:700}
+
+/* ===== Header (public) ===== */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  background:#060a0fdd; backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--stroke);
+}
+.nav{display:flex; align-items:center; gap:16px; padding:12px 0}
+.brand{display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; font-weight:800}
+.brand img{width:26px;height:26px; filter: none; fill: #87CEEB;   /* works if SVG */}
+.brand .accent{color:var(--accent)}
+
+.menu{margin: 0 auto; display:flex; gap:18px}
+.menu a i{ margin-right: 6px; }
+
+.menu a{color:#c2d0e3; text-decoration:none; font-weight:500; font-size:.95rem}
+.menu a.active, .menu a:hover{color:#fff}
+.auth-actions{display:flex; gap:10px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border-radius:12px; padding:10px 14px; text-decoration:none; cursor:pointer; font-weight:700;
+  border:1px solid var(--stroke); color:#e7f1ff; background:transparent;
+}
+.btn.ghost {
+  color: var(--text);
+}
+.btn.ghost:hover{border-color:#2a394c}
+.btn.primary{background:var(--accent); color:#06231c; border:0}
+.btn.large{padding:10px 18px}
+.hamburger{display:none; background:transparent; color:#fff; border:0; font-size:20px}
+
+@media (max-width: 900px){
+  .menu{display:none}
+  .hamburger{display:block; margin-left:auto}
+  .features .feature-grid{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr}
+  .images .bottom{position:relative; width:70%; bottom:auto; right:auto; margin-top:10px}
+  .f-top{grid-template-columns:1fr}
+  .links{grid-template-columns:repeat(2,1fr)}
+  
+}
+
+
+/* ===== Responsive Mobile ===== */
+@media (max-width: 415px){
+  .section{ padding:28px 0; }
+  .container{ width:min(100%, 94%); }
+
+  .hero{ height:46vh; min-height:260px; }
+  .hero-inner{ padding-top:20px; }
+  .hero h1{ font-size:1.35rem; }
+  .hero .lead{ font-size:.95rem; }
+
+  .cta-row{ flex-direction:column; gap:8px; }
+
+.site-header .auth-actions{ gap:6px;
+ } /* ลดช่องว่างปุ่ม */
+
+
+   
+}
+
+/* iPhone SE รุ่นปัจจุบัน*/
+@media (max-width: 376px){
+  .nav{ padding:5px 0; gap:8px; }
+
+ 
+  .site-header .auth-actions{ 
+    gap:6px; 
+  }
+  .site-header .auth-actions .btn{
+    padding:4px 8px;    
+    font-size: 0.8rem;    
+    border-radius:10px;  
+    min-height:34px;    
+    line-height:1.1;
+ 
+  }
+  .site-header .auth-actions .btn.primary{
+    display:flex; 
+    gap:6px; 
+    margin-left:auto;
+  }
+
+  .menu{ display:none; }
+}
