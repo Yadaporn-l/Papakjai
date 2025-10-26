@@ -18,14 +18,33 @@ if (!YOUTUBE_API_KEY) {
 }
 
 // Check Service Account file
-const serviceAccountPath = path.join(__dirname, 'serviceAccountKey.json');
-if (!fs.existsSync(serviceAccountPath)) {
-  console.error('❌ Error: Service account file not found at:', serviceAccountPath);
-  console.error('Please download service account key from Firebase Console');
-  process.exit(1);
-}
+// ✅ Load Service Account from Environment Variable or File
+let serviceAccount;
 
-var serviceAccount = require(serviceAccountPath);
+if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+  // Production: Load from environment variable
+  console.log('✅ Loading service account from environment variable');
+  try {
+    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    console.log('✅ Service account loaded successfully');
+  } catch (error) {
+    console.error('❌ Error parsing FIREBASE_SERVICE_ACCOUNT:', error.message);
+    process.exit(1);
+  }
+} else {
+  // Development: Load from file
+  console.log('📝 Loading service account from file');
+  const serviceAccountPath = path.join(__dirname, 'serviceAccountKey.json');
+  
+  if (!fs.existsSync(serviceAccountPath)) {
+    console.error('❌ Error: Service account file not found at:', serviceAccountPath);
+    console.error('Please set FIREBASE_SERVICE_ACCOUNT environment variable or add serviceAccountKey.json file');
+    process.exit(1);
+  }
+  
+  serviceAccount = require(serviceAccountPath);
+  console.log('✅ Service account loaded from file');
+}
 
 // Initialize Express
 const app = express();
