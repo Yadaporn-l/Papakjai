@@ -556,113 +556,256 @@ a {
     border-left: 3px solid var(--accent); /* Highlight active link */
     padding-left: 0.75rem !important;
   }
+}
 
-/* ===== Responsive Ipad ===== */
-@media (max-width: 900px){
-  .menu{display:none}
-  .hamburger{display:block; margin-left:auto}
-  .features .feature-grid{grid-template-columns:1fr}
-  .split{grid-template-columns:1fr}
-  .images .bottom{position:relative; width:70%; bottom:auto; right:auto; margin-top:10px}
-  .f-top{grid-template-columns:1fr}
-  .links{grid-template-columns:repeat(2,1fr)}
 
-  
-  /* Auth buttons in mobile menu */
-  .d-flex.gap-2.ms-auto {
-      flex-direction: column !important; /* Stack buttons vertically */
-      width: 100%;
-      gap: 10px !important;
+/* =========================================================
+   RESPONSIVE MEDIA QUERIES (วางท้ายไฟล์)
+   ครอบคลุม: ≥1400, 1200–1399, 992–1199, 768–991, 576–767,
+             ≤575, ≤480 (iPhone 12 mini/SE), ≤376 (SE รุ่นเล็ก)
+   ========================================================= */
+
+/* ≥ 1400px — จอใหญ่มาก */
+
+
+
+/* 768–991px — Tablet กลาง (Bootstrap md ช่วงบน) */
+@media (min-width:768px) and (max-width:991.98px){
+  .section{ padding: 40px 0; }
+  .section-title{ font-size: 3rem; }
+  .feature-card{ padding: 28px 20px; }
+}
+
+/* 576–767px — มือถือจอใหญ่/แท็บเล็ตเล็ก (Bootstrap sm ช่วงบน) */
+@media (min-width:576px) and (max-width:767.98px){
+  .container{ width: 92%; }
+  .section{ padding: 36px 0; }
+  .features .feature-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+  .feature-card{ padding: 22px 16px; }
+  .hero h1{ font-size: 1.6rem; }
+  .hero .lead{ font-size: 1rem; }
+}
+
+/* ≤ 575.98px — มือถือทั่วไป (Bootstrap xs) */
+@media (max-width:575.98px){
+  .container{ width: min(100%, 94%); }
+  .section{ padding: 32px 0; }
+  .section-title{ font-size: 2rem; }
+
+  .features .feature-grid{ grid-template-columns: 1fr; gap: 16px; }
+  .feature-card{ padding: 20px 14px; }
+  .feature-card h3{ font-size: 1.1rem; line-height: 1.35; word-break: break-word; }
+  .feature-card p{ font-size: .95rem; max-width: 100%; }
+
+  .cta-row{ display:flex; flex-wrap: wrap; gap: 8px; }
+  .cta-row .btn{ width: 100% !important; }
+
+  .f-bottom{
+    flex-direction: column; gap: 10px; align-items: flex-start;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
   }
-  .d-flex.gap-2.ms-auto .btn {
-      width: 100%; /* Full width buttons */
+  .socials{ margin-top: 6px; }
+}
+
+/* ======== iPhone SE / Mobile Optimization ======== */
+
+/* สำหรับจอ ≤ 480px */
+@media (max-width: 480px) {
+  html, body {
+    overflow-x: hidden; /* กันการเลื่อนแนวนอน */
   }
 
+  .container {
+    width: 90% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-inline: auto;
+  }
 
-  /* Other layout adjustments */
+  /* HERO section */
+  .hero {
+    height: auto !important;
+    min-height: 75vh !important;
+    padding: 80px 0 60px !important; /* เผื่อพื้นที่บน/ล่าง */
+    background-position: center center;
+    background-size: cover;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.25rem, 5vw, 1.5rem) !important;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    padding-inline: 6px;
+    word-break: break-word;
+  }
+
+  .hero .lead {
+    font-size: clamp(0.9rem, 3.8vw, 1rem) !important;
+    line-height: 1.45;
+    color: #f1f1f1;
+    max-width: 100%;
+    padding-inline: 8px;
+  }
+
+  /* ปุ่ม CTA */
+  .cta-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .cta-row .btn {
+    width: 100% !important;
+    font-size: 1rem !important;
+    min-height: 48px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Feature Section */
+  .section.features {
+    padding: 36px 0 !important;
+  }
+
   .features .feature-grid {
-    grid-template-columns: 1fr; /* Single column for feature cards */
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
   }
+
+  .feature-card {
+    padding: 22px 16px !important;
+    border-radius: 14px !important;
+    background: #0b121b !important;
+    color: #eaf4ff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .feature-card h3 {
+    font-size: 1rem !important;
+    line-height: 1.35;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem !important;
+    line-height: 1.45;
+  }
+
+  .feature-card .icon {
+    width: 52px !important;
+    height: 52px !important;
+    font-size: 1.4rem !important;
+  }
+
+  /* Split Section (ภาพ+ข้อความ) */
   .split {
-    grid-template-columns: 1fr; /* Single column for split sections */
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+    text-align: center !important;
   }
-  .split.reverse { /* When screen is smaller, reverse on larger screens won't apply */
-    flex-direction: column; /* Ensure a consistent flow */
+
+  .split .images img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 10px !important;
   }
-  .images .bottom {
-    position: relative; /* Relative position on smaller screens */
-    width: 70%;
-    bottom: auto;
-    right: auto;
-    margin-top: 10px;
+
+  .split .text h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.35;
+    padding-inline: 6px;
   }
+
+  .split .text p {
+    font-size: 0.9rem !important;
+    line-height: 1.45;
+    padding-inline: 6px;
+  }
+
+  /* Navbar */
+  .navbar-brand {
+    font-size: 1.1rem !important;
+  }
+
+  .navbar-brand img {
+    height: 26px !important;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+  }
+
   .f-top {
-    grid-template-columns: 1fr; /* Single column for footer top */
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
   }
-  .links {
-    grid-template-columns: repeat(2, 1fr); /* Two columns for footer links */
+
+  .f-bottom {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+/* ===== ทำให้รูปใน content 3 บล็อกมีขนาดเท่ากันทุกจอ ===== */
+.section .split .images {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* กำหนดอัตราส่วนกรอบภาพ (ใช้ได้กับทุกขนาดจอ) */
+.section .split .images::before {
+  content: "";
+  display: block;
+  padding-top: 62.5%; /* = 16:10 ratio (ปรับได้: 56.25% = 16:9, 75% = 4:3) */
+}
+
+/* ทำให้ภาพเต็มกรอบและไม่บิดเบี้ยว */
+.section .split .images img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ครอบเต็มกรอบแต่ไม่บิดรูป */
+  object-position: center;
+  border-radius: 14px;
+}
+
+/* สำหรับจอมือถือ ≤ 575px */
+@media (max-width:575.98px){
+  .section .split .images::before {
+    padding-top: 75%;  /* ปรับให้สูงขึ้นหน่อยสำหรับมือถือ */
+  }
+}
+
+/* สำหรับแท็บเล็ต ≥ 768px */
+@media (min-width:768px){
+  .section .split .images::before {
+    padding-top: 56.25%; /* 16:9 – ดูพอดีกับ layout 2 คอลัมน์ */
   }
 }
 
 
-/* Mobile Devices - under 415px (e.g., iPhone SE/smaller phones) */
-@media (max-width: 415px) {
-  .section {
-    padding: 28px 0; /* Smaller padding for sections */
-  }
-  .container {
-    width: min(100%, 94%); /* Wider container on very small screens */
-  }
+}
 
-  .hero {
-    /* Adjusted height for smaller screens, considering actual layout */
-    height: auto; 
-    min-height: 260px; /* Minimum height */
-    padding-top: 80px; /* Smaller padding-top for fixed navbar */
-  }
-  .hero-inner {
-    padding-top: 20px; /* Adjust inner padding */
-  }
+
+
+/* สำหรับจอ ≤ 375px — SE รุ่นเก่า */
+@media (max-width: 375px) {
   .hero h1 {
-    font-size: 1.5rem; /* Smaller hero title */
+    font-size: 1.15rem !important;
   }
   .hero .lead {
-    font-size: .95rem; /* Smaller lead text */
+    font-size: 0.85rem !important;
   }
-
-  .cta-row {
-    flex-direction: column; /* Stack CTA buttons */
-    gap: 8px;
-  }
-
-  /* Footer adjustments */
-  .f-bottom {
-      flex-direction: column; /* Stack copyright and socials */
-      gap: 10px;
-  }
-  .socials {
-      margin-top: 10px;
-  }
-}
-
-/* iPhone SE specific adjustment (if needed after general 415px) */
-@media (max-width: 376px) {
-  /* Fine-tune for very small devices, if necessary */
-  .navbar-brand {
-    font-size: 1.3rem !important; /* Smaller brand text */
-  }
-  .navbar-brand img {
-    height: 32px !important; /* Smaller logo */
-  }
-  .navbar-nav .nav-link {
-    font-size: 0.9rem !important; /* Smaller nav links */
-  }
-  .btn {
-    padding: 6px 12px !important; /* Smaller button padding */
+  .cta-row .btn {
     font-size: 0.9rem !important;
   }
+
 }
 
-  .menu{ display:none; }
-}
 
