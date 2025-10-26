@@ -78,10 +78,10 @@ export default function NavHome() {
             {user ? (
               <>
                 <span className="navbar-text text-white me-2">
-                  สวัสดี, {user.displayName || user.email}
+                  Welcome, {user.displayName || user.email}
                 </span>
                 <button className="btn btn-outline-warning" onClick={handleLogout}>
-                  ออกจากระบบ
+                  Sign out
                 </button>
               </>
             ) : (
