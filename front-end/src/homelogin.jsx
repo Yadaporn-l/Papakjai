@@ -263,7 +263,7 @@ export default function HomeLogin() {
             </div>
             
             <div className="d-flex align-items-center gap-3 align-self-end align-self-md-center ms-md-auto">
-              {user && (
+              {/* {user && (
                 <div className="d-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2">
                   <div 
                     className="rounded-circle bg-white d-flex align-items-center justify-content-center"
@@ -274,7 +274,7 @@ export default function HomeLogin() {
                     </span>
                   </div>
                 </div>
-              )}
+              )} */}
               
               <div className="d-flex gap-2">
                 {activeTab === 'favorites' && (
