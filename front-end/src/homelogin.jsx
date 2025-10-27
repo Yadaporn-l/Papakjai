@@ -69,14 +69,82 @@ export default function HomeLogin() {
   ];
 
   const regions = [
-    { id: 'all', label: '🌏 Worldwide' }, 
+    { id: 'all', label: '🌏 Worldwide' },
+  
+    // Southeast Asia
     { id: 'thailand', label: '🇹🇭 Thailand' },
-    { id: 'japan', label: '🇯🇵 Japan' }, 
-    { id: 'korea', label: '🇰🇷 Korea' },
-    { id: 'singapore', label: '🇸🇬 Singapore' }, 
+    { id: 'singapore', label: '🇸🇬 Singapore' },
     { id: 'vietnam', label: '🇻🇳 Vietnam' },
-    { id: 'indonesia', label: '🇮🇩 Indonesia' }, 
-    { id: 'malaysia', label: '🇲🇾 Malaysia' }
+    { id: 'indonesia', label: '🇮🇩 Indonesia' },
+    { id: 'malaysia', label: '🇲🇾 Malaysia' },
+    { id: 'philippines', label: '🇵🇭 Philippines' },
+    { id: 'myanmar', label: '🇲🇲 Myanmar' },
+    { id: 'cambodia', label: '🇰🇭 Cambodia' },
+    { id: 'laos', label: '🇱🇦 Laos' },
+    
+    // East Asia
+    { id: 'japan', label: '🇯🇵 Japan' },
+    { id: 'korea', label: '🇰🇷 South Korea' },
+    { id: 'china', label: '🇨🇳 China' },
+    { id: 'taiwan', label: '🇹🇼 Taiwan' },
+    { id: 'hongkong', label: '🇭🇰 Hong Kong' },
+    { id: 'macau', label: '🇲🇴 Macau' },
+    
+    // South Asia
+    { id: 'india', label: '🇮🇳 India' },
+    { id: 'nepal', label: '🇳🇵 Nepal' },
+    { id: 'srilanka', label: '🇱🇰 Sri Lanka' },
+    { id: 'maldives', label: '🇲🇻 Maldives' },
+    { id: 'bhutan', label: '🇧🇹 Bhutan' },
+    
+    // Middle East
+    { id: 'uae', label: '🇦🇪 UAE (Dubai)' },
+    { id: 'turkey', label: '🇹🇷 Turkey' },
+    { id: 'saudi', label: '🇸🇦 Saudi Arabia' },
+    { id: 'qatar', label: '🇶🇦 Qatar' },
+    { id: 'israel', label: '🇮🇱 Israel' },
+    
+    // Europe
+    { id: 'france', label: '🇫🇷 France' },
+    { id: 'italy', label: '🇮🇹 Italy' },
+    { id: 'spain', label: '🇪🇸 Spain' },
+    { id: 'uk', label: '🇬🇧 United Kingdom' },
+    { id: 'germany', label: '🇩🇪 Germany' },
+    { id: 'switzerland', label: '🇨🇭 Switzerland' },
+    { id: 'netherlands', label: '🇳🇱 Netherlands' },
+    { id: 'greece', label: '🇬🇷 Greece' },
+    { id: 'portugal', label: '🇵🇹 Portugal' },
+    { id: 'iceland', label: '🇮🇸 Iceland' },
+    { id: 'norway', label: '🇳🇴 Norway' },
+    { id: 'sweden', label: '🇸🇪 Sweden' },
+    { id: 'denmark', label: '🇩🇰 Denmark' },
+    { id: 'czech', label: '🇨🇿 Czech Republic' },
+    { id: 'austria', label: '🇦🇹 Austria' },
+    { id: 'poland', label: '🇵🇱 Poland' },
+    { id: 'croatia', label: '🇭🇷 Croatia' },
+    
+    // Americas
+    { id: 'usa', label: '🇺🇸 United States' },
+    { id: 'canada', label: '🇨🇦 Canada' },
+    { id: 'mexico', label: '🇲🇽 Mexico' },
+    { id: 'brazil', label: '🇧🇷 Brazil' },
+    { id: 'argentina', label: '🇦🇷 Argentina' },
+    { id: 'peru', label: '🇵🇪 Peru' },
+    { id: 'chile', label: '🇨🇱 Chile' },
+    { id: 'colombia', label: '🇨🇴 Colombia' },
+    
+    // Oceania
+    { id: 'australia', label: '🇦🇺 Australia' },
+    { id: 'newzealand', label: '🇳🇿 New Zealand' },
+    { id: 'fiji', label: '🇫🇯 Fiji' },
+    
+    // Africa
+    { id: 'egypt', label: '🇪🇬 Egypt' },
+    { id: 'morocco', label: '🇲🇦 Morocco' },
+    { id: 'southafrica', label: '🇿🇦 South Africa' },
+    { id: 'kenya', label: '🇰🇪 Kenya' },
+    { id: 'tanzania', label: '🇹🇿 Tanzania' }
+
   ];
 
   useEffect(() => {

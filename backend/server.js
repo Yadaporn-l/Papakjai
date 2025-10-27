@@ -427,13 +427,79 @@ function buildSearchQuery(query, category, region) {
   }
 
   const regionKeywords = {
-    thailand: 'thailand (ภาษาไทย)', 
-    japan: 'japan (เที่ยวญี่ปุ่น)',
-    korea: 'korea (한국 여행)',
-    singapore: 'singapore english vlog',
+    // Southeast Asia
+    thailand: 'thailand (ภาษาไทย เที่ยวไทย)',
+    singapore: 'singapore travel vlog',
     vietnam: 'vietnam du lịch',
     indonesia: 'indonesia wisata',
-    malaysia: 'malaysia travel vlog'
+    malaysia: 'malaysia travel guide',
+    philippines: 'philippines travel vlog',
+    myanmar: 'myanmar burma travel',
+    cambodia: 'cambodia travel guide',
+    laos: 'laos travel vlog',
+    
+    // East Asia
+    japan: 'japan (日本 เที่ยวญี่ปุ่น)',
+    korea: 'korea (한국 เกาหลี)',
+    china: 'china (中国 travel)',
+    taiwan: 'taiwan (台灣 travel)',
+    hongkong: 'hong kong travel',
+    macau: 'macau travel guide',
+    
+    // South Asia
+    india: 'india travel guide',
+    nepal: 'nepal travel vlog',
+    srilanka: 'sri lanka travel',
+    maldives: 'maldives resort',
+    bhutan: 'bhutan travel guide',
+    
+    // Middle East
+    uae: 'dubai uae travel',
+    turkey: 'turkey travel guide',
+    saudi: 'saudi arabia travel',
+    qatar: 'qatar travel guide',
+    israel: 'israel travel vlog',
+    
+    // Europe
+    france: 'france paris travel',
+    italy: 'italy travel guide',
+    spain: 'spain travel vlog',
+    uk: 'uk london travel',
+    germany: 'germany travel guide',
+    switzerland: 'switzerland travel',
+    netherlands: 'netherlands amsterdam',
+    greece: 'greece travel guide',
+    portugal: 'portugal travel vlog',
+    iceland: 'iceland travel guide',
+    norway: 'norway travel vlog',
+    sweden: 'sweden travel guide',
+    denmark: 'denmark copenhagen',
+    czech: 'czech prague travel',
+    austria: 'austria vienna travel',
+    poland: 'poland travel guide',
+    croatia: 'croatia travel vlog',
+    
+    // Americas
+    usa: 'usa america travel',
+    canada: 'canada travel guide',
+    mexico: 'mexico travel vlog',
+    brazil: 'brazil travel guide',
+    argentina: 'argentina travel',
+    peru: 'peru travel vlog',
+    chile: 'chile travel guide',
+    colombia: 'colombia travel vlog',
+    
+    // Oceania
+    australia: 'australia travel guide',
+    newzealand: 'new zealand travel',
+    fiji: 'fiji island travel',
+    
+    // Africa
+    egypt: 'egypt cairo travel',
+    morocco: 'morocco travel guide',
+    southafrica: 'south africa travel',
+    kenya: 'kenya safari travel',
+    tanzania: 'tanzania travel guide'
   };
   
   if (region !== 'all' && regionKeywords[region]) {
@@ -443,10 +509,12 @@ function buildSearchQuery(query, category, region) {
   let finalQuery = query.trim();
 
   if (!finalQuery) {
-      finalQuery = 'Japan Travel';
+    finalQuery = 'Travel Guide';
   }
   
-  const additionalTerms = mandatoryKeywords.filter(term => term.toLowerCase() !== query.toLowerCase()).join(' ');
+  const additionalTerms = mandatoryKeywords
+    .filter(term => term.toLowerCase() !== query.toLowerCase())
+    .join(' ');
   
   const finalSearchString = `${finalQuery} ${additionalTerms}`;
 
@@ -454,7 +522,6 @@ function buildSearchQuery(query, category, region) {
   
   return finalSearchString;
 }
-
 // ============================================
 // Start Server
 // ============================================
