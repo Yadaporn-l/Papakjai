@@ -105,8 +105,8 @@ export function UserAuthContextProvider({ children }) {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName || '',
-        phoneNumber: user.phoneNumber || '',
-        photoURL: user.photoURL || '',
+        // phoneNumber: user.phoneNumber || '',
+        // photoURL: user.photoURL || '',
         emailVerified: user.emailVerified,
         createdAt: serverTimestamp(),
         verifiedAt: serverTimestamp(), // เพิ่มเวลาที่ verify
