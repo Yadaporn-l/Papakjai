@@ -149,10 +149,10 @@ export default function Register() {
         {success && <Alert variant='success'>{success}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Label>Full Name</Form.Label>
+            <Form.Label>Display Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter full name"
+              placeholder="Enter name"
               value={name}
               onChange={e => setName(e.target.value)}
               required
