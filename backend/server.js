@@ -132,6 +132,14 @@ app.get('/api/videos/search', async (req, res) => {
         query: searchQuery,
         filters: { category, region, duration, sortBy }
       });
+
+      // 4. บันทึก Search History
+      await db.collection('searchHistory').add({
+        query: searchQuery,
+        filters: { category, region, duration, sortBy },
+        resultCount: response.data.items.length,
+        timestamp: admin.firestore.FieldValue.serverTimestamp()
+      });
     }
 
     res.json({
@@ -242,7 +250,158 @@ app.delete('/api/videos/favorite/:userId/:videoId', async (req, res) => {
   }
 });
 
+// ============================================
+// 5. API: Get Popular Videos (Analytics)
+// ============================================
+app.get('/api/videos/popular', async (req, res) => {
+  try {
+    const { limit = 10 } = req.query;
 
+    const snapshot = await db.collection('favorites').get();
+    
+    const videoCount = {};
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const videoId = data.videoId;
+      
+      if (!videoCount[videoId]) {
+        videoCount[videoId] = {
+          count: 0,
+          videoData: data.videoData
+        };
+      }
+      videoCount[videoId].count++;
+    });
+
+    const popularVideos = Object.entries(videoCount)
+      .sort((a, b) => b[1].count - a[1].count)
+      .slice(0, parseInt(limit))
+      .map(([videoId, data]) => ({
+        videoId,
+        favoriteCount: data.count,
+        videoData: data.videoData
+      }));
+
+    res.json({
+      success: true,
+      data: popularVideos
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// ============================================
+// 6. API: Save User Review/Rating
+// ============================================
+app.post('/api/videos/review', async (req, res) => {
+  try {
+    const { userId, videoId, rating, comment, videoData } = req.body;
+
+    if (!userId || !videoId || !rating) {
+      return res.status(400).json({
+        success: false,
+        error: 'userId, videoId, and rating are required'
+      });
+    }
+
+    await db.collection('reviews').add({
+      userId,
+      videoId,
+      rating,
+      comment: comment || '',
+      videoData,
+      createdAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+
+    res.json({
+      success: true,
+      message: 'Review saved'
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// ============================================
+// 7. API: Get Video Reviews
+// ============================================
+app.get('/api/videos/reviews/:videoId', async (req, res) => {
+  try {
+    const { videoId } = req.params;
+
+    const snapshot = await db.collection('reviews')
+      .where('videoId', '==', videoId)
+      .orderBy('createdAt', 'desc')
+      .get();
+
+    const reviews = [];
+    let totalRating = 0;
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      reviews.push({ id: doc.id, ...data });
+      totalRating += data.rating;
+    });
+
+    const avgRating = reviews.length > 0 ? totalRating / reviews.length : 0;
+
+    res.json({
+      success: true,
+      data: {
+        reviews,
+        averageRating: avgRating,
+        totalReviews: reviews.length
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+// ============================================
+// 8. API: Get Video Comments from YouTube
+// ============================================
+app.get('/api/videos/comments/:videoId', async (req, res) => {
+  try {
+    const { videoId } = req.params;
+    
+    const response = await axios.get('https://www.googleapis.com/youtube/v3/commentThreads', {
+      params: {
+        part: 'snippet',
+        videoId: videoId,
+        maxResults: 20,
+        order: 'relevance',
+        key: YOUTUBE_API_KEY
+      }
+    });
+
+    const comments = response.data.items.map(item => ({
+      authorDisplayName: item.snippet.topLevelComment.snippet.authorDisplayName,
+      authorProfileImageUrl: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
+      textDisplay: item.snippet.topLevelComment.snippet.textDisplay,
+      likeCount: item.snippet.topLevelComment.snippet.likeCount,
+      publishedAt: item.snippet.topLevelComment.snippet.publishedAt
+    }));
+
+    res.json({ success: true, data: comments });
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    // ส่ง array ว่างถ้าไม่มี comments หรือเกิด error
+    res.json({ success: true, data: [] });
+  }
+});
 
 // ============================================
 // Helper Functions
@@ -268,79 +427,13 @@ function buildSearchQuery(query, category, region) {
   }
 
   const regionKeywords = {
-    // Southeast Asia
-    thailand: 'thailand (ภาษาไทย เที่ยวไทย)',
-    singapore: 'singapore travel vlog',
+    thailand: 'thailand (ภาษาไทย)', 
+    japan: 'japan (เที่ยวญี่ปุ่น)',
+    korea: 'korea (한국 여행)',
+    singapore: 'singapore english vlog',
     vietnam: 'vietnam du lịch',
     indonesia: 'indonesia wisata',
-    malaysia: 'malaysia travel guide',
-    philippines: 'philippines travel vlog',
-    myanmar: 'myanmar burma travel',
-    cambodia: 'cambodia travel guide',
-    laos: 'laos travel vlog',
-    
-    // East Asia
-    japan: 'japan (日本 เที่ยวญี่ปุ่น)',
-    korea: 'korea (한국 เกาหลี)',
-    china: 'china (中国 travel)',
-    taiwan: 'taiwan (台灣 travel)',
-    hongkong: 'hong kong travel',
-    macau: 'macau travel guide',
-    
-    // South Asia
-    india: 'india travel guide',
-    nepal: 'nepal travel vlog',
-    srilanka: 'sri lanka travel',
-    maldives: 'maldives resort',
-    bhutan: 'bhutan travel guide',
-    
-    // Middle East
-    uae: 'dubai uae travel',
-    turkey: 'turkey travel guide',
-    saudi: 'saudi arabia travel',
-    qatar: 'qatar travel guide',
-    israel: 'israel travel vlog',
-    
-    // Europe
-    france: 'france paris travel',
-    italy: 'italy travel guide',
-    spain: 'spain travel vlog',
-    uk: 'uk london travel',
-    germany: 'germany travel guide',
-    switzerland: 'switzerland travel',
-    netherlands: 'netherlands amsterdam',
-    greece: 'greece travel guide',
-    portugal: 'portugal travel vlog',
-    iceland: 'iceland travel guide',
-    norway: 'norway travel vlog',
-    sweden: 'sweden travel guide',
-    denmark: 'denmark copenhagen',
-    czech: 'czech prague travel',
-    austria: 'austria vienna travel',
-    poland: 'poland travel guide',
-    croatia: 'croatia travel vlog',
-    
-    // Americas
-    usa: 'usa america travel',
-    canada: 'canada travel guide',
-    mexico: 'mexico travel vlog',
-    brazil: 'brazil travel guide',
-    argentina: 'argentina travel',
-    peru: 'peru travel vlog',
-    chile: 'chile travel guide',
-    colombia: 'colombia travel vlog',
-    
-    // Oceania
-    australia: 'australia travel guide',
-    newzealand: 'new zealand travel',
-    fiji: 'fiji island travel',
-    
-    // Africa
-    egypt: 'egypt cairo travel',
-    morocco: 'morocco travel guide',
-    southafrica: 'south africa travel',
-    kenya: 'kenya safari travel',
-    tanzania: 'tanzania travel guide'
+    malaysia: 'malaysia travel vlog'
   };
   
   if (region !== 'all' && regionKeywords[region]) {
@@ -350,12 +443,10 @@ function buildSearchQuery(query, category, region) {
   let finalQuery = query.trim();
 
   if (!finalQuery) {
-    finalQuery = 'Travel Guide';
+      finalQuery = 'Japan Travel';
   }
   
-  const additionalTerms = mandatoryKeywords
-    .filter(term => term.toLowerCase() !== query.toLowerCase())
-    .join(' ');
+  const additionalTerms = mandatoryKeywords.filter(term => term.toLowerCase() !== query.toLowerCase()).join(' ');
   
   const finalSearchString = `${finalQuery} ${additionalTerms}`;
 
@@ -363,6 +454,7 @@ function buildSearchQuery(query, category, region) {
   
   return finalSearchString;
 }
+
 // ============================================
 // Start Server
 // ============================================
@@ -372,4 +464,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-ห
