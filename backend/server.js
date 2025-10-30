@@ -122,7 +122,7 @@ app.get('/api/videos/search', async (req, res) => {
     const youtubeUrl = `https://www.googleapis.com/youtube/v3/search?${new URLSearchParams(params)}`;
     const response = await axios.get(youtubeUrl);
 
-    // 3. บันทึก Cache ลง Firebase (เฉพาะหน้าแรก)
+   
     if (!pageToken) {
       const cacheRef = db.collection('videoCache').doc(cacheKey);
       await cacheRef.set({
@@ -249,7 +249,6 @@ app.delete('/api/videos/favorite/:userId/:videoId', async (req, res) => {
     });
   }
 });
-
 
 
 
