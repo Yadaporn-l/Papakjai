@@ -12,7 +12,7 @@ export default function EmailVerificationGuard({ children }) {
     const checkEmailVerification = async () => {
       if (user) {
         try {
-          // รีเฟรช user state เพื่อตรวจสอบสถานะล่าสุด
+        
           await user.reload();
           
           if (!user.emailVerified) {
@@ -21,7 +21,6 @@ export default function EmailVerificationGuard({ children }) {
             return;
           }
           
-          // หากยืนยันแล้ว ให้บันทึกข้อมูลลง Firestore
           try {
             await saveUserToFirestore(user);
             console.log("Verified user data saved to Firestore");
@@ -72,7 +71,6 @@ export default function EmailVerificationGuard({ children }) {
     );
   }
 
-  // หาก user ไม่ได้ login หรือ email ยังไม่ verify
   if (!user || !user.emailVerified) {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -88,6 +86,7 @@ export default function EmailVerificationGuard({ children }) {
             <p>
               Your email address <strong>{user?.email}</strong> has not been verified yet. 
               For security reasons, you must verify your email before accessing the application.
+              You have to check on spam Email.
             </p>
             <hr />
             <div className="alert alert-info">
@@ -137,6 +136,5 @@ export default function EmailVerificationGuard({ children }) {
     );
   }
 
-  // หาก email ถูก verify แล้ว แสดง content ปกติ
   return children;
 }

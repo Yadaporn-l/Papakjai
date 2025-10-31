@@ -15,15 +15,14 @@ import { auth, db } from "../firebase";
 import { serverTimestamp, doc, setDoc } from "firebase/firestore";
 
 // สร้าง Google provider
-const googleProvider = new GoogleAuthProvider();
+// const googleProvider = new GoogleAuthProvider();
 
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // ฟังก์ชันสมัครสมาชิก - ไม่บันทึกลง Firestore ทันที
-  const signUp = async (email, password, displayName = '', phoneNumber = '') => {
+  const signUp = async (email, password, displayName = '' ) => {
     try {
       console.log("Creating user account...");
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);

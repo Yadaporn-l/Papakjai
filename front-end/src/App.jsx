@@ -5,19 +5,10 @@ import Footer from './components/footer.jsx';
 import Navhome from './components/navhome.jsx';
 
 function App() {
-  // ✅ Actually use the hook to get the user
-  const { user } = useUserAuth();
 
   return (
     <>
       <Navhome />
-
-      {/* Optional: email verification banner */}
-      {user && user.email && !user.emailVerified && (
-        <div className="alert alert-warning text-center m-0">
-          Please verify your email ({user.email}) to unlock all features.
-        </div>
-      )}
 
       <section className="hero">
         <div className="overlay"></div>
