@@ -25,31 +25,30 @@ export default function Login() {
       
       console.log("User signed in:", user);
       console.log("Email verified:", user.emailVerified);
-      
-      // ตรวจสอบว่า email ถูก verify แล้วหรือไม่
+
       if (!user.emailVerified) {
         console.log("Email not verified, signing out user");
         
-        // Sign out ผู้ใช้ทันที
         await logOut();
         
-        // เก็บข้อมูลผู้ใช้ไว้สำหรับส่ง email verification ใหม่
+       
         setUnverifiedUser(user);
         setShowVerificationModal(true);
-        setError(""); // ล้าง error message
+        setError("");
       } else {
-        // Email ถูก verify แล้ว - บันทึกข้อมูลลง Firestore และอนุญาตให้เข้าสู่ระบบ
+        
         console.log("Email verified, saving user data to Firestore");
         
         try {
-          // บันทึกข้อมูล user ลง Firestore
+          
           await saveUserToFirestore(user);
           console.log("User data saved, redirecting to dashboard");
-          navigate("/accomodationTarvel"); // หรือหน้าที่ต้องการ
+          navigate("/accomodationTarvel");
         } catch (firestoreError) {
-          console.error("Error saving user data:", firestoreError);
-          // แม้ว่าจะบันทึกไม่สำเร็จ ก็ยังให้เข้าสู่ระบบได้
-          navigate("/login");
+
+          await logOut();
+          setError("Failed to save user data. Please try logging in again.");
+
         }
       }
       
@@ -89,7 +88,6 @@ export default function Login() {
         await sendVerificationEmail(unverifiedUser);
         console.log("Verification email resent successfully");
         
-        // แสดงข้อความสำเร็จ
         setError("");
         alert("Verification email sent! Please check your email and try logging in again after verification.");
         
