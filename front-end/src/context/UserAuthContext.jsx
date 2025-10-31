@@ -2,8 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
   sendPasswordResetEmail,
@@ -14,8 +12,6 @@ import {
 import { auth, db } from "../firebase";
 import { serverTimestamp, doc, setDoc } from "firebase/firestore";
 
-// สร้าง Google provider
-// const googleProvider = new GoogleAuthProvider();
 
 const userAuthContext = createContext();
 
@@ -46,24 +42,6 @@ export function UserAuthContextProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const signInWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-
-      // Google accounts are automatically verified
-      // บันทึกข้อมูล user ลง Firestore
-      await saveUserToFirestore(user, {
-        signInMethod: 'google'
-      });
-
-      console.log("User signed in with Google successfully");
-      return result;
-    } catch (err) {
-      console.error("Error in signInWithGoogle:", err);
-      throw err;
-    }
-  };
 
   const logOut = () => {
     return signOut(auth);
@@ -104,12 +82,10 @@ export function UserAuthContextProvider({ children }) {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName || '',
-        // phoneNumber: user.phoneNumber || '',
-        // photoURL: user.photoURL || '',
         emailVerified: user.emailVerified,
         createdAt: serverTimestamp(),
-        verifiedAt: serverTimestamp(), // เพิ่มเวลาที่ verify
-        ...additionalData // ข้อมูลเพิ่มเติม
+        verifiedAt: serverTimestamp(), 
+        ...additionalData 
       }, { merge: true });
       
       console.log("User data saved to Firestore successfully");
@@ -129,7 +105,6 @@ export function UserAuthContextProvider({ children }) {
       }
     } catch (error) {
       console.error("Error deleting unverified user:", error);
-      // ไม่ throw error เพราะไม่อยากให้กระทบกับ UX
     }
   };
 
@@ -155,7 +130,6 @@ export function UserAuthContextProvider({ children }) {
         user, 
         signUp, 
         signIn, 
-        signInWithGoogle, 
         logOut, 
         resetPassword,
         sendVerificationEmail,
