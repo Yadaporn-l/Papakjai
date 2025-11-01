@@ -5,7 +5,7 @@ import App from './App.jsx'
 import EmailVerificationGuard from './components/EmailVerificationGuard.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
-import { UserAuthContextProvider } from './context/UserAuthContext.jsx' // ชื่อให้ตรง
+import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import Visainfo from './visainfo.jsx'
 import AccomodationTarvel from './homelogin.jsx'
 import Accomodation from './Accomodation.jsx'

@@ -9,15 +9,14 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(""); // เพิ่ม success message
+  const [success, setSuccess] = useState(""); 
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false); // เพิ่ม state สำหรับ modal
-  const [userEmail, setUserEmail] = useState(""); // เพิ่ม state สำหรับเก็บ email ที่ส่งไป
-  const [pendingUser, setPendingUser] = useState(null); // เก็บ user ที่รอ verification
-  const { signUp, sendVerificationEmail, user } = useUserAuth(); // เพิ่ม user ใน destructuring
+  const [showModal, setShowModal] = useState(false); 
+  const [userEmail, setUserEmail] = useState("");
+  const [pendingUser, setPendingUser] = useState(null);
+  const { signUp, sendVerificationEmail, user } = useUserAuth();
   const navigate = useNavigate();
 
-  // Function ทดสอบการส่ง email verification
   const testEmailVerification = async () => {
     if (user) {
       try {

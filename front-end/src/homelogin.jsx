@@ -34,14 +34,12 @@ export default function HomeLogin() {
   
   const userId = user?.uid || null;
 
-  // ✅ ลบ useEffect ที่ redirect ผู้ใช้ที่ไม่ได้ล็อกอิน
   useEffect(() => {
     if (!user) {
       console.log('Guest user - limited features');
     }
   }, [user]);
 
-  // ✅ Logout เมื่อปิดหน้าเว็บ (เฉพาะผู้ที่ล็อกอิน)
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (user) {
