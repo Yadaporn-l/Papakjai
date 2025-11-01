@@ -380,11 +380,11 @@ export default function VisaResult() {
       const currencyName = countryData[0].currencies[currencyCode].name;
       const flag = countryData[0].flags?.png;
 
-      const exchangeRateRes = await fetch(`https://api.frankfurter.app/latest?from=THB&to=${currencyCode}`);
+      const exchangeRateRes = await fetch(`https://api.fastforex.io/fetch-one?from=THB&to=${currencyCode}&api_key=${EXCHANGE_RATE_API_KEY}`);
       if (!exchangeRateRes.ok) throw new Error("Could not fetch exchange rates.");
       const exchangeData = await exchangeRateRes.json();
 
-      const rate = exchangeData?.rates?.[currencyCode];
+      const rate = exchangeData?.result?.[currencyCode];
 
       if (!rate) throw new Error(`Exchange rate not found for ${currencyCode}`);
 
