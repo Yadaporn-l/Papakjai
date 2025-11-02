@@ -70,18 +70,17 @@ app.get('/api/videos/search', async (req, res) => {
       duration = 'any',
       sortBy = 'relevance',
       maxResults = 24,
-      pageToken = null  // ✅ รับ pageToken สำหรับหน้าถัดไป
+      pageToken = null  
     } = req.query;
 
     // สร้าง cache key (ไม่รวม pageToken เพราะเราต้องการ cache แค่หน้าแรก)
     const cacheKey = `${query}_${category}_${region}_${duration}_${sortBy}`;
     
-    // 1. เช็ค Cache ใน Firebase (เฉพาะหน้าแรก)
+ 
     if (!pageToken) {
       const cacheRef = db.collection('videoCache').doc(cacheKey);
       const cacheDoc = await cacheRef.get();
       
-      // ถ้ามี cache และยังไม่หมดอายุ (24 ชั่วโมง)
       if (cacheDoc.exists) {
         const cacheData = cacheDoc.data();
         const now = Date.now();
@@ -114,7 +113,7 @@ app.get('/api/videos/search', async (req, res) => {
       key: YOUTUBE_API_KEY
     };
 
-    // ✅ เพิ่ม pageToken ถ้ามี
+    
     if (pageToken) {
       params.pageToken = pageToken;
     }
@@ -133,19 +132,13 @@ app.get('/api/videos/search', async (req, res) => {
         filters: { category, region, duration, sortBy }
       });
 
-      // 4. บันทึก Search History
-      await db.collection('searchHistory').add({
-        query: searchQuery,
-        filters: { category, region, duration, sortBy },
-        resultCount: response.data.items.length,
-        timestamp: admin.firestore.FieldValue.serverTimestamp()
-      });
+   
     }
 
     res.json({
       success: true,
       data: response.data.items,
-      nextPageToken: response.data.nextPageToken || null,  // ✅ ส่ง token หน้าถัดไป
+      nextPageToken: response.data.nextPageToken || null,  
       cached: false
     });
 
