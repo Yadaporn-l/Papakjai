@@ -173,7 +173,7 @@ export default function Login() {
           </div>
         </Form>
 
-        {/* Modal แจ้งเตือนให้ verify email */}
+        
         <Modal show={showVerificationModal} onHide={handleCloseVerificationModal} centered>
           <Modal.Header closeButton className="bg-warning text-dark">
             <Modal.Title>

@@ -33,7 +33,6 @@ export default function Register() {
     }
   };
 
-  // Function ปิด modal และ redirect ไป login
   const handleCloseModal = () => {
     setShowModal(false);
     navigate("/login");
@@ -60,28 +59,26 @@ export default function Register() {
     try {
       console.log("Starting registration process...");
       
-      // Sign up user
+   
       const userCredential = await signUp(email, password, name);
       console.log("User registration successful:", userCredential.user);
       
-      // ถ้า user สร้างสำเร็จ ให้ส่ง verification email ต่อไป
       if (userCredential.user) {
         try {
           console.log("Attempting to send verification email to:", userCredential.user.email);
           await sendVerificationEmail(userCredential.user);
           console.log("Verification email sent successfully");
           
-          // เก็บ user ไว้สำหรับการลบหากไม่ verify ภายในเวลาที่กำหนด
           setPendingUser(userCredential.user);
           
-          // แสดง modal แทนการแสดง success message
+
           setUserEmail(userCredential.user.email);
           setShowModal(true);
           
-          // ตั้งเวลาสำหรับลบ user ที่ไม่ verify (เช่น 30 นาที)
+         
           setTimeout(async () => {
             try {
-              // ตรวจสอบว่า user ยัง verify หรือไม่
+             
               await userCredential.user.reload();
               if (!userCredential.user.emailVerified) {
                 console.log("User did not verify email within time limit, deleting account");
@@ -91,7 +88,7 @@ export default function Register() {
             } catch (error) {
               console.error("Error in cleanup process:", error);
             }
-          }, 30 * 60 * 1000); // 30 นาที
+          }, 30 * 60 * 1000); 
           
         } catch (emailError) {
           console.error("Failed to send verification email:", emailError);
@@ -101,7 +98,6 @@ export default function Register() {
           });
           setError("Registration successful! However, we couldn't send the verification email. You can request a new one after signing in.");
           
-          // redirect ไป login page หลังจาก 3 วินาที
           setTimeout(() => {
             navigate("/login");
           }, 3000);
@@ -218,21 +214,10 @@ export default function Register() {
           <div className="mt-3 text-center">
             Already have an account? <Link to="/login">Login</Link>
           </div>
-          
-          {/* Debug Button - เอาออกหลังจากแก้ไขเสร็จ */}
-          {/* <div className="mt-3 text-center">
-            <Button 
-              variant="outline-secondary" 
-              size="sm" 
-              onClick={testEmailVerification}
-              disabled={loading}
-            >
-              Test Email Verification
-            </Button>
-          </div> */}
+         
         </Form>
 
-        {/* Modal แจ้งเตือนการส่ง email verification */}
+        {/* Modal email verification */}
         <Modal show={showModal} onHide={handleCloseModal} centered>
           <Modal.Header closeButton className="bg-warning text-dark">
             <Modal.Title>
