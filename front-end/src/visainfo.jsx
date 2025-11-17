@@ -60,12 +60,12 @@ export default function Visainfo() {
       return;
     }
 
-    // Navigate to result page with data
+    
     navigate('/visaresult', { 
       state: { 
         country: country.value, 
         days: parseInt(days),
-        visaInfo: visaInfo[country.value] // ส่งข้อมูล visa ไปด้วย (optional)
+        visaInfo: visaInfo[country.value] 
       } 
     });
   };
@@ -85,7 +85,7 @@ export default function Visainfo() {
             value={country}
             onChange={(selectedOption) => {
               setCountry(selectedOption);
-              setResult(''); // Clear result when country changes
+              setResult(''); 
             }}
             placeholder={
               loadingCountries 
@@ -101,7 +101,7 @@ export default function Visainfo() {
               }),
               menu: (base) => ({
                 ...base,
-                zIndex: 9999, // Ensure dropdown appears above other elements
+                zIndex: 9999,
               })
             }}
           />
