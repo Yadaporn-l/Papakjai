@@ -5,7 +5,7 @@ import NavHome from './components/navhome';
 import { useUserAuth } from './context/UserAuthContext';
 import { useNavigate } from 'react-router-dom';
 
-export default function HomeLogin() {
+export default function Travelguide() {
   const { user, logOut } = useUserAuth();
   const navigate = useNavigate();
 
@@ -23,12 +23,19 @@ export default function HomeLogin() {
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedDuration, setSelectedDuration] = useState('any');
   const [sortBy, setSortBy] = useState('relevance');
+  const [showRegionDropdown, setShowRegionDropdown] = useState(false);
+  const [showDurationDropdown, setShowDurationDropdown] = useState(false);
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
+  const [regionSearch, setRegionSearch] = useState('');
+
   const [activeTab, setActiveTab] = useState('search');
   const [previewModal, setPreviewModal] = useState({ 
     open: false, 
     videoId: null, 
     videoData: null 
   });
+
+  
 
   const API_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5000/api';
   
@@ -144,6 +151,10 @@ export default function HomeLogin() {
     { id: 'tanzania', label: '🇹🇿 Tanzania' }
 
   ];
+
+  const filteredRegions = regions.filter(r => 
+  r.label.toLowerCase().includes(regionSearch.toLowerCase()));
+
 
   useEffect(() => {
     if (activeTab === 'search') {
@@ -418,44 +429,288 @@ export default function HomeLogin() {
               </div>
             </div>
 
-            <div className="row g-2">
-              <div className="col-md-4">
-                <select
-                  value={selectedRegion}
-                  onChange={(e) => setSelectedRegion(e.target.value)}
-                  className="form-select form-select-sm"
-                >
-                  {regions.map((r) => (
-                    <option key={r.id} value={r.id}>{r.label}</option>
-                  ))}
-                </select>
-              </div>
+      <div className="row g-2">
+        {/* Region */}
+        <div className="col-md-4">
+          <div className="position-relative">
+            <button
+              onClick={() => {
+                setShowRegionDropdown(!showRegionDropdown);
+                setShowDurationDropdown(false);
+                setShowSortDropdown(false);
+              }}
+              className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+              style={{ 
+                border: '2px solid gray',
+                backgroundColor: 'white',
+                height: '38px',
+                color: '#000',
+                borderRadius: 5
+              }}
+            >
+              <span className="text-truncate" style={{ color: '#000' }}>
+                {regions.find(r => r.id === selectedRegion)?.label || 'Select a region'}
+              </span>
+            
+            </button>
 
-              <div className="col-md-4">
-                <select
-                  value={selectedDuration}
-                  onChange={(e) => setSelectedDuration(e.target.value)}
-                  className="form-select form-select-sm"
+            {showRegionDropdown && (
+              <>
+                <div 
+                  className="position-fixed top-0 start-0 w-100 h-100" 
+                  onClick={() => {
+                    setShowRegionDropdown(false);
+                    setRegionSearch('');
+                  }}
+                  style={{ zIndex: 1040 }}
+                />
+                <div 
+                  className="position-absolute bg-white border shadow-lg w-100"
+                  style={{ 
+                    zIndex: 1050,
+                    maxHeight: '400px',
+                    overflow: 'hidden',
+                    borderRadius: 0,
+                    marginTop: '2px'
+                  }}
                 >
-                  <option value="any">⏱️ Any length</option>
-                  <option value="short">Short (&lt; 4 mins)</option>
-                  <option value="medium">Medium (4–20 mins)</option>
-                  <option value="long">Long (&gt; 20 mins)</option>
-                </select>
-              </div>
+                  <div className="p-2 border-bottom" style={{ backgroundColor: '#f8f9fa' }}>
+                    <input
+                      type="text"
+                      value={regionSearch}
+                      onChange={(e) => setRegionSearch(e.target.value)}
+                      placeholder="Select a region"
+                      className="form-control form-control-sm"
+                      style={{ 
+                        border: '2px solid #0d6efd',
+                        borderRadius: 0
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </div>
 
-              <div className="col-md-4">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="form-select form-select-sm"
-                >
-                  <option value="relevance">📊 Most relevant</option>
-                  <option value="date">🆕 Latest</option>
-                  <option value="viewCount">👁️ Most viewed</option>
-                </select>
-              </div>
-            </div>
+                  <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                    {filteredRegions.map((r, index) => (
+                      <button
+                        key={r.id}
+                        onClick={() => {
+                          setSelectedRegion(r.id);
+                          setShowRegionDropdown(false);
+                          setRegionSearch('');
+                        }}
+                        className={`w-100 px-3 py-2 border-0 ${
+                          selectedRegion === r.id ? 'bg-primary bg-opacity-10' : ''
+                        } ${index === 0 ? 'bg-light' : ''}`}
+                        style={{ 
+                          borderRadius: 0,
+                          color: '#000',
+                          textAlign: 'left',
+                          display: 'block',
+                          backgroundColor: selectedRegion === r.id ? '' : (index === 0 ? '#f8f9fa' : 'white'),
+                          cursor: 'pointer',
+                          transition: 'background-color 0.2s ease',
+                          outline: 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          //เปลี่ยนสีเมื่อ hover
+                          e.currentTarget.style.backgroundColor = '#e9ecef';
+                        }}
+                        onMouseLeave={(e) => {
+                          
+                          if (selectedRegion === r.id) {
+                            e.currentTarget.style.backgroundColor = '';
+                          } else if (index === 0) {
+                            e.currentTarget.style.backgroundColor = '#f8f9fa';
+                          } else {
+                            e.currentTarget.style.backgroundColor = 'white';
+                          }
+                        }}
+                      >
+                        {r.label}
+                      </button>
+                    ))}
+                    {filteredRegions.length === 0 && (
+                      <div className="text-center text-muted py-3 small">
+                        No results found
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+
+   {/* Duration Dropdown*/}
+  <div className="col-md-4">
+    <div className="position-relative">
+      <button
+        onClick={() => {
+          setShowDurationDropdown(!showDurationDropdown);
+          setShowRegionDropdown(false);
+          setShowSortDropdown(false);
+        }}
+        className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+        style={{ 
+          border: '2px solid gray',
+          backgroundColor: 'white',
+          height: '38px',
+          color: '#000',
+          borderRadius: 5
+        }}
+      >
+        <span>
+          {selectedDuration === 'any' && '⏱️ Any length'}
+          {selectedDuration === 'short' && 'Short (< 4 mins)'}
+          {selectedDuration === 'medium' && 'Medium (4–20 mins)'}
+          {selectedDuration === 'long' && 'Long (> 20 mins)'}
+        </span>
+       
+      </button>
+
+      {showDurationDropdown && (
+        <>
+          <div 
+            className="position-fixed top-0 start-0 w-100 h-100" 
+            onClick={() => setShowDurationDropdown(false)}
+            style={{ zIndex: 1040 }}
+          />
+          <div 
+            className="position-absolute bg-white border shadow-lg w-100"
+            style={{ 
+              zIndex: 1050,
+              borderRadius: 0,
+              marginTop: '2px'
+            }}
+          >
+            {[
+              { value: 'any', label: '⏱️ Any length' },
+              { value: 'short', label: 'Short (< 4 mins)' },
+              { value: 'medium', label: 'Medium (4–20 mins)' },
+              { value: 'long', label: 'Long (> 20 mins)' }
+            ].map((option) => (
+              <button
+                key={option.value}
+                onClick={() => {
+                  setSelectedDuration(option.value);
+                  setShowDurationDropdown(false);
+                }}
+                className={`w-100 px-3 py-2 border-0 ${
+                  selectedDuration === option.value ? 'bg-primary bg-opacity-10' : ''
+                }`}
+                style={{ 
+                  borderRadius: 0,
+                  color: '#000',
+                  textAlign: 'left',
+                  display: 'block',
+                  backgroundColor: selectedDuration === option.value ? '' : 'white',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s ease',
+                  outline: 'none'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#e9ecef';
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedDuration !== option.value) {
+                    e.currentTarget.style.backgroundColor = 'white';
+                  }
+                }}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+
+    {/* Sort Dropdown */}
+  <div className="col-md-4">
+    <div className="position-relative">
+      <button
+        onClick={() => {
+          setShowSortDropdown(!showSortDropdown);
+          setShowRegionDropdown(false);
+          setShowDurationDropdown(false);
+        }}
+        className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+        style={{ 
+          border: '2px solid gray',
+          backgroundColor: 'white',
+          height: '38px',
+          color: '#000',
+          borderRadius: 5
+        }}
+      >
+        <span>
+          {sortBy === 'relevance' && '📊 Most relevant'}
+          {sortBy === 'date' && '🆕 Latest'}
+          {sortBy === 'viewCount' && '👁️ Most viewed'}
+        </span>
+       
+      </button>
+
+      {showSortDropdown && (
+        <>
+          <div 
+            className="position-fixed top-0 start-0 w-100 h-100" 
+            onClick={() => setShowSortDropdown(false)}
+            style={{ zIndex: 1040 }}
+          />
+          <div 
+            className="position-absolute bg-white border shadow-lg w-100"
+            style={{ 
+              zIndex: 1050,
+              borderRadius: 0,
+              marginTop: '2px'
+            }}
+          >
+            {[
+              { value: 'relevance', label: '📊 Most relevant' },
+              { value: 'date', label: '🆕 Latest' },
+              { value: 'viewCount', label: '👁️ Most viewed' }
+            ].map((option) => (
+              <button
+                key={option.value}
+                onClick={() => {
+                  setSortBy(option.value);
+                  setShowSortDropdown(false);
+                }}
+                className={`w-100 px-3 py-2 border-0 ${
+                  sortBy === option.value ? 'bg-primary bg-opacity-10' : ''
+                }`}
+                style={{ 
+                  borderRadius: 0,
+                  color: '#000',
+                  textAlign: 'left',
+                  display: 'block',
+                  backgroundColor: sortBy === option.value ? '' : 'white',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s ease',
+                  outline: 'none'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#e9ecef';
+                }}
+                onMouseLeave={(e) => {
+                  if (sortBy !== option.value) {
+                    e.currentTarget.style.backgroundColor = 'white';
+                  }
+                }}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+</div>
+
           </div>
         </div>
       )}
@@ -841,7 +1096,14 @@ function BootstrapModal({ children, title, onClose }) {
       <div 
         className="modal-backdrop fade show" 
         onClick={onClose}
-        style={{ zIndex: 1040 }}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 1040 
+}}
       ></div>
       <div 
         className="modal fade show d-block" 

@@ -7,7 +7,7 @@ import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import Visainfo from './visainfo.jsx'
-import AccomodationTarvel from './homelogin.jsx'
+import Travelguide from './Travelguide.jsx'
 import Accomodation from './Accomodation.jsx'
 import VisaResult from './visaresult.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -45,9 +45,9 @@ const router = createBrowserRouter([
     element: <VisaResult/>
   },
   {
-    path: "/accomodationTarvel",
+    path: "/Travelguide",
     element: 
-    <AccomodationTarvel/>
+    <Travelguide/>
     
   },
   {

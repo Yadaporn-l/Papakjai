@@ -67,11 +67,11 @@ export default function NavHome() {
 
             <li className="nav-item">
               <NavLink
-                to="/accomodationTarvel"
+                to="/Travelguide"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeNav}
               >
-                ACCOMMODATION
+                TRAVEL TRIP
               </NavLink>
             </li>
           </ul>
