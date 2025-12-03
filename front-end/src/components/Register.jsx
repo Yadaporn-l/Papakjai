@@ -22,7 +22,6 @@ export default function Register() {
     navigate("/login");
   };
 
-
   const validatePassword = (password) => {
     const errors = [];
 
@@ -47,12 +46,10 @@ export default function Register() {
     setError("");
     setSuccess("");
 
-
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
 
     const passwordErrors = validatePassword(password);
     if (passwordErrors.length > 0) {
@@ -81,10 +78,9 @@ export default function Register() {
           // Auto-delete after 30 minutes
           setTimeout(async () => {
             try {
-              await userCredential.user.reload();
-              if (!userCredential.user.emailVerified) {
-                console.log("User did not verify email within time limit, deleting account");
-                await userCredential.user.delete();
+              await pendingUser.reload();
+              if (!pendingUser.emailVerified) {
+                await pendingUser.delete();
                 console.log("Unverified user account deleted");
               }
             } catch (error) {
@@ -172,7 +168,6 @@ export default function Register() {
               required
               disabled={loading}
             />
-
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
@@ -215,43 +210,47 @@ export default function Register() {
           </div>
         </Form>
 
-        {/* Modal email verification */}
+        {/* Pop-up email verification */}
         <Modal
           show={showModal}
           onHide={handleCloseModal}
           centered
           style={{ zIndex: 9999 }}
           backdropClassName="modal-backdrop-custom"
+          dialogClassName="modal-dialog-scrollable"
         >
-
           <Modal.Header closeButton className="bg-warning text-dark">
             <Modal.Title>
               <i className="bi bi-exclamation-circle me-2"></i>
               Email Verification Required
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body className="text-center py-4">
+
+          <Modal.Body className="text-center py-4 px-3">
             <div className="mb-3">
               <i className="bi bi-envelope-exclamation" style={{ fontSize: '3rem', color: '#ffc107' }}></i>
             </div>
-            <h5 className="mb-3">Verify Your Email to Complete Registration</h5>
-            <p className="mb-3">
-              We've sent a verification email to:
-            </p>
-            <div className="alert alert-warning">
-              <strong>{userEmail}</strong>
+            <h5 className="mb-4 fw-bold">Verify Your Email to Complete Registration</h5>
+
+            <p className="mb-2">We've sent a verification email to:</p>
+
+            <div className="alert alert-warning mb-3 py-2">
+              <strong className="d-block text-break">{userEmail}</strong>
             </div>
-            <div className="alert alert-danger">
-              <small>
+
+            <div className="alert alert-danger mb-3 py-3 text-center">
+              <div>
                 <strong>Important:</strong> Your account will be automatically deleted if not verified within 30 minutes for security reasons.
-              </small>
+              </div>
             </div>
-            <p className="text-muted small">
+
+            <p className="text-muted small mb-0">
               Please check your email (including spam folder) and click the verification link. After verification, return to the login page.
             </p>
           </Modal.Body>
-          <Modal.Footer className="justify-content-center">
-            <Button variant="primary" onClick={handleCloseModal} size="lg">
+
+          <Modal.Footer className="justify-content-center border-0 pt-0 pb-3">
+            <Button variant="primary" onClick={handleCloseModal} className="px-4 py-2">
               I'll Verify My Email
             </Button>
           </Modal.Footer>
