@@ -10,7 +10,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(null);
-  
+
   const { signIn, sendVerificationEmail, logOut, saveUserToFirestore } = useUserAuth();
   const navigate = useNavigate();
 
@@ -22,28 +22,28 @@ export default function Login() {
     try {
       const userCredential = await signIn(email, password);
       const user = userCredential.user;
-      
+
       console.log("User signed in:", user);
       console.log("Email verified:", user.emailVerified);
 
       if (!user.emailVerified) {
         console.log("Email not verified, signing out user");
-        
+
         await logOut();
-        
-       
+
+
         setUnverifiedUser(user);
         setShowVerificationModal(true);
         setError("");
       } else {
-        
+
         console.log("Email verified, saving user data to Firestore");
-        
+
         try {
-          
+
           await saveUserToFirestore(user);
           console.log("User data saved, redirecting to dashboard");
-          navigate("/accomodationTarvel");
+          navigate("/Travelguide");
         } catch (firestoreError) {
 
           await logOut();
@@ -51,10 +51,10 @@ export default function Login() {
 
         }
       }
-      
+
     } catch (err) {
       console.error("Login error:", err);
-      
+
       switch (err.code) {
         case "auth/user-not-found":
           setError("No account found with this email address.");
@@ -87,10 +87,10 @@ export default function Login() {
         setLoading(true);
         await sendVerificationEmail(unverifiedUser);
         console.log("Verification email resent successfully");
-        
+
         setError("");
         alert("Verification email sent! Please check your email and try logging in again after verification.");
-        
+
       } catch (error) {
         console.error("Failed to resend verification email:", error);
         setError("Failed to send verification email. Please try again later.");
@@ -111,9 +111,9 @@ export default function Login() {
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
       <div className="p-4 rounded bg-white shadow-sm" style={{ width: '350px' }}>
         <h2 className="mb-3 text-center">Login</h2>
-        
+
         {error && <Alert variant='danger'>{error}</Alert>}
-        
+
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -126,7 +126,7 @@ export default function Login() {
               disabled={loading}
             />
           </Form.Group>
-          
+
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -138,11 +138,11 @@ export default function Login() {
               disabled={loading}
             />
           </Form.Group>
-          
+
           <div className="d-grid gap-2">
-            <Button 
-              variant="primary" 
-              type="submit" 
+            <Button
+              variant="primary"
+              type="submit"
               disabled={loading}
             >
               {loading ? (
@@ -161,19 +161,19 @@ export default function Login() {
               )}
             </Button>
           </div>
-          
+
           <div className="mt-3 text-center">
             <Link to="/forgot-password" className="text-decoration-none">
               Forgot Password?
             </Link>
           </div>
-          
+
           <div className="mt-2 text-center">
             Don't have an account? <Link to="/register">Sign up</Link>
           </div>
         </Form>
 
-        
+
         <Modal show={showVerificationModal} onHide={handleCloseVerificationModal} centered>
           <Modal.Header closeButton className="bg-warning text-dark">
             <Modal.Title>
@@ -197,8 +197,8 @@ export default function Login() {
             </p>
           </Modal.Body>
           <Modal.Footer className="justify-content-center">
-            <Button 
-              variant="warning" 
+            <Button
+              variant="warning"
               onClick={handleResendVerification}
               disabled={loading}
               className="me-2"
@@ -212,8 +212,8 @@ export default function Login() {
                 "Resend Verification Email"
               )}
             </Button>
-            <Button 
-              variant="secondary" 
+            <Button
+              variant="secondary"
               onClick={handleCloseVerificationModal}
               disabled={loading}
             >

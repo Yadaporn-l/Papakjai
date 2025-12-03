@@ -9,48 +9,54 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(""); 
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [pendingUser, setPendingUser] = useState(null);
   const { signUp, sendVerificationEmail, user } = useUserAuth();
   const navigate = useNavigate();
-
-  const testEmailVerification = async () => {
-    if (user) {
-      try {
-        await sendVerificationEmail(user);
-        console.log("Test email sent successfully");
-        setUserEmail(user.email);
-        setShowModal(true);
-      } catch (error) {
-        console.error("Test email failed:", error);
-        setError(`Test email failed: ${error.message}`);
-      }
-    } else {
-      setError("No user found. Please register first.");
-    }
-  };
 
   const handleCloseModal = () => {
     setShowModal(false);
     navigate("/login");
   };
 
-  const handleSubmit = async e => {
+
+  const validatePassword = (password) => {
+    const errors = [];
+
+    if (password.length < 6) {
+      errors.push("at least 6 characters");
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push("one uppercase letter (A-Z)");
+    }
+    if (!/\d/.test(password)) {
+      errors.push("one number (0-9)");
+    }
+    if (!/[!@#_%^&*(),.?":{}|<>]/.test(password)) {
+      errors.push("one special character (!@#_%...)");
+    }
+
+    return errors;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    // Validate form
+
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+
+    const passwordErrors = validatePassword(password);
+    if (passwordErrors.length > 0) {
+      setError("Password must contain: " + passwordErrors.join(", ") + ".");
       return;
     }
 
@@ -58,27 +64,23 @@ export default function Register() {
 
     try {
       console.log("Starting registration process...");
-      
-   
+
       const userCredential = await signUp(email, password, name);
       console.log("User registration successful:", userCredential.user);
-      
+
       if (userCredential.user) {
         try {
           console.log("Attempting to send verification email to:", userCredential.user.email);
           await sendVerificationEmail(userCredential.user);
           console.log("Verification email sent successfully");
-          
-          setPendingUser(userCredential.user);
-          
 
+          setPendingUser(userCredential.user);
           setUserEmail(userCredential.user.email);
           setShowModal(true);
-          
-         
+
+          // Auto-delete after 30 minutes
           setTimeout(async () => {
             try {
-             
               await userCredential.user.reload();
               if (!userCredential.user.emailVerified) {
                 console.log("User did not verify email within time limit, deleting account");
@@ -88,29 +90,21 @@ export default function Register() {
             } catch (error) {
               console.error("Error in cleanup process:", error);
             }
-          }, 30 * 60 * 1000); 
-          
+          }, 30 * 60 * 1000);
+
         } catch (emailError) {
           console.error("Failed to send verification email:", emailError);
-          console.error("Email error details:", {
-            code: emailError.code,
-            message: emailError.message
-          });
           setError("Registration successful! However, we couldn't send the verification email. You can request a new one after signing in.");
-          
+
           setTimeout(() => {
             navigate("/login");
           }, 3000);
         }
       }
-      
+
     } catch (err) {
       console.error("Sign up error:", err);
-      console.error("Registration error details:", {
-        code: err.code,
-        message: err.message
-      });
-      
+
       switch (err.code) {
         case "auth/email-already-in-use":
           setError("This email is already registered. Please sign in or use a different email.");
@@ -119,7 +113,7 @@ export default function Register() {
           setError("Invalid email address.");
           break;
         case "auth/weak-password":
-          setError("Password is too weak. Please use at least 6 characters.");
+          setError("Password is too weak. Please use a stronger password.");
           break;
         case "permission-denied":
           setError("Registration failed due to permissions. Please contact support.");
@@ -142,6 +136,7 @@ export default function Register() {
         <h2 className="mb-3 text-center">Register</h2>
         {error && <Alert variant='danger'>{error}</Alert>}
         {success && <Alert variant='success'>{success}</Alert>}
+
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicName">
             <Form.Label>Display Name</Form.Label>
@@ -149,50 +144,53 @@ export default function Register() {
               type="text"
               placeholder="Enter name"
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               required
               disabled={loading}
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={6}
               disabled={loading}
             />
+
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Confirm Password"
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              minLength={6}
               disabled={loading}
             />
           </Form.Group>
+
           <div className="d-grid gap-2">
-            <Button 
-              variant="primary" 
-              type="submit" 
+            <Button
+              variant="primary"
+              type="submit"
               disabled={loading}
             >
               {loading ? (
@@ -211,14 +209,21 @@ export default function Register() {
               )}
             </Button>
           </div>
+
           <div className="mt-3 text-center">
             Already have an account? <Link to="/login">Login</Link>
           </div>
-         
         </Form>
 
         {/* Modal email verification */}
-        <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal
+          show={showModal}
+          onHide={handleCloseModal}
+          centered
+          style={{ zIndex: 9999 }}
+          backdropClassName="modal-backdrop-custom"
+        >
+
           <Modal.Header closeButton className="bg-warning text-dark">
             <Modal.Title>
               <i className="bi bi-exclamation-circle me-2"></i>

@@ -8,12 +8,12 @@ export default function ForgotPassword() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
   const { resetPassword } = useUserAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!email) {
       setError("Please enter your email address");
       return;
@@ -26,10 +26,10 @@ export default function ForgotPassword() {
     try {
       await resetPassword(email);
       setMessage("Password reset email sent! Please check your inbox and spam folder.");
-      setEmail(""); // Clear the email field
+      setEmail("");
     } catch (err) {
       console.error("Password reset error:", err);
-      
+
       switch (err.code) {
         case "auth/user-not-found":
           setError("No account found with this email address.");
@@ -55,16 +55,16 @@ export default function ForgotPassword() {
         <div className="text-center mb-4">
           <i className="bi bi-key" style={{ fontSize: '3rem', color: '#0d6efd' }}></i>
         </div>
-        
+
         <h2 className="mb-3 text-center">Reset Password</h2>
-        
+
         <p className="text-muted text-center mb-4">
           Enter your email address and we'll send you a link to reset your password.
         </p>
-        
+
         {error && <Alert variant='danger'>{error}</Alert>}
         {message && <Alert variant='success'>{message}</Alert>}
-        
+
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -77,11 +77,11 @@ export default function ForgotPassword() {
               disabled={loading}
             />
           </Form.Group>
-          
+
           <div className="d-grid gap-2">
-            <Button 
-              variant="primary" 
-              type="submit" 
+            <Button
+              variant="primary"
+              type="submit"
               disabled={loading}
             >
               {loading ? (
@@ -101,14 +101,14 @@ export default function ForgotPassword() {
             </Button>
           </div>
         </Form>
-        
+
         <div className="mt-4 text-center">
           <Link to="/login" className="text-decoration-none">
             <i className="bi bi-arrow-left me-2"></i>
             Back to Login
           </Link>
         </div>
-        
+
         <div className="mt-2 text-center">
           Don't have an account? <Link to="/register">Sign up</Link>
         </div>

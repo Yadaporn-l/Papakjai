@@ -363,7 +363,7 @@ export default function Travelguide() {
                   </button>
                 )}
 
-                {/* ✅ ปุ่มรายการโปรด - แสดงเฉพาะผู้ที่ล็อกอิน */}
+                {/* ปุ่มรายการโปรด - แสดงเฉพาะผู้ที่ล็อกอิน */}
                 {user && (
                   <button 
                     onClick={() => setActiveTab('favorites')}
@@ -512,7 +512,7 @@ export default function Travelguide() {
                           outline: 'none'
                         }}
                         onMouseEnter={(e) => {
-                          //เปลี่ยนสีเมื่อ hover
+                          
                           e.currentTarget.style.backgroundColor = '#e9ecef';
                         }}
                         onMouseLeave={(e) => {
@@ -542,174 +542,174 @@ export default function Travelguide() {
         </div>
 
 
-   {/* Duration Dropdown*/}
-  <div className="col-md-4">
-    <div className="position-relative">
-      <button
-        onClick={() => {
-          setShowDurationDropdown(!showDurationDropdown);
-          setShowRegionDropdown(false);
-          setShowSortDropdown(false);
-        }}
-        className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
-        style={{ 
-          border: '2px solid gray',
-          backgroundColor: 'white',
-          height: '38px',
-          color: '#000',
-          borderRadius: 5
-        }}
-      >
-        <span>
-          {selectedDuration === 'any' && '⏱️ Any length'}
-          {selectedDuration === 'short' && 'Short (< 4 mins)'}
-          {selectedDuration === 'medium' && 'Medium (4–20 mins)'}
-          {selectedDuration === 'long' && 'Long (> 20 mins)'}
-        </span>
-       
-      </button>
+        {/* Duration Dropdown*/}
+        <div className="col-md-4">
+          <div className="position-relative">
+            <button
+              onClick={() => {
+                setShowDurationDropdown(!showDurationDropdown);
+                setShowRegionDropdown(false);
+                setShowSortDropdown(false);
+              }}
+              className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+              style={{ 
+                border: '2px solid gray',
+                backgroundColor: 'white',
+                height: '38px',
+                color: '#000',
+                borderRadius: 5
+              }}
+            >
+              <span>
+                {selectedDuration === 'any' && '⏱️ Any length'}
+                {selectedDuration === 'short' && 'Short (< 4 mins)'}
+                {selectedDuration === 'medium' && 'Medium (4–20 mins)'}
+                {selectedDuration === 'long' && 'Long (> 20 mins)'}
+              </span>
+            
+            </button>
 
-      {showDurationDropdown && (
-        <>
-          <div 
-            className="position-fixed top-0 start-0 w-100 h-100" 
-            onClick={() => setShowDurationDropdown(false)}
-            style={{ zIndex: 1040 }}
-          />
-          <div 
-            className="position-absolute bg-white border shadow-lg w-100"
-            style={{ 
-              zIndex: 1050,
-              borderRadius: 0,
-              marginTop: '2px'
-            }}
-          >
-            {[
-              { value: 'any', label: '⏱️ Any length' },
-              { value: 'short', label: 'Short (< 4 mins)' },
-              { value: 'medium', label: 'Medium (4–20 mins)' },
-              { value: 'long', label: 'Long (> 20 mins)' }
-            ].map((option) => (
-              <button
-                key={option.value}
-                onClick={() => {
-                  setSelectedDuration(option.value);
-                  setShowDurationDropdown(false);
-                }}
-                className={`w-100 px-3 py-2 border-0 ${
-                  selectedDuration === option.value ? 'bg-primary bg-opacity-10' : ''
-                }`}
-                style={{ 
-                  borderRadius: 0,
-                  color: '#000',
-                  textAlign: 'left',
-                  display: 'block',
-                  backgroundColor: selectedDuration === option.value ? '' : 'white',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s ease',
-                  outline: 'none'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#e9ecef';
-                }}
-                onMouseLeave={(e) => {
-                  if (selectedDuration !== option.value) {
-                    e.currentTarget.style.backgroundColor = 'white';
-                  }
-                }}
-              >
-                {option.label}
-              </button>
-            ))}
+            {showDurationDropdown && (
+              <>
+                <div 
+                  className="position-fixed top-0 start-0 w-100 h-100" 
+                  onClick={() => setShowDurationDropdown(false)}
+                  style={{ zIndex: 1040 }}
+                />
+                <div 
+                  className="position-absolute bg-white border shadow-lg w-100"
+                  style={{ 
+                    zIndex: 1050,
+                    borderRadius: 0,
+                    marginTop: '2px'
+                  }}
+                >
+                  {[
+                    { value: 'any', label: '⏱️ Any length' },
+                    { value: 'short', label: 'Short (< 4 mins)' },
+                    { value: 'medium', label: 'Medium (4–20 mins)' },
+                    { value: 'long', label: 'Long (> 20 mins)' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => {
+                        setSelectedDuration(option.value);
+                        setShowDurationDropdown(false);
+                      }}
+                      className={`w-100 px-3 py-2 border-0 ${
+                        selectedDuration === option.value ? 'bg-primary bg-opacity-10' : ''
+                      }`}
+                      style={{ 
+                        borderRadius: 0,
+                        color: '#000',
+                        textAlign: 'left',
+                        display: 'block',
+                        backgroundColor: selectedDuration === option.value ? '' : 'white',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.2s ease',
+                        outline: 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#e9ecef';
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedDuration !== option.value) {
+                          e.currentTarget.style.backgroundColor = 'white';
+                        }
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
-        </>
-      )}
-    </div>
-  </div>
+        </div>
 
-    {/* Sort Dropdown */}
-  <div className="col-md-4">
-    <div className="position-relative">
-      <button
-        onClick={() => {
-          setShowSortDropdown(!showSortDropdown);
-          setShowRegionDropdown(false);
-          setShowDurationDropdown(false);
-        }}
-        className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
-        style={{ 
-          border: '2px solid gray',
-          backgroundColor: 'white',
-          height: '38px',
-          color: '#000',
-          borderRadius: 5
-        }}
-      >
-        <span>
-          {sortBy === 'relevance' && '📊 Most relevant'}
-          {sortBy === 'date' && '🆕 Latest'}
-          {sortBy === 'viewCount' && '👁️ Most viewed'}
-        </span>
-       
-      </button>
+              {/* Sort Dropdown */}
+        <div className="col-md-4">
+              <div className="position-relative">
+                <button
+                  onClick={() => {
+                    setShowSortDropdown(!showSortDropdown);
+                    setShowRegionDropdown(false);
+                    setShowDurationDropdown(false);
+                  }}
+                  className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+                  style={{ 
+                    border: '2px solid gray',
+                    backgroundColor: 'white',
+                    height: '38px',
+                    color: '#000',
+                    borderRadius: 5
+                  }}
+                >
+                  <span>
+                    {sortBy === 'relevance' && '📊 Most relevant'}
+                    {sortBy === 'date' && '🆕 Latest'}
+                    {sortBy === 'viewCount' && '👁️ Most viewed'}
+                  </span>
+                
+                </button>
 
-      {showSortDropdown && (
-        <>
-          <div 
-            className="position-fixed top-0 start-0 w-100 h-100" 
-            onClick={() => setShowSortDropdown(false)}
-            style={{ zIndex: 1040 }}
-          />
-          <div 
-            className="position-absolute bg-white border shadow-lg w-100"
-            style={{ 
-              zIndex: 1050,
-              borderRadius: 0,
-              marginTop: '2px'
-            }}
-          >
-            {[
-              { value: 'relevance', label: '📊 Most relevant' },
-              { value: 'date', label: '🆕 Latest' },
-              { value: 'viewCount', label: '👁️ Most viewed' }
-            ].map((option) => (
-              <button
-                key={option.value}
-                onClick={() => {
-                  setSortBy(option.value);
-                  setShowSortDropdown(false);
-                }}
-                className={`w-100 px-3 py-2 border-0 ${
-                  sortBy === option.value ? 'bg-primary bg-opacity-10' : ''
-                }`}
-                style={{ 
-                  borderRadius: 0,
-                  color: '#000',
-                  textAlign: 'left',
-                  display: 'block',
-                  backgroundColor: sortBy === option.value ? '' : 'white',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s ease',
-                  outline: 'none'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#e9ecef';
-                }}
-                onMouseLeave={(e) => {
-                  if (sortBy !== option.value) {
-                    e.currentTarget.style.backgroundColor = 'white';
-                  }
-                }}
-              >
-                {option.label}
-              </button>
-            ))}
+                {showSortDropdown && (
+                  <>
+                    <div 
+                      className="position-fixed top-0 start-0 w-100 h-100" 
+                      onClick={() => setShowSortDropdown(false)}
+                      style={{ zIndex: 1040 }}
+                    />
+                    <div 
+                      className="position-absolute bg-white border shadow-lg w-100"
+                      style={{ 
+                        zIndex: 1050,
+                        borderRadius: 0,
+                        marginTop: '2px'
+                      }}
+                    >
+                      {[
+                        { value: 'relevance', label: '📊 Most relevant' },
+                        { value: 'date', label: '🆕 Latest' },
+                        { value: 'viewCount', label: '👁️ Most viewed' }
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => {
+                            setSortBy(option.value);
+                            setShowSortDropdown(false);
+                          }}
+                          className={`w-100 px-3 py-2 border-0 ${
+                            sortBy === option.value ? 'bg-primary bg-opacity-10' : ''
+                          }`}
+                          style={{ 
+                            borderRadius: 0,
+                            color: '#000',
+                            textAlign: 'left',
+                            display: 'block',
+                            backgroundColor: sortBy === option.value ? '' : 'white',
+                            cursor: 'pointer',
+                            transition: 'background-color 0.2s ease',
+                            outline: 'none'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#e9ecef';
+                          }}
+                          onMouseLeave={(e) => {
+                            if (sortBy !== option.value) {
+                              e.currentTarget.style.backgroundColor = 'white';
+                            }
+                          }}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-        </>
-      )}
-    </div>
-  </div>
-</div>
 
           </div>
         </div>
