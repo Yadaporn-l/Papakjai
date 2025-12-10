@@ -29,16 +29,17 @@ export default function Travelguide() {
   const [regionSearch, setRegionSearch] = useState('');
 
   const [activeTab, setActiveTab] = useState('search');
-  const [previewModal, setPreviewModal] = useState({ 
-    open: false, 
-    videoId: null, 
-    videoData: null 
+  const [previewModal, setPreviewModal] = useState({
+    open: false,
+    videoId: null,
+    videoData: null
   });
 
-  
 
+  //Backend API
   const API_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5000/api';
-  
+
+
   const userId = user?.uid || null;
 
   useEffect(() => {
@@ -62,20 +63,20 @@ export default function Travelguide() {
   }, [user, logOut]);
 
   const categories = [
-    { id: 'all', label: '🌏 All' }, 
+    { id: 'all', label: '🌏 All' },
     { id: 'beach', label: '🏖️ Beach' },
-    { id: 'mountain', label: '⛰️ Mountain' }, 
+    { id: 'mountain', label: '⛰️ Mountain' },
     { id: 'city', label: '🏙️ City' },
-    { id: 'temple', label: '🛕 Temples' }, 
+    { id: 'temple', label: '🛕 Temples' },
     { id: 'food', label: '🍜 Food' },
-    { id: 'adventure', label: '🎢 Adventure' }, 
+    { id: 'adventure', label: '🎢 Adventure' },
     { id: 'nature', label: '🌿 Nature' },
     { id: 'shopping', label: '🛍️ Shopping' }
   ];
 
   const regions = [
     { id: 'all', label: '🌏 Worldwide' },
-  
+
     // Southeast Asia
     { id: 'thailand', label: '🇹🇭 Thailand' },
     { id: 'singapore', label: '🇸🇬 Singapore' },
@@ -86,7 +87,7 @@ export default function Travelguide() {
     { id: 'myanmar', label: '🇲🇲 Myanmar' },
     { id: 'cambodia', label: '🇰🇭 Cambodia' },
     { id: 'laos', label: '🇱🇦 Laos' },
-    
+
     // East Asia
     { id: 'japan', label: '🇯🇵 Japan' },
     { id: 'korea', label: '🇰🇷 South Korea' },
@@ -94,21 +95,21 @@ export default function Travelguide() {
     { id: 'taiwan', label: '🇹🇼 Taiwan' },
     { id: 'hongkong', label: '🇭🇰 Hong Kong' },
     { id: 'macau', label: '🇲🇴 Macau' },
-    
+
     // South Asia
     { id: 'india', label: '🇮🇳 India' },
     { id: 'nepal', label: '🇳🇵 Nepal' },
     { id: 'srilanka', label: '🇱🇰 Sri Lanka' },
     { id: 'maldives', label: '🇲🇻 Maldives' },
     { id: 'bhutan', label: '🇧🇹 Bhutan' },
-    
+
     // Middle East
     { id: 'uae', label: '🇦🇪 UAE (Dubai)' },
     { id: 'turkey', label: '🇹🇷 Turkey' },
     { id: 'saudi', label: '🇸🇦 Saudi Arabia' },
     { id: 'qatar', label: '🇶🇦 Qatar' },
     { id: 'israel', label: '🇮🇱 Israel' },
-    
+
     // Europe
     { id: 'france', label: '🇫🇷 France' },
     { id: 'italy', label: '🇮🇹 Italy' },
@@ -127,7 +128,7 @@ export default function Travelguide() {
     { id: 'austria', label: '🇦🇹 Austria' },
     { id: 'poland', label: '🇵🇱 Poland' },
     { id: 'croatia', label: '🇭🇷 Croatia' },
-    
+
     // Americas
     { id: 'usa', label: '🇺🇸 United States' },
     { id: 'canada', label: '🇨🇦 Canada' },
@@ -137,12 +138,12 @@ export default function Travelguide() {
     { id: 'peru', label: '🇵🇪 Peru' },
     { id: 'chile', label: '🇨🇱 Chile' },
     { id: 'colombia', label: '🇨🇴 Colombia' },
-    
+
     // Oceania
     { id: 'australia', label: '🇦🇺 Australia' },
     { id: 'newzealand', label: '🇳🇿 New Zealand' },
     { id: 'fiji', label: '🇫🇯 Fiji' },
-    
+
     // Africa
     { id: 'egypt', label: '🇪🇬 Egypt' },
     { id: 'morocco', label: '🇲🇦 Morocco' },
@@ -152,8 +153,8 @@ export default function Travelguide() {
 
   ];
 
-  const filteredRegions = regions.filter(r => 
-  r.label.toLowerCase().includes(regionSearch.toLowerCase()));
+  const filteredRegions = regions.filter(r =>
+    r.label.toLowerCase().includes(regionSearch.toLowerCase()));
 
 
   useEffect(() => {
@@ -183,7 +184,7 @@ export default function Travelguide() {
 
   const fetchVideos = async (reset = false) => {
     const isLoadingMore = !reset;
-    
+
     if (isLoadingMore) {
       setLoadingMore(true);
     } else {
@@ -191,9 +192,9 @@ export default function Travelguide() {
       setVideos([]);
       setNextPageToken(null);
     }
-    
+
     setError('');
-    
+
     try {
       const params = new URLSearchParams({
         query: searchQuery || 'travel guide',
@@ -210,18 +211,18 @@ export default function Travelguide() {
 
       const res = await fetch(`${API_URL}/videos/search?${params}`);
       const json = await res.json();
-      
+
       if (!json.success) throw new Error(json.error || 'An error occurred');
-      
+
       if (isLoadingMore) {
         setVideos(prev => [...prev, ...(json.data || [])]);
       } else {
         setVideos(json.data || []);
       }
-      
+
       setNextPageToken(json.nextPageToken || null);
       setCached(Boolean(json.cached));
-      
+
     } catch (e) {
       console.error(e);
       setError(e.message || 'Failed to load data');
@@ -240,15 +241,15 @@ export default function Travelguide() {
       setFavorites([]);
       return;
     }
-    
+
     setLoading(true);
     setError('');
     try {
       const res = await fetch(`${API_URL}/videos/favorites/${userId}`);
       const json = await res.json();
-      
+
       if (!json.success) throw new Error(json.error || 'An error occurred');
-      
+
       setFavorites(json.data || []);
     } catch (e) {
       console.error(e);
@@ -259,7 +260,7 @@ export default function Travelguide() {
   };
 
   const toggleFavorite = async (video) => {
-    
+
     if (!userId) {
       showToast('🔒 Please log in to use the favorites feature');
       setTimeout(() => {
@@ -267,7 +268,7 @@ export default function Travelguide() {
       }, 2500);
       return;
     }
-    
+
     const videoId = video.videoId || video?.id?.videoId;
     const snippet = video.videoData || video.snippet;
     const isFav = favorites.some((f) => f.videoId === videoId);
@@ -282,8 +283,8 @@ export default function Travelguide() {
 
     try {
       if (isFav) {
-        await fetch(`${API_URL}/videos/favorite/${userId}/${videoId}`, { 
-          method: 'DELETE' 
+        await fetch(`${API_URL}/videos/favorite/${userId}/${videoId}`, {
+          method: 'DELETE'
         });
       } else {
         await fetch(`${API_URL}/videos/favorite`, {
@@ -316,7 +317,7 @@ export default function Travelguide() {
   return (
     <div className="min-h-screen bg-light">
       {toast && (
-        <div 
+        <div
           className="position-fixed top-0 start-50 translate-middle-x mt-4 bg-dark text-white px-4 py-3 rounded shadow-lg"
           style={{ zIndex: 9999 }}
         >
@@ -338,7 +339,7 @@ export default function Travelguide() {
                 </p>
               )}
             </div>
-            
+
             <div className="d-flex align-items-center gap-3 align-self-end align-self-md-center ms-md-auto">
               {/* {user && (
                 <div className="d-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2">
@@ -352,20 +353,20 @@ export default function Travelguide() {
                   </div>
                 </div>
               )} */}
-              
+
               <div className="d-flex gap-2">
                 {activeTab === 'favorites' && (
-                  <button 
-                    onClick={() => setActiveTab('search')} 
+                  <button
+                    onClick={() => setActiveTab('search')}
                     className="btn text-black btn-light"
                   >
                     Back
                   </button>
                 )}
 
-                {/* ปุ่มรายการโปรด - แสดงเฉพาะผู้ที่ล็อกอิน */}
+                {/* ปุ่มรายการโปรด - แสดงเฉพาะล็อกอิน */}
                 {user && (
-                  <button 
+                  <button
                     onClick={() => setActiveTab('favorites')}
                     className={`btn ${activeTab === 'favorites' ? 'btn-light text-black' : 'btn-outline-light text-black'} position-relative`}
                   >
@@ -395,9 +396,9 @@ export default function Travelguide() {
                       placeholder="Search destinations, e.g. Japan, Bali, Street Food..."
                       className="form-control border-0 shadow-none"
                     />
-                    <button 
-                      type="button" 
-                      onClick={handleSearch} 
+                    <button
+                      type="button"
+                      onClick={handleSearch}
                       className="btn btn-warning fw-bold px-4"
                     >
                       Search
@@ -419,9 +420,8 @@ export default function Travelguide() {
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
-                    className={`btn btn-sm rounded-pill flex-shrink-0 ${
-                      selectedCategory === cat.id ? 'bg-info text-black border-0.5' : 'btn-primary bg-white text-black'
-                    }`}
+                    className={`btn btn-sm rounded-pill flex-shrink-0 ${selectedCategory === cat.id ? 'bg-info text-black border-0.5' : 'btn-primary bg-white text-black'
+                      }`}
                   >
                     {cat.label}
                   </button>
@@ -429,287 +429,284 @@ export default function Travelguide() {
               </div>
             </div>
 
-      <div className="row g-2">
-        {/* Region */}
-        <div className="col-md-4">
-          <div className="position-relative">
-            <button
-              onClick={() => {
-                setShowRegionDropdown(!showRegionDropdown);
-                setShowDurationDropdown(false);
-                setShowSortDropdown(false);
-              }}
-              className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
-              style={{ 
-                border: '2px solid gray',
-                backgroundColor: 'white',
-                height: '38px',
-                color: '#000',
-                borderRadius: 5
-              }}
-            >
-              <span className="text-truncate" style={{ color: '#000' }}>
-                {regions.find(r => r.id === selectedRegion)?.label || 'Select a region'}
-              </span>
-            
-            </button>
+            <div className="row g-2">
+              {/* Region */}
+              <div className="col-md-4">
+                <div className="position-relative">
+                  <button
+                    onClick={() => {
+                      setShowRegionDropdown(!showRegionDropdown);
+                      setShowDurationDropdown(false);
+                      setShowSortDropdown(false);
+                    }}
+                    className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+                    style={{
+                      border: '2px solid gray',
+                      backgroundColor: 'white',
+                      height: '38px',
+                      color: '#000',
+                      borderRadius: 5
+                    }}
+                  >
+                    <span className="text-truncate" style={{ color: '#000' }}>
+                      {regions.find(r => r.id === selectedRegion)?.label || 'Select a region'}
+                    </span>
 
-            {showRegionDropdown && (
-              <>
-                <div 
-                  className="position-fixed top-0 start-0 w-100 h-100" 
-                  onClick={() => {
-                    setShowRegionDropdown(false);
-                    setRegionSearch('');
-                  }}
-                  style={{ zIndex: 1040 }}
-                />
-                <div 
-                  className="position-absolute bg-white border shadow-lg w-100"
-                  style={{ 
-                    zIndex: 1050,
-                    maxHeight: '400px',
-                    overflow: 'hidden',
-                    borderRadius: 0,
-                    marginTop: '2px'
-                  }}
-                >
-                  <div className="p-2 border-bottom" style={{ backgroundColor: '#f8f9fa' }}>
-                    <input
-                      type="text"
-                      value={regionSearch}
-                      onChange={(e) => setRegionSearch(e.target.value)}
-                      placeholder="Select a region"
-                      className="form-control form-control-sm"
-                      style={{ 
-                        border: '2px solid #0d6efd',
-                        borderRadius: 0
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  </div>
+                  </button>
 
-                  <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                    {filteredRegions.map((r, index) => (
-                      <button
-                        key={r.id}
+                  {showRegionDropdown && (
+                    <>
+                      <div
+                        className="position-fixed top-0 start-0 w-100 h-100"
                         onClick={() => {
-                          setSelectedRegion(r.id);
                           setShowRegionDropdown(false);
                           setRegionSearch('');
                         }}
-                        className={`w-100 px-3 py-2 border-0 ${
-                          selectedRegion === r.id ? 'bg-primary bg-opacity-10' : ''
-                        } ${index === 0 ? 'bg-light' : ''}`}
-                        style={{ 
+                        style={{ zIndex: 1040 }}
+                      />
+                      <div
+                        className="position-absolute bg-white border shadow-lg w-100"
+                        style={{
+                          zIndex: 1050,
+                          maxHeight: '400px',
+                          overflow: 'hidden',
                           borderRadius: 0,
-                          color: '#000',
-                          textAlign: 'left',
-                          display: 'block',
-                          backgroundColor: selectedRegion === r.id ? '' : (index === 0 ? '#f8f9fa' : 'white'),
-                          cursor: 'pointer',
-                          transition: 'background-color 0.2s ease',
-                          outline: 'none'
-                        }}
-                        onMouseEnter={(e) => {
-                          
-                          e.currentTarget.style.backgroundColor = '#e9ecef';
-                        }}
-                        onMouseLeave={(e) => {
-                          
-                          if (selectedRegion === r.id) {
-                            e.currentTarget.style.backgroundColor = '';
-                          } else if (index === 0) {
-                            e.currentTarget.style.backgroundColor = '#f8f9fa';
-                          } else {
-                            e.currentTarget.style.backgroundColor = 'white';
-                          }
+                          marginTop: '2px'
                         }}
                       >
-                        {r.label}
-                      </button>
-                    ))}
-                    {filteredRegions.length === 0 && (
-                      <div className="text-center text-muted py-3 small">
-                        No results found
+                        <div className="p-2 border-bottom" style={{ backgroundColor: '#f8f9fa' }}>
+                          <input
+                            type="text"
+                            value={regionSearch}
+                            onChange={(e) => setRegionSearch(e.target.value)}
+                            placeholder="Select a region"
+                            className="form-control form-control-sm"
+                            style={{
+                              border: '2px solid #0d6efd',
+                              borderRadius: 0
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
+
+                        <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                          {filteredRegions.map((r, index) => (
+                            <button
+                              key={r.id}
+                              onClick={() => {
+                                setSelectedRegion(r.id);
+                                setShowRegionDropdown(false);
+                                setRegionSearch('');
+                              }}
+                              className={`w-100 px-3 py-2 border-0 ${selectedRegion === r.id ? 'bg-primary bg-opacity-10' : ''
+                                } ${index === 0 ? 'bg-light' : ''}`}
+                              style={{
+                                borderRadius: 0,
+                                color: '#000',
+                                textAlign: 'left',
+                                display: 'block',
+                                backgroundColor: selectedRegion === r.id ? '' : (index === 0 ? '#f8f9fa' : 'white'),
+                                cursor: 'pointer',
+                                transition: 'background-color 0.2s ease',
+                                outline: 'none'
+                              }}
+                              onMouseEnter={(e) => {
+
+                                e.currentTarget.style.backgroundColor = '#e9ecef';
+                              }}
+                              onMouseLeave={(e) => {
+
+                                if (selectedRegion === r.id) {
+                                  e.currentTarget.style.backgroundColor = '';
+                                } else if (index === 0) {
+                                  e.currentTarget.style.backgroundColor = '#f8f9fa';
+                                } else {
+                                  e.currentTarget.style.backgroundColor = 'white';
+                                }
+                              }}
+                            >
+                              {r.label}
+                            </button>
+                          ))}
+                          {filteredRegions.length === 0 && (
+                            <div className="text-center text-muted py-3 small">
+                              No results found
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    </>
+                  )}
                 </div>
-              </>
-            )}
-          </div>
-        </div>
+              </div>
 
 
-        {/* Duration Dropdown*/}
-        <div className="col-md-4">
-          <div className="position-relative">
-            <button
-              onClick={() => {
-                setShowDurationDropdown(!showDurationDropdown);
-                setShowRegionDropdown(false);
-                setShowSortDropdown(false);
-              }}
-              className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
-              style={{ 
-                border: '2px solid gray',
-                backgroundColor: 'white',
-                height: '38px',
-                color: '#000',
-                borderRadius: 5
-              }}
-            >
-              <span>
-                {selectedDuration === 'any' && '⏱️ Any length'}
-                {selectedDuration === 'short' && 'Short (< 4 mins)'}
-                {selectedDuration === 'medium' && 'Medium (4–20 mins)'}
-                {selectedDuration === 'long' && 'Long (> 20 mins)'}
-              </span>
-            
-            </button>
+              {/* Duration Dropdown*/}
+              <div className="col-md-4">
+                <div className="position-relative">
+                  <button
+                    onClick={() => {
+                      setShowDurationDropdown(!showDurationDropdown);
+                      setShowRegionDropdown(false);
+                      setShowSortDropdown(false);
+                    }}
+                    className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+                    style={{
+                      border: '2px solid gray',
+                      backgroundColor: 'white',
+                      height: '38px',
+                      color: '#000',
+                      borderRadius: 5
+                    }}
+                  >
+                    <span>
+                      {selectedDuration === 'any' && '⏱️ Any length'}
+                      {selectedDuration === 'short' && 'Short (< 4 mins)'}
+                      {selectedDuration === 'medium' && 'Medium (4–20 mins)'}
+                      {selectedDuration === 'long' && 'Long (> 20 mins)'}
+                    </span>
 
-            {showDurationDropdown && (
-              <>
-                <div 
-                  className="position-fixed top-0 start-0 w-100 h-100" 
-                  onClick={() => setShowDurationDropdown(false)}
-                  style={{ zIndex: 1040 }}
-                />
-                <div 
-                  className="position-absolute bg-white border shadow-lg w-100"
-                  style={{ 
-                    zIndex: 1050,
-                    borderRadius: 0,
-                    marginTop: '2px'
-                  }}
-                >
-                  {[
-                    { value: 'any', label: '⏱️ Any length' },
-                    { value: 'short', label: 'Short (< 4 mins)' },
-                    { value: 'medium', label: 'Medium (4–20 mins)' },
-                    { value: 'long', label: 'Long (> 20 mins)' }
-                  ].map((option) => (
-                    <button
-                      key={option.value}
-                      onClick={() => {
-                        setSelectedDuration(option.value);
-                        setShowDurationDropdown(false);
-                      }}
-                      className={`w-100 px-3 py-2 border-0 ${
-                        selectedDuration === option.value ? 'bg-primary bg-opacity-10' : ''
-                      }`}
-                      style={{ 
-                        borderRadius: 0,
-                        color: '#000',
-                        textAlign: 'left',
-                        display: 'block',
-                        backgroundColor: selectedDuration === option.value ? '' : 'white',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.2s ease',
-                        outline: 'none'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#e9ecef';
-                      }}
-                      onMouseLeave={(e) => {
-                        if (selectedDuration !== option.value) {
-                          e.currentTarget.style.backgroundColor = 'white';
-                        }
-                      }}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
+                  </button>
+
+                  {showDurationDropdown && (
+                    <>
+                      <div
+                        className="position-fixed top-0 start-0 w-100 h-100"
+                        onClick={() => setShowDurationDropdown(false)}
+                        style={{ zIndex: 1040 }}
+                      />
+                      <div
+                        className="position-absolute bg-white border shadow-lg w-100"
+                        style={{
+                          zIndex: 1050,
+                          borderRadius: 0,
+                          marginTop: '2px'
+                        }}
+                      >
+                        {[
+                          { value: 'any', label: '⏱️ Any length' },
+                          { value: 'short', label: 'Short (< 4 mins)' },
+                          { value: 'medium', label: 'Medium (4–20 mins)' },
+                          { value: 'long', label: 'Long (> 20 mins)' }
+                        ].map((option) => (
+                          <button
+                            key={option.value}
+                            onClick={() => {
+                              setSelectedDuration(option.value);
+                              setShowDurationDropdown(false);
+                            }}
+                            className={`w-100 px-3 py-2 border-0 ${selectedDuration === option.value ? 'bg-primary bg-opacity-10' : ''
+                              }`}
+                            style={{
+                              borderRadius: 0,
+                              color: '#000',
+                              textAlign: 'left',
+                              display: 'block',
+                              backgroundColor: selectedDuration === option.value ? '' : 'white',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease',
+                              outline: 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = '#e9ecef';
+                            }}
+                            onMouseLeave={(e) => {
+                              if (selectedDuration !== option.value) {
+                                e.currentTarget.style.backgroundColor = 'white';
+                              }
+                            }}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
-              </>
-            )}
-          </div>
-        </div>
+              </div>
 
               {/* Sort Dropdown */}
-        <div className="col-md-4">
-              <div className="position-relative">
-                <button
-                  onClick={() => {
-                    setShowSortDropdown(!showSortDropdown);
-                    setShowRegionDropdown(false);
-                    setShowDurationDropdown(false);
-                  }}
-                  className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
-                  style={{ 
-                    border: '2px solid gray',
-                    backgroundColor: 'white',
-                    height: '38px',
-                    color: '#000',
-                    borderRadius: 5
-                  }}
-                >
-                  <span>
-                    {sortBy === 'relevance' && '📊 Most relevant'}
-                    {sortBy === 'date' && '🆕 Latest'}
-                    {sortBy === 'viewCount' && '👁️ Most viewed'}
-                  </span>
-                
-                </button>
+              <div className="col-md-4">
+                <div className="position-relative">
+                  <button
+                    onClick={() => {
+                      setShowSortDropdown(!showSortDropdown);
+                      setShowRegionDropdown(false);
+                      setShowDurationDropdown(false);
+                    }}
+                    className="form-select form-select-sm text-start d-flex justify-content-between align-items-center w-100"
+                    style={{
+                      border: '2px solid gray',
+                      backgroundColor: 'white',
+                      height: '38px',
+                      color: '#000',
+                      borderRadius: 5
+                    }}
+                  >
+                    <span>
+                      {sortBy === 'relevance' && '📊 Most relevant'}
+                      {sortBy === 'date' && '🆕 Latest'}
+                      {sortBy === 'viewCount' && '👁️ Most viewed'}
+                    </span>
 
-                {showSortDropdown && (
-                  <>
-                    <div 
-                      className="position-fixed top-0 start-0 w-100 h-100" 
-                      onClick={() => setShowSortDropdown(false)}
-                      style={{ zIndex: 1040 }}
-                    />
-                    <div 
-                      className="position-absolute bg-white border shadow-lg w-100"
-                      style={{ 
-                        zIndex: 1050,
-                        borderRadius: 0,
-                        marginTop: '2px'
-                      }}
-                    >
-                      {[
-                        { value: 'relevance', label: '📊 Most relevant' },
-                        { value: 'date', label: '🆕 Latest' },
-                        { value: 'viewCount', label: '👁️ Most viewed' }
-                      ].map((option) => (
-                        <button
-                          key={option.value}
-                          onClick={() => {
-                            setSortBy(option.value);
-                            setShowSortDropdown(false);
-                          }}
-                          className={`w-100 px-3 py-2 border-0 ${
-                            sortBy === option.value ? 'bg-primary bg-opacity-10' : ''
-                          }`}
-                          style={{ 
-                            borderRadius: 0,
-                            color: '#000',
-                            textAlign: 'left',
-                            display: 'block',
-                            backgroundColor: sortBy === option.value ? '' : 'white',
-                            cursor: 'pointer',
-                            transition: 'background-color 0.2s ease',
-                            outline: 'none'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#e9ecef';
-                          }}
-                          onMouseLeave={(e) => {
-                            if (sortBy !== option.value) {
-                              e.currentTarget.style.backgroundColor = 'white';
-                            }
-                          }}
-                        >
-                          {option.label}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
+                  </button>
+
+                  {showSortDropdown && (
+                    <>
+                      <div
+                        className="position-fixed top-0 start-0 w-100 h-100"
+                        onClick={() => setShowSortDropdown(false)}
+                        style={{ zIndex: 1040 }}
+                      />
+                      <div
+                        className="position-absolute bg-white border shadow-lg w-100"
+                        style={{
+                          zIndex: 1050,
+                          borderRadius: 0,
+                          marginTop: '2px'
+                        }}
+                      >
+                        {[
+                          { value: 'relevance', label: '📊 Most relevant' },
+                          { value: 'date', label: '🆕 Latest' },
+                          { value: 'viewCount', label: '👁️ Most viewed' }
+                        ].map((option) => (
+                          <button
+                            key={option.value}
+                            onClick={() => {
+                              setSortBy(option.value);
+                              setShowSortDropdown(false);
+                            }}
+                            className={`w-100 px-3 py-2 border-0 ${sortBy === option.value ? 'bg-primary bg-opacity-10' : ''
+                              }`}
+                            style={{
+                              borderRadius: 0,
+                              color: '#000',
+                              textAlign: 'left',
+                              display: 'block',
+                              backgroundColor: sortBy === option.value ? '' : 'white',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease',
+                              outline: 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = '#e9ecef';
+                            }}
+                            onMouseLeave={(e) => {
+                              if (sortBy !== option.value) {
+                                e.currentTarget.style.backgroundColor = 'white';
+                              }
+                            }}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
 
           </div>
         </div>
@@ -719,7 +716,7 @@ export default function Travelguide() {
         {error && (
           <div className="alert alert-danger d-flex align-items-center" role="alert">
             <svg className="me-2" width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
             <div>{error}</div>
           </div>
@@ -740,8 +737,8 @@ export default function Travelguide() {
           <>
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h2 className="h4 mb-0 text-black">
-                {activeTab === 'search' 
-                  ? `All Videos` 
+                {activeTab === 'search'
+                  ? `All Videos`
                   : `Favorites (${favorites.length})`
                 }
               </h2>
@@ -769,8 +766,8 @@ export default function Travelguide() {
               <>
                 <div className="row g-4">
                   {listToRender.map((video, idx) => (
-                    <div 
-                      key={video.id?.videoId || video.videoId || idx} 
+                    <div
+                      key={video.id?.videoId || video.videoId || idx}
                       className="col-12 col-sm-6 col-md-4 col-lg-3"
                     >
                       <VideoCard
@@ -807,14 +804,14 @@ export default function Travelguide() {
                       ) : (
                         <>
                           <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" className="me-2">
-                            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd"/>
+                            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
                           </svg>
                           Load more videos 🎬
                         </>
                       )}
                     </button>
                     <p className="text-muted small mt-3 mb-0">
-                      💡 Click to load more videos 
+                      💡 Click to load more videos
                     </p>
                   </div>
                 )}
@@ -823,7 +820,7 @@ export default function Travelguide() {
                   <div className="text-center mt-5 mb-4">
                     <div className="text-muted">
                       <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20" className="mb-2">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <p className="mb-0">✨ You’ve watched all videos</p>
                       <small>Try another keyword to discover new videos</small>
@@ -858,13 +855,13 @@ export default function Travelguide() {
               allowFullScreen
             />
           </div>
-          
+
           {previewModal.videoData && (
             <div className="p-3 bg-light">
               <h5 className="fw-bold mb-2">{previewModal.videoData.title}</h5>
               <p className="text-muted mb-3">
                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" className="me-1">
-                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
                 </svg>
                 {previewModal.videoData.channelTitle}
               </p>
@@ -875,20 +872,19 @@ export default function Travelguide() {
                     videoId: previewModal.videoId,
                     videoData: previewModal.videoData
                   })}
-                  className={`btn btn-sm rounded-pill ${
-                    favorites.some((f) => f.videoId === previewModal.videoId) 
-                      ? 'text-black btn-danger' 
-                      : 'text-black btn-outline-danger'
-                  }`}
+                  className={`btn btn-sm rounded-pill ${favorites.some((f) => f.videoId === previewModal.videoId)
+                    ? 'text-black btn-danger'
+                    : 'text-black btn-outline-danger'
+                    }`}
                 >
-                  {favorites.some((f) => f.videoId === previewModal.videoId) 
-                    ? '🤍 Saved' 
+                  {favorites.some((f) => f.videoId === previewModal.videoId)
+                    ? '🤍 Saved'
                     : '🤍 Save'}
                 </button>
 
-                <ShareButton 
-                  videoId={previewModal.videoId} 
-                  videoTitle={previewModal.videoData.title} 
+                <ShareButton
+                  videoId={previewModal.videoId}
+                  videoTitle={previewModal.videoData.title}
                 />
               </div>
             </div>
@@ -899,7 +895,6 @@ export default function Travelguide() {
   );
 }
 
-// ==================== Components ====================
 
 function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo, isLoggedIn }) {
   const videoId = video.videoId || video?.id?.videoId;
@@ -911,57 +906,56 @@ function VideoCard({ video, favorites, onFavorite, onPreview, timeAgo, isLoggedI
     <div className="card h-100 shadow-sm border-0 video-card">
       <div className="position-relative video-thumbnail">
         <div onClick={() => onPreview(videoId, snippet)} style={{ cursor: 'pointer' }}>
-          <img 
-            src={thumb} 
-            alt={snippet.title} 
-            className="card-img-top" 
-            style={{ aspectRatio: '16/9', objectFit: 'cover' }} 
+          <img
+            src={thumb}
+            alt={snippet.title}
+            className="card-img-top"
+            style={{ aspectRatio: '16/9', objectFit: 'cover' }}
           />
           <div className="play-overlay position-absolute top-50 start-50 translate-middle">
             <div className="bg-danger bg-opacity-90 rounded-circle p-3">
               <svg width="32" height="32" fill="white" viewBox="0 0 20 20">
-                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
               </svg>
             </div>
           </div>
         </div>
-        
+
         <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             onFavorite(video);
           }}
-          className={`position-absolute btn-danger border-0 btn-sm rounded-circle favorite-btn ${
-            isFavorited ? 'btn' : 'btn-outline-danger'
-          }`}
+          className={`position-absolute btn-danger border-0 btn-sm rounded-circle favorite-btn ${isFavorited ? 'btn' : 'btn-outline-danger'
+            }`}
           style={{ top: '10px', right: '10px', width: '40px', height: '40px' }}
           title={isLoggedIn ? (isFavorited ? 'Remove from Favorites' : 'Add to Favorites') : 'Log in to save'}
         >
           {isFavorited ? '🤍' : '❤️'}
         </button>
       </div>
-      
+
       <div className="card-body d-flex flex-column">
         <h5 className="card-title fw-bold mb-2" style={{ fontSize: '0.95rem', lineHeight: '1.4' }}>
           {snippet.title?.substring(0, 60)}{snippet.title?.length > 60 ? '...' : ''}
         </h5>
-        
+
         <p className="card-text text-muted small mb-1">
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" className="me-1">
-            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
           </svg>
           {snippet.channelTitle || 'Unknown'}
         </p>
-        
+
         <p className="text-muted small mb-3">
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" className="me-1">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
           </svg>
           {snippet.publishedAt ? timeAgo(snippet.publishedAt) : '...'}
         </p>
       </div>
-      
+
       <style jsx>{`
         .video-card {
           background: #dbdbdbff;
@@ -1013,7 +1007,7 @@ function ShareButton({ videoId, videoTitle }) {
   const handleShare = (platform) => {
     const text = encodeURIComponent(videoTitle || 'Check out this video!');
     const url = encodeURIComponent(videoUrl);
-    
+
     const shareUrls = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
       twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
@@ -1038,23 +1032,23 @@ function ShareButton({ videoId, videoTitle }) {
         className="text-black btn btn-sm btn-outline-primary rounded-pill"
       >
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" className="me-1">
-          <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
+          <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
         </svg>
         Share
       </button>
 
       {showShareMenu && (
         <>
-          <div 
-            className="position-fixed top-0 start-0 w-100 h-100" 
+          <div
+            className="position-fixed top-0 start-0 w-100 h-100"
             onClick={() => setShowShareMenu(false)}
             style={{ zIndex: 1055 }}
           />
-          <div 
-            className="position-absolute bg-white border rounded-3 shadow-lg p-2" 
-            style={{ 
-              bottom: '110%', 
-              left: 0, 
+          <div
+            className="position-absolute bg-white border rounded-3 shadow-lg p-2"
+            style={{
+              bottom: '110%',
+              left: 0,
               minWidth: '200px',
               zIndex: 1060
             }}
@@ -1093,8 +1087,8 @@ function ShareButton({ videoId, videoTitle }) {
 function BootstrapModal({ children, title, onClose }) {
   return (
     <>
-      <div 
-        className="modal-backdrop fade show" 
+      <div
+        className="modal-backdrop fade show"
         onClick={onClose}
         style={{
           position: 'fixed',
@@ -1102,12 +1096,12 @@ function BootstrapModal({ children, title, onClose }) {
           left: 0,
           width: '100vw',
           height: '100vh',
-          zIndex: 1040 
-}}
+          zIndex: 1040
+        }}
       ></div>
-      <div 
-        className="modal fade show d-block" 
-        tabIndex="-1" 
+      <div
+        className="modal fade show d-block"
+        tabIndex="-1"
         role="dialog"
         style={{ zIndex: 1050 }}
       >
@@ -1115,9 +1109,9 @@ function BootstrapModal({ children, title, onClose }) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{title}</h5>
-              <button 
-                type="button" 
-                className="btn-close" 
+              <button
+                type="button"
+                className="btn-close"
                 onClick={onClose}
                 aria-label="Close"
               ></button>

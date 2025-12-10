@@ -31,8 +31,8 @@ function AccordionItem({ title, fetchData, children }) {
 
   return (
     <div className="mb-3">
-      <div 
-        className="card border-0 shadow-sm" 
+      <div
+        className="card border-0 shadow-sm"
         style={{ cursor: 'pointer' }}
         onClick={handleClick}
       >
@@ -41,7 +41,7 @@ function AccordionItem({ title, fetchData, children }) {
           <span className="fs-4 fw-bold text-primary">{open ? '−' : '+'}</span>
         </div>
       </div>
-      
+
       {open && (
         <div className="card border-0 shadow-sm mt-2">
           <div className="card-body border-start border-4 border-primary">
@@ -380,14 +380,12 @@ export default function VisaResult() {
       const currencyName = countryData[0].currencies[currencyCode].name;
       const flag = countryData[0].flags?.png;
 
-      // const exchangeRateRes = await fetch(`https://api.fastforex.io/fetch-one?from=THB&to=${currencyCode}&api_key=${EXCHANGE_RATE_API_KEY}`);
       const exchangeRateRes = await fetch(`https://api.exchangerate-api.com/v4/latest/THB`);
 
 
       if (!exchangeRateRes.ok) throw new Error("Could not fetch exchange rates.");
       const exchangeData = await exchangeRateRes.json();
 
-      // const rate = exchangeData?.result?.[currencyCode];
       const rate = exchangeData?.rates?.[currencyCode];
 
       if (!rate) throw new Error(`Exchange rate not found for ${currencyCode}`);
@@ -515,9 +513,9 @@ export default function VisaResult() {
           <div className="card-body">
             <div className="row align-items-center">
               <div className="col-auto">
-                <img 
-                  src="https://cdn-icons-png.flaticon.com/512/201/201623.png" 
-                  alt="Traveler" 
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/201/201623.png"
+                  alt="Traveler"
                   className="rounded-circle"
                   style={{ width: '100px', height: '100px' }}
                 />
@@ -536,22 +534,22 @@ export default function VisaResult() {
           <AccordionItem title="📄 Important Documents">
             {getDocumentAdvice(country)}
           </AccordionItem>
-          
-          <AccordionItem 
+
+          <AccordionItem
             title={`ℹ️ ${country} Country Information`}
-            fetchData={fetchCountryInfo} 
+            fetchData={fetchCountryInfo}
           />
-          
-          <AccordionItem 
+
+          <AccordionItem
             title="💰 Financial Management"
-            fetchData={fetchFinancialInfo} 
+            fetchData={fetchFinancialInfo}
           />
-          
-          <AccordionItem 
+
+          <AccordionItem
             title="🏨 Accommodation Preparation"
-            fetchData={() => fetchAccommodationData(country)} 
+            fetchData={() => fetchAccommodationData(country)}
           />
-          
+
           <AccordionItem
             title="➕ Other Preparations"
             fetchData={fetchOtherPreparationsCombined}
@@ -560,7 +558,7 @@ export default function VisaResult() {
 
         {/* Back Button */}
         <div className="text-center">
-          <button 
+          <button
             className="btn btn-dark btn-lg px-5"
             onClick={() => navigate(-1)}
           >

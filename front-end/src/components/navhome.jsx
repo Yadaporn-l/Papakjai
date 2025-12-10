@@ -27,7 +27,7 @@ export default function NavHome() {
       <div className="container">
         <NavLink className="navbar-brand d-flex align-items-center" to='/' onClick={closeNav}>
           {/* <img src="/pa_pak_jai-removebg.png" alt="logo" height="40" className="me-2" /> */}
-          <img src={logo} alt="logo" height="40" className="me-2"/>
+          <img src={logo} alt="logo" height="40" className="me-2" />
           <span className="Papak">PaPak<span className="text-info">Jai</span></span>
         </NavLink>
 
@@ -71,7 +71,7 @@ export default function NavHome() {
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeNav}
               >
-                TRAVEL TRIP
+                TRAVEL Guide
               </NavLink>
             </li>
           </ul>
