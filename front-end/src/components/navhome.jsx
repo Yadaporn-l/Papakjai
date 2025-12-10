@@ -71,7 +71,7 @@ export default function NavHome() {
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeNav}
               >
-                TRAVEL Guide
+                TRAVEL
               </NavLink>
             </li>
           </ul>
